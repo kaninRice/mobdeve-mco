@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ArpegGeo</string>
+    <string name="search_bar_placeholder">Search</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_playlists">Playlists</string>
+    <string name="title_create_new_tag">Create new tag</string>
+    <string name="open_in_spotify">Open in Spotify</string>
+    <string name="setting_enable_arpeggeo">Enable ArpegGeo</string>
+    <string name="setting_enable_sandbox">Enable Sandbox</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="tmp_playlist_name_1">Byaheng UV Express</string>
+    <string name="tmp_playlist_name_2">itchy nadal</string>
+    <string name="tmp_tag_name_1">teka lang</string>
+    <string name="tmp_tag_name_2">asdf</string>
 </resources>
