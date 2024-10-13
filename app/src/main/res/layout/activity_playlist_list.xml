@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@color/dark_layer_1">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/activityHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:onClick="closeActivity">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:text="@string/title_playlists"/>
+
+    </LinearLayout>
+
+    <!-- Body -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingVertical="2dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColorHint="@color/dark_gray"
+        android:background="@drawable/item_search_bar"
+        android:hint="@string/search"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPlaylistList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"/>
+
+</LinearLayout>
