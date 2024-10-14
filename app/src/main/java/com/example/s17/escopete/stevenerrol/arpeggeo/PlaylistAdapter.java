@@ -1,7 +1,9 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +76,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Call Playlist Details Activity
+                Intent intent = new Intent(context, PlaylistDetailsActivity.class);
+
+                intent.putExtra("playlist", playlist);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("tagList", playlist.getTagList());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
     }

@@ -74,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
         playlistList.add(
                 new Playlist(
                         "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
+                        "itchy nadal",
+                        R.drawable.image_playlist_cover_1,
+                        new ArrayList<>(Arrays.asList(
+                                new Tag("Tag 1", "#BB86FC"),
+                                new Tag("Tag 2", "#0DFFFFFF")
+                        ))
+                )
+        );
+
+        playlistList.add(
+                new Playlist(
+                        "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
                         "Byaheng UV Express",
                         R.drawable.image_playlist_cover_1,
                         tagList

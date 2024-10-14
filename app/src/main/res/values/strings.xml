@@ -4,7 +4,7 @@
     <string name="title_settings">Settings</string>
     <string name="title_playlists">Playlists</string>
     <string name="title_create_new_tag">Create new tag</string>
-    <string name="open_in_spotify"><u>Open in Spotify</u></string>
+    <string name="open_in_spotify">&lt;a href="%s">&lt;u>Open in Spotify&lt;/u>&lt;/a></string>
     <string name="setting_enable_arpeggeo">Enable ArpegGeo</string>
     <string name="setting_enable_sandbox">Enable Sandbox</string>
     <string name="add">Add</string>

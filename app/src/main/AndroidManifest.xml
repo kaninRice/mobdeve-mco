@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ArpegGeo"
         tools:targetApi="31">
         <activity
+            android:name=".PlaylistDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlaylistListActivity"
             android:exported="false" />
         <activity
