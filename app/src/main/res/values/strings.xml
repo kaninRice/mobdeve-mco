@@ -14,7 +14,11 @@
     <string name="search">Search</string>
     <string name="default_playlist_name">Playlist Name</string>
     <string name="default_tag_name">No tag</string>
-    <string name="img_desc_playlist_cover_image">playlist cover image</string>
+    <string name="desc_icon_settings_button">settings button icon</string>
+    <string name="desc_icon_add_button">add button icon</string>
+    <string name="desc_icon_playlist_list_button">playlist list button icon</string>
+    <string name="desc_icon_back_button">back button icon</string>
+    <string name="desc_image_playlist_cover_image">playlist cover image</string>
     <string name="tmp_playlist_name_1">Byaheng UV Express</string>
     <string name="tmp_playlist_name_2">itchy nadal</string>
     <string name="tmp_tag_name_1">teka lang</string>

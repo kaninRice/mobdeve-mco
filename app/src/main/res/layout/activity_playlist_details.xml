@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
     android:orientation="vertical"
-    android:background="@color/dark_layer_1"
-    android:padding="16dp">
+    android:background="@color/dark_layer_1">
 
     <!-- Header -->
     <!-- TODO: sticky header -->
@@ -24,18 +23,19 @@
             android:gravity="center_vertical"
             android:onClick="closeActivity">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/ic_back"/>
+                android:background="@drawable/ic_back"
+                android:contentDescription="@string/desc_icon_back_button"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray"
                 android:textSize="32sp"
                 android:textStyle="bold"
+                android:textColor="@color/gray"
                 android:text="@string/title_playlists"/>
 
         </LinearLayout>
@@ -61,9 +61,9 @@
                 android:id="@+id/playlistImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:src="@drawable/image_playlist_cover_1"
-                android:contentDescription="@string/img_desc_playlist_cover_image"
-                android:adjustViewBounds="true"/>
+                android:contentDescription="@string/desc_image_playlist_cover_image"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -87,8 +87,8 @@
                 android:id="@+id/playlistUrl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/purple"
                 android:textSize="16sp"
+                android:textColor="@color/purple"
                 android:text="@string/open_in_spotify"/>
 
         </LinearLayout>

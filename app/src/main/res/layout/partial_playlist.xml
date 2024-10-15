@@ -20,7 +20,7 @@
             android:scaleType="centerCrop"
             android:background="@color/dark_layer_1"
             android:src="@drawable/ic_default_playlist_image"
-            android:contentDescription="@string/img_desc_playlist_cover_image"/>
+            android:contentDescription="@string/desc_image_playlist_cover_image"/>
 
     </androidx.cardview.widget.CardView>
 

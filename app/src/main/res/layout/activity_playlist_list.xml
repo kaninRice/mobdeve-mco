@@ -7,6 +7,7 @@
     android:background="@color/dark_layer_1">
 
     <!-- Header -->
+    <!-- TODO: sticky header -->
     <LinearLayout
         android:id="@+id/activityHeader"
         android:layout_width="match_parent"
@@ -15,11 +16,12 @@
         android:gravity="center_vertical"
         android:onClick="closeActivity">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="2dp"
-            android:background="@drawable/ic_back"/>
+            android:background="@drawable/ic_back"
+            android:contentDescription="@string/desc_icon_back_button"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -38,9 +40,9 @@
         android:layout_marginTop="24dp"
         android:paddingVertical="2dp"
         android:gravity="center"
+        android:background="@drawable/item_search_bar"
         android:textSize="16sp"
         android:textColorHint="@color/dark_gray"
-        android:background="@drawable/item_search_bar"
         android:hint="@string/search"/>
 
     <androidx.recyclerview.widget.RecyclerView
