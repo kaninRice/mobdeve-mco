@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     ArrayList<Playlist> playlistList;
@@ -63,7 +65,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));
 
                 tv.setText(tag.getName());
-                tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+                if (tag.getTextColor() == Tag.TextColor.LIGHT) {
+                    tv.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
+                } else {
+                    tv.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
+                }
 
                 holder.tagsContainer.addView(view);
                 tagCounter++;

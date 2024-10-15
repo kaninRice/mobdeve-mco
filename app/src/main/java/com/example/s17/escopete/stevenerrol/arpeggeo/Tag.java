@@ -10,15 +10,37 @@ import java.util.Objects;
 public class Tag implements Parcelable {
     private String name;
     private String color;
+    private TextColor textColor;
+
+    static enum TextColor {
+        LIGHT,
+        DARK
+    }
 
     public Tag(String name, String color) {
         this.name = name;
         this.color = color;
+        this.textColor = determineTextColor();
+    }
+
+    /* assumes #FFFFFF format */
+    private TextColor determineTextColor() {
+        int red = Integer.parseInt(color.substring(1, 3), 16);
+        int green = Integer.parseInt(color.substring(3,5), 16);
+        int blue = Integer.parseInt(color.substring(5), 16);
+
+        /* overall color intensity formula is used to determine appropriate text color */
+        if ((red * 0.299) + (green * 0.587) + (blue * 0.114) <= 186) {
+            return TextColor.LIGHT;
+        }
+
+        return TextColor.DARK;
     }
 
     protected Tag(Parcel in) {
         name = in.readString();
         color = in.readString();
+        textColor = TextColor.valueOf(in.readString());
     }
 
     public static final Creator<Tag> CREATOR = new Creator<Tag>() {
@@ -49,6 +71,10 @@ public class Tag implements Parcelable {
         this.color = color;
     }
 
+    public TextColor getTextColor() {
+        return textColor;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,5 +97,6 @@ public class Tag implements Parcelable {
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeString(color);
+        parcel.writeString(textColor.name());
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -36,7 +37,12 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
         holder.tagCard.setCardBackgroundColor(Color.parseColor(tag.getColor()));
         holder.tagText.setText(tag.getName());
-        holder.tagText.setTextColor(Color.parseColor("#FFFFFF"));
+
+        if (tag.getTextColor() == Tag.TextColor.LIGHT) {
+            holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
+        } else {
+            holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
+        }
     }
 
     @Override

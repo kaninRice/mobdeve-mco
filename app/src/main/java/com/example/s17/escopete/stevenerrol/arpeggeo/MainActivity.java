@@ -147,10 +147,10 @@ public class MainActivity extends AppCompatActivity {
                         "bakit",
                         R.drawable.ic_default_playlist_image,
                         new ArrayList<>(Arrays.asList(
-                                new Tag("Tag 1", "#BB86FC"),
-                                new Tag("Tag 2", "#0DFFFFFF"),
+                                new Tag("Tag 1", "#000000"),
+                                new Tag("Tag 2", "#FFFFFF"),
                                 new Tag("Tag 3", "#6D6D6D"),
-                                new Tag("Tag 4", "#FFFFFF")
+                                new Tag("Tag 4", "#1E1E1E")
                         ))
                 )
         );
@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
                         "itchy nadal",
                         R.drawable.image_playlist_cover_1,
                         new ArrayList<>(Arrays.asList(
-                                new Tag("Tag 1", "#BB86FC"),
-                                new Tag("Tag 2", "#0DFFFFFF")
+                                new Tag("Tag 1", "#000000"),
+                                new Tag("Tag 2", "#1E1E1E")
                         ))
                 )
         );
