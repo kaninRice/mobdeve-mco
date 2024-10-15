@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSettings(View v) {
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 
     public void toggleAddActivity(View v) {
