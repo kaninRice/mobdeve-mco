@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,14 @@ public class PlaylistListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_list);
+
+        /* adjust padding based on top system bars */
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityLayout), (v, insets) -> {
+                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(v.getPaddingStart(), systemBars.top + v.getPaddingTop(), v.getPaddingEnd(), v.getPaddingBottom());
+                    return insets;
+                }
+        );
 
         activityHeader = findViewById(R.id.activityHeader);
         populatePlaylistListRecycler();

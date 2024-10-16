@@ -20,10 +20,11 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        /* adjust padding based on top system bars */
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityLayout), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(v.getPaddingStart(), systemBars.top + v.getPaddingTop(), v.getPaddingEnd(), v.getPaddingBottom());
-            return insets;
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(v.getPaddingStart(), systemBars.top + v.getPaddingTop(), v.getPaddingEnd(), v.getPaddingBottom());
+                return insets;
             }
         );
 
