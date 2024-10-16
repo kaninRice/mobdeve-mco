@@ -40,35 +40,35 @@ public class Playlist implements Parcelable {
         }
     };
 
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    void setUrl(String url) {
         this.url = url;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public Integer getImage() {
+    Integer getImage() {
         return image;
     }
 
-    public void setImage(Integer image) {
+    void setImage(Integer image) {
         this.image = image;
     }
 
-    public ArrayList<Tag> getTagList() {
+    ArrayList<Tag> getTagList() {
         return new ArrayList<>(tagList);
     }
 
-    public void setTagList(ArrayList<Tag> tagList) {
+    void setTagList(ArrayList<Tag> tagList) {
         this.tagList = tagList;
     }
 

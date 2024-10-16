@@ -12,12 +12,7 @@ public class Tag implements Parcelable {
     private String color;
     private TextColor textColor;
 
-    static enum TextColor {
-        LIGHT,
-        DARK
-    }
-
-    public Tag(String name, String color) {
+    Tag(String name, String color) {
         this.name = name;
         this.color = color;
         this.textColor = determineTextColor();
@@ -55,23 +50,24 @@ public class Tag implements Parcelable {
         }
     };
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public String getColor() {
+    String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    void setColor(String color) {
         this.color = color;
+        this.textColor = determineTextColor();
     }
 
-    public TextColor getTextColor() {
+    TextColor getTextColor() {
         return textColor;
     }
 
@@ -99,4 +95,9 @@ public class Tag implements Parcelable {
         parcel.writeString(color);
         parcel.writeString(textColor.name());
     }
+}
+
+enum TextColor {
+    LIGHT,
+    DARK
 }

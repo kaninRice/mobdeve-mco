@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     ArrayList<Playlist> playlistList;
@@ -44,6 +43,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.playlistImage.setImageResource(playlist.getImage());
 
         // Populate tags (max: 3)
+        // TODO: check possible improvement to choosing which tag to display
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         if (!playlist.getTagList().isEmpty()) {
             ArrayList<Tag> tagList = playlist.getTagList();
@@ -66,7 +66,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
                 tv.setText(tag.getName());
 
-                if (tag.getTextColor() == Tag.TextColor.LIGHT) {
+                if (tag.getTextColor() == TextColor.LIGHT) {
                     tv.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
                 } else {
                     tv.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
@@ -77,6 +77,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             }
 
         } else {
+            /* show no tags indication */
             layoutInflater.inflate(R.layout.partial_tag, holder.tagsContainer, true);
         }
 

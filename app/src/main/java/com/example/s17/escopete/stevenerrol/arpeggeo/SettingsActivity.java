@@ -12,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class SettingsActivity extends AppCompatActivity {
-    MaterialSwitch enableArpeggeo;
-    MaterialSwitch enableSandbox;
+    private MaterialSwitch enableArpeggeo;
+    private MaterialSwitch enableSandbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

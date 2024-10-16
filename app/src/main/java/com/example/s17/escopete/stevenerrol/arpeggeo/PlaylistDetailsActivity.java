@@ -57,7 +57,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         populateTagListRecycler(intent);
     }
 
-    public void populateTagListRecycler(Intent intent) {
+    private void populateTagListRecycler(Intent intent) {
         tagList = intent.getParcelableArrayListExtra("tagList");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 

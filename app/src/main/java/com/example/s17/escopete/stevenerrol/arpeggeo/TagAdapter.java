@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
-    ArrayList<Tag> tagList;
-    Context context;
+    private final ArrayList<Tag> tagList;
+    private final Context context;
 
-    public TagAdapter(ArrayList<Tag> tagList, PlaylistDetailsActivity activity) {
+    TagAdapter(ArrayList<Tag> tagList, PlaylistDetailsActivity activity) {
         this.tagList = tagList;
         this.context = activity;
     }
@@ -38,7 +38,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         holder.tagCard.setCardBackgroundColor(Color.parseColor(tag.getColor()));
         holder.tagText.setText(tag.getName());
 
-        if (tag.getTextColor() == Tag.TextColor.LIGHT) {
+        if (tag.getTextColor() == TextColor.LIGHT) {
             holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
         } else {
             holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
