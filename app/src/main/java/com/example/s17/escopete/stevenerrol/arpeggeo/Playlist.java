@@ -9,12 +9,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Playlist implements Parcelable {
+    private final double latitude;
+    private final double longitude;
     private String url;
     private String name;
     private Integer image;
     private ArrayList<Tag> tagList;
 
-    public Playlist(String url, String name, Integer image, ArrayList<Tag> tagList) {
+    public Playlist(double latitude, double longitude, String url, String name, Integer image, ArrayList<Tag> tagList) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.url = url;
         this.name = name;
         this.image = image;
@@ -22,6 +26,8 @@ public class Playlist implements Parcelable {
     }
 
     protected Playlist(Parcel in) {
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         url = in.readString();
         name = in.readString();
         image = in.readInt();
@@ -39,6 +45,14 @@ public class Playlist implements Parcelable {
             return new Playlist[size];
         }
     };
+
+    double getLatitude() {
+        return latitude;
+    }
+
+    double getLongitude() {
+        return longitude;
+    }
 
     String getUrl() {
         return url;
@@ -92,6 +106,8 @@ public class Playlist implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
         parcel.writeString(url);
         parcel.writeString(name);
         parcel.writeInt(image);

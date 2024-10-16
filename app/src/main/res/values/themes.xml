@@ -5,10 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 
-    <style name="BottomDialogTheme" parent="Theme.Design.BottomSheetDialog">
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
     <style name="Theme.ArpegGeo" parent="Base.Theme.ArpegGeo" />
 </resources>

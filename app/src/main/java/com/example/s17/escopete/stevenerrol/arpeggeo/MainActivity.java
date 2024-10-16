@@ -15,9 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -119,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         playlistList.add(
                 new Playlist(
+                        14.5826, 120.9787,
                         "https://open.spotify.com/playlist/37i9dQZEVXbNBz9cRCSFkY",
                         "Top 50 - Philippines",
                         R.drawable.image_playlist_cover_0,
@@ -135,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         playlistList.add(
                 new Playlist(
+                        14.5648, 120.9932,
                         "https://open.spotify.com/playlist/52o2wQe2s1J59bjpCSFxby",
                         "itchy nadal",
                         R.drawable.ic_default_playlist_image,
@@ -149,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         playlistList.add(
                 new Playlist(
+                        14.5352, 120.9819,
                         "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
                         "Byaheng UV Express",
                         R.drawable.image_playlist_cover_1,
@@ -158,31 +158,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateMapMarkers() {
-        final Playlist playlist = playlistList.get(1);
-        GeoPoint position = new GeoPoint(14.5648, 120.9932);
+        for (Playlist playlist : playlistList) {
+            Marker marker = new Marker(map);
+            marker.setPosition(new GeoPoint(playlist.getLatitude(), playlist.getLongitude()));
 
-        Marker marker = new Marker(map);
-        marker.setPosition(position);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
-                PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
-                playlistPreviewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomDialogTheme);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+                    PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("playlist", playlist);
-                playlistPreviewDialog.setArguments(bundle);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("playlist", playlist);
+                    playlistPreviewDialog.setArguments(bundle);
 
-                playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
-                return false;
-            }
-        });
+                    playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
+                    return false;
+                }
+            });
 
-        Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_marker, null);
-        icon.setTint(ContextCompat.getColor(MainActivity.this, R.color.dark_layer_1));
-        marker.setIcon(icon);
-        map.getOverlays().add(marker);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_marker, null);
+            icon.setTint(ContextCompat.getColor(MainActivity.this, R.color.dark_layer_1));
+            marker.setIcon(icon);
+            map.getOverlays().add(marker);
+        }
     }
 
     public void openSettings(View v) {

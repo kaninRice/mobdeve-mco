@@ -21,6 +21,7 @@
                 android:id="@+id/playlistImage"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:src="@drawable/image_playlist_cover_1"
                 android:contentDescription="@string/desc_image_playlist_cover_image"/>
