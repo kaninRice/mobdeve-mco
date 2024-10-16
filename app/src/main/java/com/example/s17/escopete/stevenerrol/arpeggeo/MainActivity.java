@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         updateMapMarkers();
     }
 
+    // temp for MCO2
     public void initializeTags() {
         tagList = new ArrayList<>();
 
@@ -134,36 +135,49 @@ public class MainActivity extends AppCompatActivity {
         );
 
         tagList.add(
-                new Tag("asdf", "#D035A5")
+                new Tag("asdf", "#000000")
+        );
+
+        tagList.add(
+                new Tag("New Tag", "#FFFFFF")
+        );
+
+        tagList.add(
+                new Tag("New Tag 2", "#D035A5")
         );
     }
 
+    // temp for MCO2
     public void initializePlaylist() {
         playlistList = new ArrayList<>();
 
         playlistList.add(
                 new Playlist(
-                        "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
-                        "bakit",
-                        R.drawable.ic_default_playlist_image,
-                        new ArrayList<>(Arrays.asList(
-                                new Tag("Tag 1", "#000000"),
-                                new Tag("Tag 2", "#FFFFFF"),
-                                new Tag("Tag 3", "#6D6D6D"),
-                                new Tag("Tag 4", "#1E1E1E")
-                        ))
+                        "https://open.spotify.com/playlist/37i9dQZEVXbNBz9cRCSFkY",
+                        "Top 50 - Philippines",
+                        R.drawable.image_playlist_cover_0,
+                        tagList
+                                .stream()
+                                .filter(tag ->
+                                        tag.getName().equals("teka lang")
+                                                || tag.getName().equals("asdf")
+                                                || tag.getName().equals("New Tag")
+                                                || tag.getName().equals("New Tag 2"))
+                                .collect(Collectors.toCollection(ArrayList::new))
                 )
         );
 
         playlistList.add(
                 new Playlist(
-                        "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
+                        "https://open.spotify.com/playlist/52o2wQe2s1J59bjpCSFxby",
                         "itchy nadal",
-                        R.drawable.image_playlist_cover_1,
-                        new ArrayList<>(Arrays.asList(
-                                new Tag("Tag 1", "#000000"),
-                                new Tag("Tag 2", "#1E1E1E")
-                        ))
+                        R.drawable.ic_default_playlist_image,
+                        tagList
+                                .stream()
+                                .filter(tag ->
+                                        tag.getName().equals("teka lang")
+                                                || tag.getName().equals("New Tag 2"))
+                                .collect(Collectors.toCollection(ArrayList::new))
                 )
         );
 
@@ -172,20 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
                         "Byaheng UV Express",
                         R.drawable.image_playlist_cover_1,
-                        tagList
-                                .stream()
-                                .filter(tag ->
-                                        tag.getName().equals("teka lang"))
-                                .collect(Collectors.toCollection(ArrayList::new))
-                )
-        );
-
-        playlistList.add(
-                new Playlist(
-                        "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
-                        "teka lang",
-                        R.drawable.image_playlist_cover_2,
-                        new ArrayList<>()
+                        new ArrayList<Tag>()
                 )
         );
     }
