@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:paddingVertical="2dp"
+        android:inputType="text"
         android:gravity="center"
         android:background="@drawable/item_search_bar"
         android:textSize="16sp"

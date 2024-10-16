@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="16dp"
             android:paddingHorizontal="24dp"
+            android:inputType="text"
             android:textColor="@color/gray"
             android:textSize="20sp"
             android:background="@null"
