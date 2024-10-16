@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("com.github.MKergall:osmbonuspack:6.9.0")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("com.google.android.material:material:1.12.0")

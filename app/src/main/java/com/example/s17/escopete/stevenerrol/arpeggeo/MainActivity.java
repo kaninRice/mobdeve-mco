@@ -102,12 +102,14 @@ public class MainActivity extends AppCompatActivity {
         );
 
         tagList.add(
-                new Tag("New Tag", "#FFFFFF")
+                new Tag("Tata", "#D035A5")
         );
 
-        tagList.add(
-                new Tag("New Tag 2", "#D035A5")
-        );
+        for(int i = 0; i < 50; i++) {
+            tagList.add(
+                    new Tag("New Tag " + i, "#FFFFFF")
+            );
+        }
     }
 
     // temp for MCO2
@@ -121,13 +123,6 @@ public class MainActivity extends AppCompatActivity {
                         "Top 50 - Philippines",
                         R.drawable.image_playlist_cover_0,
                         tagList
-                                .stream()
-                                .filter(tag ->
-                                        tag.getName().equals("teka lang")
-                                                || tag.getName().equals("asdf")
-                                                || tag.getName().equals("New Tag")
-                                                || tag.getName().equals("New Tag 2"))
-                                .collect(Collectors.toCollection(ArrayList::new))
                 )
         );
 

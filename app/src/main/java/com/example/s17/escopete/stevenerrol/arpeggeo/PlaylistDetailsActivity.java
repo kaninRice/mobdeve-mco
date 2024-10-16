@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,16 +18,23 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
+
 import java.util.ArrayList;
 
 public class PlaylistDetailsActivity extends AppCompatActivity {
     ArrayList<Tag> tagList;
 
     LinearLayout activityHeader;
+    ScrollView scrollView;
     ImageView playlistImage;
     TextView playlistName;
     TextView playlistUrl;
     RecyclerView recyclerTagList;
+    LinearLayout activityFooter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +54,15 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
     public void initializeActivity() {
         activityHeader = findViewById(R.id.activityHeader);
+        scrollView = findViewById(R.id.scrollView);
         playlistImage = findViewById(R.id.playlistImage);
         playlistName = findViewById(R.id.playlistName);
         playlistUrl = findViewById(R.id.playlistUrl);
         recyclerTagList = findViewById(R.id.recyclerTagList);
+        activityFooter = findViewById(R.id.activityFooter);
 
         Intent intent = getIntent();
-        Playlist playlist = (Playlist) intent.getParcelableExtra("playlist");
+        Playlist playlist = intent.getParcelableExtra("playlist");
 
         playlistImage.setImageResource(playlist.getImage());
         playlistName.setText(playlist.getName());
@@ -67,12 +77,12 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
     private void populateTagListRecycler(Intent intent) {
         tagList = intent.getParcelableArrayListExtra("tagList");
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
 
-        recyclerTagList.setHasFixedSize(true);
-
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerTagList.setLayoutManager(linearLayoutManager);
+        recyclerTagList.suppressLayout(true);
+        recyclerTagList.setLayoutManager(flexboxLayoutManager);
 
         TagAdapter tagAdapter = new TagAdapter(tagList, PlaylistDetailsActivity.this);
         recyclerTagList.setAdapter(tagAdapter);
