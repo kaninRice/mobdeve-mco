@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -34,6 +36,10 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_playlist_preview, container, false);
+        getDialog().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
         Playlist playlist = (Playlist) getArguments().get("playlist");
 
         playlistImage = v.findViewById(R.id.playlistImage);
@@ -53,19 +59,11 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         LayoutInflater layoutInflater = LayoutInflater.from(v.getContext());
         if (!playlist.getTagList().isEmpty()) {
             ArrayList<Tag> tagList = playlist.getTagList();
-            int tagCounter = 0;
 
             for (Tag tag : tagList) {
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
                 CardView cv = view.findViewById(R.id.tagCard);
                 TextView tv = view.findViewById(R.id.tagText);
-
-                // Truncate tags if number exceeds 3
-                if (tagCounter == 3) {
-                    tv.setText("...");
-                    tagsContainer.addView(view);
-                    break;
-                }
 
                 cv.setTag(tag.getName());
                 cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));
@@ -79,7 +77,6 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
                 }
 
                 tagsContainer.addView(view);
-                tagCounter++;
             }
 
         } else {
