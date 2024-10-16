@@ -10,27 +10,36 @@
     <!-- Header -->
     <!-- TODO: sticky header -->
     <LinearLayout
-        android:id="@+id/activityHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:onClick="closeActivity">
+        android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/ic_back"
-            android:contentDescription="@string/desc_icon_back_button"/>
-
-        <TextView
-            android:layout_width="match_parent"
+        <!-- Container for click listener -->
+        <LinearLayout
+            android:id="@+id/activityHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/gray"
-            android:text="@string/title_playlists"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="closeActivity">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/ic_back"
+                android:contentDescription="@string/desc_icon_back_button"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:text="@string/title_playlists"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
