@@ -3,7 +3,6 @@ package com.example.s17.escopete.stevenerrol.arpeggeo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,9 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -28,7 +24,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,38 +75,6 @@ public class MainActivity extends AppCompatActivity {
     public void initializeMap() {
         Context context = getApplicationContext();
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-
-//        map.setTileSource(new OnlineTileSourceBase("", 1, 20, 512, ".png", new String[] {"https://a.tile.openstreetmap.org/"}) {
-//            @Override
-//            public String getTileURLString(long pMapTileIndex) {
-//                return getBaseUrl()
-//                        + MapTileIndex.getZoom(pMapTileIndex)
-//                        + "/" + MapTileIndex.getX(pMapTileIndex)
-//                        + "/" + MapTileIndex.getY(pMapTileIndex)
-//                        + mImageFilenameEnding;
-//            }
-//        });
-
-
-//        if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            String[] permissionArray = {Manifest.permission.ACCESS_FINE_LOCATION};
-//            ActivityCompat.requestPermissions(MainActivity.this,
-//                    permissionArray,
-//                    REQUEST_PERMISSIONS_REQUEST_CODE
-//            );
-//        }
-//
-//        if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            String[] permissionArray = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//            ActivityCompat.requestPermissions(MainActivity.this,
-//                    permissionArray,
-//                    REQUEST_PERMISSIONS_REQUEST_CODE
-//            );
-//        }
 
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         map.getOverlayManager().getTilesOverlay().setLoadingBackgroundColor(R.color.dark_layer_1);
