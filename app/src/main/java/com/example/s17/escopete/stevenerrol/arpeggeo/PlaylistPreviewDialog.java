@@ -1,17 +1,20 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsetsController;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -24,7 +27,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     ImageView playlistImage;
     TextView playlistName;
     TextView playlistUrl;
-    RecyclerView recyclerTagList;
+    LinearLayout tagsContainer;
     AppCompatButton buttonEdit;
     AppCompatButton buttonDelete;
 
@@ -32,13 +35,58 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_playlist_preview, container, false);
+        Playlist playlist = (Playlist) getArguments().get("playlist");
 
         playlistImage = v.findViewById(R.id.playlistImage);
         playlistName = v.findViewById(R.id.playlistName);
         playlistUrl = v.findViewById(R.id.playlistUrl);
-        recyclerTagList = v.findViewById(R.id.recyclerTagList);
+        tagsContainer = v.findViewById(R.id.tagsContainer);
         buttonEdit = v.findViewById(R.id.buttonEdit);
         buttonDelete = v.findViewById(R.id.buttonDelete);
+
+        playlistImage.setImageResource(playlist.getImage());
+        playlistName.setText(playlist.getName());
+        playlistUrl.setText(Html.fromHtml(
+                getString(R.string.open_in_spotify, playlist.getUrl()),
+                Html.FROM_HTML_MODE_LEGACY));
+        playlistUrl.setMovementMethod(LinkMovementMethod.getInstance());
+
+        LayoutInflater layoutInflater = LayoutInflater.from(v.getContext());
+        if (!playlist.getTagList().isEmpty()) {
+            ArrayList<Tag> tagList = playlist.getTagList();
+            int tagCounter = 0;
+
+            for (Tag tag : tagList) {
+                View view = layoutInflater.inflate(R.layout.partial_tag, null);
+                CardView cv = view.findViewById(R.id.tagCard);
+                TextView tv = view.findViewById(R.id.tagText);
+
+                // Truncate tags if number exceeds 3
+                if (tagCounter == 3) {
+                    tv.setText("...");
+                    tagsContainer.addView(view);
+                    break;
+                }
+
+                cv.setTag(tag.getName());
+                cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));
+
+                tv.setText(tag.getName());
+
+                if (tag.getTextColor() == TextColor.LIGHT) {
+                    tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.light_gray));
+                } else {
+                    tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.dark_layer_1));
+                }
+
+                tagsContainer.addView(view);
+                tagCounter++;
+            }
+
+        } else {
+            /* show no tags indication */
+            layoutInflater.inflate(R.layout.partial_tag, tagsContainer, true);
+        }
 
         return v;
     }

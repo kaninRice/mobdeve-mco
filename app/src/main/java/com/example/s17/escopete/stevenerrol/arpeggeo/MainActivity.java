@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateMapMarkers() {
-        final Playlist playlist = playlistList.get(0);
+        final Playlist playlist = playlistList.get(1);
         GeoPoint position = new GeoPoint(14.5648, 120.9932);
 
         Marker marker = new Marker(map);
@@ -169,11 +169,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMarkerClick(Marker marker, MapView mapView) {
                 PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
                 playlistPreviewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomDialogTheme);
-                playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
 
-//                Intent intent = new Intent(MainActivity.this, PlaylistDetailsActivity.class);
-//                intent.putExtra("playlist", playlist);
-//                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("playlist", playlist);
+                playlistPreviewDialog.setArguments(bundle);
+
+                playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
                 return false;
             }
         });
