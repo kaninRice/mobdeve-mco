@@ -2,7 +2,11 @@ package com.example.s17.escopete.stevenerrol.arpeggeo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +22,7 @@ public class PlaylistListActivity extends AppCompatActivity {
     private ArrayList<Playlist> playlistList;
 
     LinearLayout activityHeader;
+    EditText searchBar;
     RecyclerView recyclerPlaylistListView;
 
     @Override
@@ -33,8 +38,34 @@ public class PlaylistListActivity extends AppCompatActivity {
                 }
         );
 
-        activityHeader = findViewById(R.id.activityHeader);
+        initializeActivity();
         populatePlaylistListRecycler();
+    }
+
+    public void initializeActivity() {
+        activityHeader = findViewById(R.id.activityHeader);
+        searchBar = findViewById(R.id.search_bar);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                /* none */
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0) {
+                    searchBar.setGravity(Gravity.CENTER);
+                } else {
+                    searchBar.setGravity(Gravity.START);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                /* none */
+            }
+        });
     }
 
     public void populatePlaylistListRecycler() {
