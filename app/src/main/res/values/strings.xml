@@ -12,6 +12,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
+    <string name="clearTags">Clear Tags</string>
     <string name="default_playlist_name">Playlist Name</string>
     <string name="default_tag_name">No tag</string>
     <string name="desc_icon_settings_button">settings button icon</string>
