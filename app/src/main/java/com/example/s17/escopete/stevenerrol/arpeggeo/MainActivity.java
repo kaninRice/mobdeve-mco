@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -67,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.add_button);
         playlistListButton = findViewById(R.id.playlist_list_button);
 
-        initializeMap();
         initializeTags();
         initializePlaylist();
+        initializeMap();
     }
 
     public void initializeMap() {
@@ -155,10 +158,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateMapMarkers() {
+        final Playlist playlist = playlistList.get(0);
         GeoPoint position = new GeoPoint(14.5648, 120.9932);
+
         Marker marker = new Marker(map);
         marker.setPosition(position);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
+                playlistPreviewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomDialogTheme);
+                playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
+
+//                Intent intent = new Intent(MainActivity.this, PlaylistDetailsActivity.class);
+//                intent.putExtra("playlist", playlist);
+//                startActivity(intent);
+                return false;
+            }
+        });
 
         Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_marker, null);
         icon.setTint(ContextCompat.getColor(MainActivity.this, R.color.dark_layer_1));
