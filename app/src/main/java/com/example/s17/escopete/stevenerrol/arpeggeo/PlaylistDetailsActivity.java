@@ -41,16 +41,16 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
             }
         );
 
+        initializeActivity();
+    }
+
+    public void initializeActivity() {
         activityHeader = findViewById(R.id.activityHeader);
         playlistImage = findViewById(R.id.playlistImage);
         playlistName = findViewById(R.id.playlistName);
         playlistUrl = findViewById(R.id.playlistUrl);
         recyclerTagList = findViewById(R.id.recyclerTagList);
 
-        initializeActivity();
-    }
-
-    public void initializeActivity() {
         Intent intent = getIntent();
         Playlist playlist = (Playlist) intent.getParcelableExtra("playlist");
 
