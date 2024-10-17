@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -79,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(14.5826, 120.9787);
         mapController.setCenter(startPoint);
 
+        /* for dynamic location update */
+//        requestPermissionsIfNecessary(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
+//        MyLocationNewOverlay locationOverlay
+//                = new MyLocationNewOverlay(new GpsMyLocationProvider(context), map);
+//        locationOverlay.enableMyLocation();
+//        map.getOverlays().add(locationOverlay);
+
         updateMapMarkers();
     }
 
@@ -146,6 +152,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateMapMarkers() {
+        /* User Marker */
+        Marker userMarker = new Marker(map);
+        userMarker.setPosition(new GeoPoint(14.5633, 120.9949));
+
+        Drawable userIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_marker, null);
+        userIcon.setTint(ContextCompat.getColor(MainActivity.this, R.color.blue));
+        userMarker.setIcon(userIcon);
+        map.getOverlays().add(userMarker);
+
+        /* Playlist Markers */
         for (Playlist playlist : playlistList) {
             Marker marker = new Marker(map);
             marker.setPosition(new GeoPoint(playlist.getLatitude(), playlist.getLongitude()));
