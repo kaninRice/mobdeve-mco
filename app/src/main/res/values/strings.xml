@@ -5,6 +5,7 @@
     <string name="title_playlists">Playlists</string>
     <string name="title_create_new_tag">Create new tag</string>
     <string name="open_in_spotify">&lt;a href="%s">&lt;u>Open in Spotify&lt;/u>&lt;/a></string>
+    <string name="spotify_link">Spotify link</string>
     <string name="setting_enable_arpeggeo">Enable ArpegGeo</string>
     <string name="setting_enable_sandbox">Enable Sandbox</string>
     <string name="add">Add</string>
@@ -12,6 +13,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
+    <string name="add_tag">Add Tag</string>
     <string name="clearTags">Clear Tags</string>
     <string name="default_playlist_name">Playlist Name</string>
     <string name="default_tag_name">No tag</string>

@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map;
+    private MapEventsOverlay mapEventsOverlay;
 
     EditText searchBar;
     ImageButton settingsButton;
@@ -85,7 +89,22 @@ public class MainActivity extends AppCompatActivity {
 //        locationOverlay.enableMyLocation();
 //        map.getOverlays().add(locationOverlay);
 
-        updateMapMarkers();
+        // listener for map clicks
+        mapEventsOverlay = new MapEventsOverlay(new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                PlaylistEntryDialog playlistEntryDialog = new PlaylistEntryDialog();
+                playlistEntryDialog.show(getSupportFragmentManager(), "PlaylistEntryDialog");
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        });
+
+        updateMap();
     }
 
     // temp for MCO2
@@ -151,8 +170,15 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    public void updateMapMarkers() {
-        /* User Marker */
+    public void updateMap() {
+        /* Update Map listener */
+        if (appState == State.VIEW) {
+            map.getOverlays().remove(mapEventsOverlay);
+        } else {
+            map.getOverlays().add(mapEventsOverlay);
+        }
+
+        /* Update User Marker */
         Marker userMarker = new Marker(map);
         userMarker.setPosition(new GeoPoint(14.5633, 120.9949));
 
@@ -161,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         userMarker.setIcon(userIcon);
         map.getOverlays().add(userMarker);
 
-        /* Playlist Markers */
+        /* Update Playlist Markers */
         for (Playlist playlist : playlistList) {
             Marker marker = new Marker(map);
             marker.setPosition(new GeoPoint(playlist.getLatitude(), playlist.getLongitude()));
@@ -170,13 +196,17 @@ public class MainActivity extends AppCompatActivity {
             marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker, MapView mapView) {
-                    PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
+                    if(appState == State.VIEW) {
+                        PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("playlist", playlist);
-                    playlistPreviewDialog.setArguments(bundle);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("playlist", playlist);
+                        playlistPreviewDialog.setArguments(bundle);
 
-                    playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
+                        playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
+
+                    }
+
                     return false;
                 }
             });
@@ -201,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
             addButton.setBackgroundTintList(MainActivity.this.getResources().getColorStateList(R.color.dark_layer_1));
         }
 
+        updateMap();
     }
 
     public void openPlaylistList(View v) {
