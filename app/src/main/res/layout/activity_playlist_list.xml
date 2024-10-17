@@ -48,7 +48,7 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:paddingVertical="2dp"
         android:inputType="text"
         android:gravity="center"
@@ -63,7 +63,7 @@
         android:id="@+id/recyclerPlaylistList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"/>
 
 </LinearLayout>
