@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateMap() {
         /* Update Map listener */
+        map.getOverlays().clear();
         if (appState == State.VIEW) {
             map.getOverlays().remove(mapEventsOverlay);
         } else {

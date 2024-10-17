@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/entry_dialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -44,7 +45,6 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColorHint="@color/dark_gray"
-                android:focusable="false"
                 android:hint="@string/default_playlist_name"/>
 
             <EditText
@@ -55,7 +55,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/purple"
                 android:textColorHint="@color/dark_gray"
-                android:focusable="false"
                 android:hint="@string/spotify_link"/>
 
         </LinearLayout>
@@ -69,7 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        android:minHeight="64dp">
+        android:minHeight="64dp"
+        android:layout_weight="1">
 
         <!-- Container for rounded corners -->
         <androidx.cardview.widget.CardView

@@ -29,7 +29,6 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
-
         initializeDialog(v);
         return v;
     }
