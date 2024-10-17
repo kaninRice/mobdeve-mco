@@ -3,6 +3,7 @@ package com.example.s17.escopete.stevenerrol.arpeggeo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Playlist playlist = playlistList.get(position);
 
+        holder.itemView.setTag("isNotSelected");
         holder.playlistName.setText(playlist.getName());
         holder.playlistImage.setImageResource(playlist.getImage());
 
@@ -93,6 +95,28 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                /* Highlight list item */
+                String tag = (String) holder.itemView.getTag();
+
+                if (!tag.equals("isSelected")) {
+                    holder.itemView.setTag("isSelected");
+                    holder.playlistContainer.setBackground(
+                            new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_2))
+                    );
+                } else {
+                    holder.itemView.setTag("isNotSelected");
+                    holder.playlistContainer.setBackground(
+                            new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
+                    );
+                }
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -101,12 +125,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout playlistContainer;
         ImageView playlistImage;
         TextView playlistName;
         LinearLayout tagsContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            playlistContainer = itemView.findViewById(R.id.playlist_container);
             playlistImage = itemView.findViewById(R.id.playlistImage);
             playlistName = itemView.findViewById(R.id.playlistName);
             tagsContainer = itemView.findViewById(R.id.tagsContainer);
