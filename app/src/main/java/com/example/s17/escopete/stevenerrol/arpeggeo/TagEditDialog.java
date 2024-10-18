@@ -12,7 +12,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class TagEditDialog extends BottomSheetDialogFragment {
-    AppCompatButton buttonAdd;
+    AppCompatButton buttonConfirm;
+    AppCompatButton buttonRemove;
     AppCompatButton buttonCancel;
 
     @Override
@@ -23,18 +24,27 @@ public class TagEditDialog extends BottomSheetDialogFragment {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
+
         initializeDialog(v);
         return v;
     }
 
     public void initializeDialog(View v) {
-        buttonAdd = v.findViewById(R.id.button_add);
+        buttonConfirm = v.findViewById(R.id.button_confirm);
+        buttonRemove = v.findViewById(R.id.button_remove);
         buttonCancel = v.findViewById(R.id.button_cancel);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addEntry(view);
+                confirmEntry(view);
+            }
+        });
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeEntry(view);
             }
         });
 
@@ -46,7 +56,11 @@ public class TagEditDialog extends BottomSheetDialogFragment {
         });
     }
 
-    public void addEntry(View v) {
+    public void confirmEntry(View v) {
+        dismiss();
+    }
+
+    public void removeEntry(View v) {
         dismiss();
     }
 

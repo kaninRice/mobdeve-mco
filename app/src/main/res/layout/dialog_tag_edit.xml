@@ -61,7 +61,7 @@
         android:layout_marginTop="8dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_add"
+            android:id="@+id/button_confirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -69,6 +69,17 @@
             android:background="@drawable/item_button"
             android:backgroundTint="@color/green"
             android:text="@string/confirm"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_remove"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/light_gray"
+            android:background="@drawable/item_button"
+            android:backgroundTint="@color/blue"
+            android:text="@string/remove_tag"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_cancel"

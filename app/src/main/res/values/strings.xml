@@ -13,8 +13,10 @@
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="add_tag">Add Tag</string>
+    <string name="edit_tag">Edit Tag</string>
+    <string name="remove_tag">Remove Tag</string>
     <string name="clear_tags">Clear Tags</string>
-    <string name="delete_playlist">Playlist</string>
+    <string name="delete_playlist">Delete Playlist</string>
     <string name="select_color">Select Color</string>
     <string name="entry_tag_name">Tag Name</string>
     <string name="confirm">Confirm</string>
