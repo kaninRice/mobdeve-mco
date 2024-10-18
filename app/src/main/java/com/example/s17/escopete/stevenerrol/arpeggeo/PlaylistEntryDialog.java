@@ -1,10 +1,6 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +8,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class PlaylistEntryDialog extends BottomSheetDialogFragment {

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.DialogFragment;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        locationOverlay.enableMyLocation();
 //        map.getOverlays().add(locationOverlay);
 
-        // listener for map clicks
+        /* listener for map clicks */
         mapEventsOverlay = new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
