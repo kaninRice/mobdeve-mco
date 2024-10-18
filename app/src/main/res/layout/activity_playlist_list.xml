@@ -38,7 +38,7 @@
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:textColor="@color/gray"
-                android:text="@string/delete_playlist"/>
+                android:text="@string/title_playlists"/>
 
         </LinearLayout>
 
