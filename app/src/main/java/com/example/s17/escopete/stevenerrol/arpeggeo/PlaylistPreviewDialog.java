@@ -17,6 +17,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -27,7 +31,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     ImageView playlistImage;
     TextView playlistName;
     TextView playlistUrl;
-    LinearLayout tagsContainer;
+    FlexboxLayout tagsContainer;
     AppCompatButton buttonEdit;
     AppCompatButton buttonDelete;
 

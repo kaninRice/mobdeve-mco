@@ -82,7 +82,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         tagList = intent.getParcelableArrayListExtra("tagList");
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
         flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
-        flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
 
         recyclerTagList.suppressLayout(true);
         recyclerTagList.setLayoutManager(flexboxLayoutManager);
