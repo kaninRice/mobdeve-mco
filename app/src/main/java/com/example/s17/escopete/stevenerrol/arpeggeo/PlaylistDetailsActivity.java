@@ -35,6 +35,8 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     TextView playlistUrl;
     RecyclerView recyclerTagList;
     LinearLayout activityFooter;
+    LinearLayout addTagContainer;
+    LinearLayout editTagContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +56,16 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
     public void initializeActivity() {
         activityHeader = findViewById(R.id.activityHeader);
+
         scrollView = findViewById(R.id.scrollView);
         playlistImage = findViewById(R.id.playlistImage);
         playlistName = findViewById(R.id.playlistName);
         playlistUrl = findViewById(R.id.playlistUrl);
         recyclerTagList = findViewById(R.id.recyclerTagList);
+
         activityFooter = findViewById(R.id.activityFooter);
+        addTagContainer = findViewById(R.id.add_tag_container);
+        editTagContainer = findViewById(R.id.edit_tag_container);
 
         Intent intent = getIntent();
         Playlist playlist = intent.getParcelableExtra("playlist");
@@ -86,6 +92,16 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
         TagAdapter tagAdapter = new TagAdapter(tagList, PlaylistDetailsActivity.this);
         recyclerTagList.setAdapter(tagAdapter);
+    }
+
+    public void addTag(View v) {
+        TagEntryDialog tagEntryDialog = new TagEntryDialog();
+        tagEntryDialog.show(getSupportFragmentManager(), "TagEntryDialog");
+    }
+
+    public void editTag(View v) {
+        TagEntryDialog tagEntryDialog = new TagEntryDialog();
+        tagEntryDialog.show(getSupportFragmentManager(), "TagEditDialog");
     }
 
     public void closeActivity(View v) {

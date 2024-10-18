@@ -131,11 +131,35 @@
         android:backgroundTint="@color/dark_layer_2">
 
         <LinearLayout
+            android:id="@+id/add_tag_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="addTag">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_plus"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/light_gray"
+                android:text="@string/add_tag"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edit_tag_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:onClick="editTag">
 
             <ImageView
                 android:layout_width="match_parent"
