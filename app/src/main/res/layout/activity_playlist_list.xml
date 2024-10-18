@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activityLayout"
+    android:id="@+id/activity_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:paddingVertical="16dp"
@@ -18,7 +18,7 @@
 
         <!-- Container for click listener -->
         <LinearLayout
-            android:id="@+id/activityHeader"
+            android:id="@+id/activity_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -63,7 +63,7 @@
         android:hint="@string/search"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerPlaylistList"
+        android:id="@+id/recycler_playlist_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

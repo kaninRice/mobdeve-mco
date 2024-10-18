@@ -31,7 +31,7 @@ public class PlaylistListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_playlist_list);
 
         /* adjust padding based on top system bars */
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityLayout), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_layout), (v, insets) -> {
                     Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                     v.setPadding(v.getPaddingStart(), systemBars.top, v.getPaddingEnd(), v.getPaddingBottom());
                     return insets;
@@ -43,7 +43,7 @@ public class PlaylistListActivity extends AppCompatActivity {
     }
 
     public void initializeActivity() {
-        activityHeader = findViewById(R.id.activityHeader);
+        activityHeader = findViewById(R.id.activity_header);
         searchBar = findViewById(R.id.search_bar);
 
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -72,7 +72,7 @@ public class PlaylistListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         playlistList = intent.getParcelableArrayListExtra("playlistList");
 
-        recyclerPlaylistListView = findViewById(R.id.recyclerPlaylistList);
+        recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
         recyclerPlaylistListView.setHasFixedSize(true);
         recyclerPlaylistListView.setLayoutManager(new LinearLayoutManager(this));
 

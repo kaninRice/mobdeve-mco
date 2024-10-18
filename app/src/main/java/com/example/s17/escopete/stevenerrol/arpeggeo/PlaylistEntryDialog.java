@@ -34,8 +34,8 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     }
 
     public void initializeDialog(View v) {
-        buttonAdd = v.findViewById(R.id.buttonAdd);
-        buttonCancel = v.findViewById(R.id.buttonCancel);
+        buttonAdd = v.findViewById(R.id.button_add);
+        buttonCancel = v.findViewById(R.id.button_cancel);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override

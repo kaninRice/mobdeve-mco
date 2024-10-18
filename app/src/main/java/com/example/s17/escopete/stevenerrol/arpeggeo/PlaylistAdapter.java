@@ -53,8 +53,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
             for (Tag tag : tagList) {
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
-                CardView cv = view.findViewById(R.id.tagCard);
-                TextView tv = view.findViewById(R.id.tagText);
+                CardView cv = view.findViewById(R.id.tag_card);
+                TextView tv = view.findViewById(R.id.tag_text);
 
                 // Truncate tags if number exceeds 3
                 if (tagCounter == 3) {
@@ -133,9 +133,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             playlistContainer = itemView.findViewById(R.id.playlist_container);
-            playlistImage = itemView.findViewById(R.id.playlistImage);
-            playlistName = itemView.findViewById(R.id.playlistName);
-            tagsContainer = itemView.findViewById(R.id.tagsContainer);
+            playlistImage = itemView.findViewById(R.id.playlist_image);
+            playlistName = itemView.findViewById(R.id.playlist_name);
+            tagsContainer = itemView.findViewById(R.id.tags_container);
         }
     }
 }

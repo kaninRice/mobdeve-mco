@@ -44,7 +44,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_playlist_details);
 
         /* adjust padding based on top system bars */
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityLayout), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_layout), (v, insets) -> {
                     Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                     v.setPadding(v.getPaddingStart(), systemBars.top, v.getPaddingEnd(), v.getPaddingBottom());
                     return insets;
@@ -55,15 +55,15 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     }
 
     public void initializeActivity() {
-        activityHeader = findViewById(R.id.activityHeader);
+        activityHeader = findViewById(R.id.activity_header);
 
-        scrollView = findViewById(R.id.scrollView);
-        playlistImage = findViewById(R.id.playlistImage);
-        playlistName = findViewById(R.id.playlistName);
-        playlistUrl = findViewById(R.id.playlistUrl);
-        recyclerTagList = findViewById(R.id.recyclerTagList);
+        scrollView = findViewById(R.id.scroll_view);
+        playlistImage = findViewById(R.id.playlist_image);
+        playlistName = findViewById(R.id.playlist_name);
+        playlistUrl = findViewById(R.id.playlist_url);
+        recyclerTagList = findViewById(R.id.recycler_tag_list);
 
-        activityFooter = findViewById(R.id.activityFooter);
+        activityFooter = findViewById(R.id.activity_footer);
         addTagContainer = findViewById(R.id.add_tag_container);
         editTagContainer = findViewById(R.id.edit_tag_container);
 

@@ -16,7 +16,7 @@
         app:cardElevation="0dp">
 
         <ImageView
-            android:id="@+id/playlistImage"
+            android:id="@+id/playlist_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -34,7 +34,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/playlistName"
+            android:id="@+id/playlist_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -43,7 +43,7 @@
 
         <!-- Tags Container -->
         <LinearLayout
-            android:id="@+id/tagsContainer"
+            android:id="@+id/tags_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

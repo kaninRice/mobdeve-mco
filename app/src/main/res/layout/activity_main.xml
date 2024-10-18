@@ -41,7 +41,7 @@
         android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:id="@+id/buttonContainer"
+        android:id="@+id/button_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"

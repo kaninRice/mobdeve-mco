@@ -18,7 +18,7 @@
             app:cardElevation="0dp">
 
             <ImageView
-                android:id="@+id/playlistImage"
+                android:id="@+id/playlist_image"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:scaleType="centerCrop"
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/playlistName"
+                android:id="@+id/playlist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
@@ -44,7 +44,7 @@
                 android:text="@string/default_playlist_name"/>
 
             <TextView
-                android:id="@+id/playlistUrl"
+                android:id="@+id/playlist_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
@@ -58,7 +58,7 @@
 
     <!-- Tags Container -->
     <LinearLayout
-        android:id="@+id/tagsContainer"
+        android:id="@+id/tags_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -71,7 +71,7 @@
         android:layout_marginTop="8dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonEdit"
+            android:id="@+id/button_edit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -81,7 +81,7 @@
             android:text="@string/edit"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonDelete"
+            android:id="@+id/button_delete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

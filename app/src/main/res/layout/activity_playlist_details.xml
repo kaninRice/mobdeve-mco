@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activityLayout"
+    android:id="@+id/activity_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -18,7 +18,7 @@
 
         <!-- Container for click listener -->
         <LinearLayout
-            android:id="@+id/activityHeader"
+            android:id="@+id/activity_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -46,7 +46,7 @@
 
     <!-- Body -->
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -68,7 +68,7 @@
                 app:cardElevation="0dp">
 
                 <ImageView
-                    android:id="@+id/playlistImage"
+                    android:id="@+id/playlist_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -85,7 +85,7 @@
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/playlistName"
+                    android:id="@+id/playlist_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray"
@@ -94,7 +94,7 @@
                     android:text="@string/tmp_playlist_name_1"/>
 
                 <TextView
-                    android:id="@+id/playlistUrl"
+                    android:id="@+id/playlist_url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
@@ -105,7 +105,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerTagList"
+                android:id="@+id/recycler_tag_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -123,7 +123,7 @@
 
     <!-- Footer -->
     <LinearLayout
-        android:id="@+id/activityFooter"
+        android:id="@+id/activity_footer"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:paddingHorizontal="8dp"
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="@color/light_gray"
-                android:text="@string/clearTags"/>
+                android:text="@string/clear_tags"/>
         </LinearLayout>
 
         <LinearLayout

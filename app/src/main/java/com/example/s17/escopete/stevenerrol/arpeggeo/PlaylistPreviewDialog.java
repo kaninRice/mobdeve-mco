@@ -42,12 +42,12 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         );
         Playlist playlist = (Playlist) getArguments().get("playlist");
 
-        playlistImage = v.findViewById(R.id.playlistImage);
-        playlistName = v.findViewById(R.id.playlistName);
-        playlistUrl = v.findViewById(R.id.playlistUrl);
-        tagsContainer = v.findViewById(R.id.tagsContainer);
-        buttonEdit = v.findViewById(R.id.buttonEdit);
-        buttonDelete = v.findViewById(R.id.buttonDelete);
+        playlistImage = v.findViewById(R.id.playlist_image);
+        playlistName = v.findViewById(R.id.playlist_name);
+        playlistUrl = v.findViewById(R.id.playlist_url);
+        tagsContainer = v.findViewById(R.id.tags_container);
+        buttonEdit = v.findViewById(R.id.button_edit);
+        buttonDelete = v.findViewById(R.id.button_delete);
 
         playlistImage.setImageResource(playlist.getImage());
         playlistName.setText(playlist.getName());
@@ -62,8 +62,8 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
 
             for (Tag tag : tagList) {
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
-                CardView cv = view.findViewById(R.id.tagCard);
-                TextView tv = view.findViewById(R.id.tagText);
+                CardView cv = view.findViewById(R.id.tag_card);
+                TextView tv = view.findViewById(R.id.tag_text);
 
                 cv.setTag(tag.getName());
                 cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));

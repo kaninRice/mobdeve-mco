@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/partialTag"
+    android:id="@+id/partial_tag"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <!-- Container for rounded corners -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/tagCard"
+        android:id="@+id/tag_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -15,7 +15,7 @@
         app:cardElevation="0dp">
 
         <TextView
-            android:id="@+id/tagText"
+            android:id="@+id/tag_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"

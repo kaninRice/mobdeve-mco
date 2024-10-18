@@ -56,8 +56,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tagCard = itemView.findViewById(R.id.tagCard);
-            tagText = itemView.findViewById(R.id.tagText);
+            tagCard = itemView.findViewById(R.id.tag_card);
+            tagText = itemView.findViewById(R.id.tag_text);
         }
     }
 }

@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         /* adjust padding based on top system bars */
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityLayout), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_layout), (v, insets) -> {
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                 v.setPadding(v.getPaddingStart(), systemBars.top, v.getPaddingEnd(), v.getPaddingBottom());
                 return insets;
@@ -32,8 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void initializeActivity() {
-        enableArpeggeo = findViewById(R.id.switchEnableArpeggeo);
-        enableSandbox = findViewById(R.id.switchEnableSandbox);
+        enableArpeggeo = findViewById(R.id.switch_enable_arpeggeo);
+        enableSandbox = findViewById(R.id.switch_enable_sandbox);
     }
 
     public void closeActivity(View v) {
