@@ -100,8 +100,8 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     }
 
     public void editTag(View v) {
-        TagEntryDialog tagEntryDialog = new TagEntryDialog();
-        tagEntryDialog.show(getSupportFragmentManager(), "TagEditDialog");
+        TagEditDialog tagEditDialog = new TagEditDialog();
+        tagEditDialog.show(getSupportFragmentManager(), "TagEditDialog");
     }
 
     public void closeActivity(View v) {

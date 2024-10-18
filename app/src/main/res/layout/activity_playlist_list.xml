@@ -38,7 +38,7 @@
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:textColor="@color/gray"
-                android:text="@string/title_playlists"/>
+                android:text="@string/delete_playlist"/>
 
         </LinearLayout>
 
@@ -51,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
-        android:paddingVertical="2dp"
+        android:paddingVertical="4dp"
+        android:paddingHorizontal="8dp"
         android:inputType="text"
         android:gravity="center"
         android:textSize="16sp"

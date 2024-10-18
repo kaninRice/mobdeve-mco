@@ -183,6 +183,16 @@ public class MainActivity extends AppCompatActivity {
         Marker userMarker = new Marker(map);
         userMarker.setPosition(new GeoPoint(14.5633, 120.9949));
 
+        userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        userMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                /* none */
+                return false;
+            }
+        });
+
+
         Drawable userIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_marker, null);
         userIcon.setTint(ContextCompat.getColor(MainActivity.this, R.color.blue));
         userMarker.setIcon(userIcon);
