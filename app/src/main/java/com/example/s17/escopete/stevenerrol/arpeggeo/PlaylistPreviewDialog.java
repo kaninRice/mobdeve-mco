@@ -87,6 +87,31 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
             layoutInflater.inflate(R.layout.partial_tag, tagsContainer, true);
         }
 
+        buttonEdit = v.findViewById(R.id.button_edit);
+        buttonDelete = v.findViewById(R.id.button_delete);
+
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editEntry(view);
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteEntry(view);
+            }
+        });
+
         return v;
+    }
+
+    public void editEntry(View v) {
+        dismiss();
+    }
+
+    public void deleteEntry(View v) {
+        dismiss();
     }
 }
