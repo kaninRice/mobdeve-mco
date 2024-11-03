@@ -10,6 +10,7 @@
     <color name="light_gray">#F2F2F2</color>
     <color name="gray">#D9D9D9</color>
     <color name="dark_gray">#6D6D6D</color>
+    <color name="translucent_dark_layer_1">#55121212</color>
     <color name="tmp_tag1">#11AB99</color>
     <color name="tmp_tag2">#D23FAA</color>
 </resources>
