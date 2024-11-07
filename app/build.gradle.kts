@@ -41,6 +41,8 @@ android {
 dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation ("com.squareup.inject:assisted-inject-annotations-dagger2:0.6.0")
+    kapt ("com.squareup.inject:assisted-inject-processor-dagger2:0.6.0")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("com.github.MKergall:osmbonuspack:6.9.0")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
