@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.tag.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,6 +15,13 @@ public class Tag implements Parcelable {
     Tag(String name, String color) {
         this.name = name;
         this.color = color;
+        this.textColor = determineTextColor();
+    }
+
+    // for duplication
+    Tag(Tag other) {
+        this.name = other.getName();
+        this.color = other.getColor();
         this.textColor = determineTextColor();
     }
 
@@ -71,6 +78,10 @@ public class Tag implements Parcelable {
         return textColor;
     }
 
+    Tag copy() {
+        return new Tag(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,7 +108,3 @@ public class Tag implements Parcelable {
     }
 }
 
-enum TextColor {
-    LIGHT,
-    DARK
-}

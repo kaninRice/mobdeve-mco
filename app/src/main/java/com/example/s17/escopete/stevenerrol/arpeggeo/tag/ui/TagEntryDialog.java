@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,17 +9,17 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class TagEditDialog extends BottomSheetDialogFragment {
-    AppCompatButton buttonConfirm;
-    AppCompatButton buttonRemove;
+public class TagEntryDialog extends BottomSheetDialogFragment {
+    AppCompatButton buttonAdd;
     AppCompatButton buttonCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_tag_edit, container, false);
+        View v = inflater.inflate(R.layout.dialog_tag_entry, container, false);
         initializeDialog(v);
         return v;
     }
@@ -34,21 +34,13 @@ public class TagEditDialog extends BottomSheetDialogFragment {
     }
 
     public void initializeDialog(View v) {
-        buttonConfirm = v.findViewById(R.id.button_confirm);
-        buttonRemove = v.findViewById(R.id.button_remove);
+        buttonAdd = v.findViewById(R.id.button_add);
         buttonCancel = v.findViewById(R.id.button_cancel);
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                confirmEntry(view);
-            }
-        });
-
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeEntry(view);
+                addEntry(view);
             }
         });
 
@@ -60,11 +52,7 @@ public class TagEditDialog extends BottomSheetDialogFragment {
         });
     }
 
-    public void confirmEntry(View v) {
-        dismiss();
-    }
-
-    public void removeEntry(View v) {
+    public void addEntry(View v) {
         dismiss();
     }
 

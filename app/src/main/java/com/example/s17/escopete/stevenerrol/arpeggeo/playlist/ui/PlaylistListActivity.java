@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +16,24 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class PlaylistListActivity extends AppCompatActivity {
-    private ArrayList<Playlist> playlistList;
+    @Inject
+    TagRepositoryImpl tagRepositoryImpl;
+
+    @Inject
+    PlaylistRepositoryImpl playlistRepositoryImpl;
 
     LinearLayout activityHeader;
     EditText searchBar;
@@ -46,6 +60,7 @@ public class PlaylistListActivity extends AppCompatActivity {
         activityHeader = findViewById(R.id.activity_header);
         searchBar = findViewById(R.id.search_bar);
 
+        // Make "Search" hint centered but text input left-aligned
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -70,13 +85,13 @@ public class PlaylistListActivity extends AppCompatActivity {
 
     public void populatePlaylistListRecycler() {
         Intent intent = getIntent();
-        playlistList = intent.getParcelableArrayListExtra("playlistList");
+        // playlistList = intent.getParcelableArrayListExtra("playlistList");
 
         recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
         recyclerPlaylistListView.setHasFixedSize(true);
         recyclerPlaylistListView.setLayoutManager(new LinearLayoutManager(this));
 
-        PlaylistAdapter playlistAdapter = new PlaylistAdapter(playlistList, PlaylistListActivity.this);
+        PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistListActivity.this);
         recyclerPlaylistListView.setAdapter(playlistAdapter);
     }
 

@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,14 +17,28 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
+
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
-    ArrayList<Playlist> playlistList;
+    TagRepositoryImpl tagRepositoryImpl;
+    PlaylistRepositoryImpl playlistRepositoryImpl;
+
     Context context;
 
-    public PlaylistAdapter(ArrayList<Playlist> playlistList, PlaylistListActivity activity) {
-        this.playlistList = playlistList;
+    public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistListActivity activity) {
+        this.tagRepositoryImpl = tagRepositoryImpl;
+        this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
     }
 
@@ -38,17 +52,17 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Playlist playlist = playlistList.get(position);
+        final String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(position);
 
         holder.itemView.setTag("isNotSelected");
-        holder.playlistName.setText(playlist.getName());
-        holder.playlistImage.setImageResource(playlist.getImage());
+        holder.playlistName.setText(playlistName);
+        holder.playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
 
         // Populate tags (max: 3)
         // TODO: check possible improvement to choosing which tag to display
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        if (!playlist.getTagList().isEmpty()) {
-            ArrayList<Tag> tagList = playlist.getTagList();
+        if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
+            ArrayList<Tag> tagList = playlistRepositoryImpl.getPlaylistTagList(playlistName);
             int tagCounter = 0;
 
             for (Tag tag : tagList) {
@@ -63,12 +77,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                     break;
                 }
 
-                cv.setTag(tag.getName());
-                cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));
+                cv.setTag(tagRepositoryImpl.getTagName(tag));
+                cv.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
 
-                tv.setText(tag.getName());
+                tv.setText(tagRepositoryImpl.getTagName(tag));
 
-                if (tag.getTextColor() == TextColor.LIGHT) {
+                if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
                     tv.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
                 } else {
                     tv.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
@@ -87,11 +101,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, PlaylistDetailsActivity.class);
-
-                intent.putExtra("playlist", playlist);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("tagList", playlist.getTagList());
-                intent.putExtras(bundle);
+                intent.putExtra("playlistName", playlistName);
                 context.startActivity(intent);
             }
         });
@@ -121,7 +131,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return playlistList.size();
+        return playlistRepositoryImpl.getAllPlaylists().size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

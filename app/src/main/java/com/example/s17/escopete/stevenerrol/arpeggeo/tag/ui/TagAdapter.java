@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,14 +12,26 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistDetailsActivity;
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
+
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
-    private final ArrayList<Tag> tagList;
+    TagRepositoryImpl tagRepositoryImpl;
+    PlaylistRepositoryImpl playlistRepositoryImpl;
+
     private final Context context;
 
-    TagAdapter(ArrayList<Tag> tagList, PlaylistDetailsActivity activity) {
-        this.tagList = tagList;
+    public TagAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
+        this.tagRepositoryImpl = tagRepositoryImpl;
+        this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
     }
 
@@ -33,12 +45,12 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.ViewHolder holder, int position) {
-        final Tag tag = tagList.get(position);
+        final Tag tag = tagRepositoryImpl.getTagByIndex(position);
 
-        holder.tagCard.setCardBackgroundColor(Color.parseColor(tag.getColor()));
-        holder.tagText.setText(tag.getName());
+        holder.tagCard.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
+        holder.tagText.setText(tagRepositoryImpl.getTagName(tag));
 
-        if (tag.getTextColor() == TextColor.LIGHT) {
+        if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
             holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
         } else {
             holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
@@ -47,7 +59,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return tagList.size();
+        return tagRepositoryImpl.getAllTags().size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

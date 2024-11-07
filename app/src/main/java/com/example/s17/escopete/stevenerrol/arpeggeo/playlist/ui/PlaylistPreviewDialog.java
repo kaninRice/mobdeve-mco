@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,19 +16,31 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.flexbox.FlexWrap;
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 import com.google.android.flexbox.FlexboxLayout;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
-    ArrayList<Tag> tagList;
+    @Inject
+    TagRepositoryImpl tagRepositoryImpl;
+
+    @Inject
+    PlaylistRepositoryImpl playlistRepositoryImpl;
 
     ImageView playlistImage;
-    TextView playlistName;
+    TextView playlistNameView;
     TextView playlistUrl;
     FlexboxLayout tagsContainer;
     AppCompatButton buttonEdit;
@@ -43,37 +54,37 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
-        Playlist playlist = (Playlist) getArguments().get("playlist");
+        String playlistName = (String) getArguments().get("playlistName");
 
         playlistImage = v.findViewById(R.id.playlist_image);
-        playlistName = v.findViewById(R.id.playlist_name);
+        playlistNameView = v.findViewById(R.id.playlist_name);
         playlistUrl = v.findViewById(R.id.playlist_url);
         tagsContainer = v.findViewById(R.id.tags_container);
         buttonEdit = v.findViewById(R.id.button_edit);
         buttonDelete = v.findViewById(R.id.button_delete);
 
-        playlistImage.setImageResource(playlist.getImage());
-        playlistName.setText(playlist.getName());
+        playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        playlistNameView.setText(playlistName);
         playlistUrl.setText(Html.fromHtml(
-                getString(R.string.open_in_spotify, playlist.getUrl()),
+                getString(R.string.open_in_spotify, playlistRepositoryImpl.getPlaylistUrl(playlistName)),
                 Html.FROM_HTML_MODE_LEGACY));
         playlistUrl.setMovementMethod(LinkMovementMethod.getInstance());
 
         LayoutInflater layoutInflater = LayoutInflater.from(v.getContext());
-        if (!playlist.getTagList().isEmpty()) {
-            ArrayList<Tag> tagList = playlist.getTagList();
+        if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
+            ArrayList<Tag> tagList = playlistRepositoryImpl.getPlaylistTagList(playlistName);
 
             for (Tag tag : tagList) {
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
                 CardView cv = view.findViewById(R.id.tag_card);
                 TextView tv = view.findViewById(R.id.tag_text);
 
-                cv.setTag(tag.getName());
-                cv.setCardBackgroundColor(Color.parseColor(tag.getColor()));
+                cv.setTag(tagRepositoryImpl.getTagName(tag));
+                cv.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
 
-                tv.setText(tag.getName());
+                tv.setText(tagRepositoryImpl.getTagName(tag));
 
-                if (tag.getTextColor() == TextColor.LIGHT) {
+                if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
                     tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.light_gray));
                 } else {
                     tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.dark_layer_1));

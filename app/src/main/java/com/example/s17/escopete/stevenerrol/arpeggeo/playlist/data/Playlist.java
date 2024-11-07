@@ -1,9 +1,11 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -23,6 +25,15 @@ public class Playlist implements Parcelable {
         this.name = name;
         this.image = image;
         this.tagList = tagList;
+    }
+
+    public Playlist(Playlist other) {
+        this.latitude = other.getLatitude();
+        this.longitude = other.getLongitude();
+        this.url = other.getUrl();
+        this.name = other.getName();
+        this.image = other.getImage();
+        this.tagList = other.getTagList();
     }
 
     protected Playlist(Parcel in) {
@@ -84,6 +95,10 @@ public class Playlist implements Parcelable {
 
     void setTagList(ArrayList<Tag> tagList) {
         this.tagList = tagList;
+    }
+
+    Playlist copy() {
+        return new Playlist(this);
     }
 
     @Override

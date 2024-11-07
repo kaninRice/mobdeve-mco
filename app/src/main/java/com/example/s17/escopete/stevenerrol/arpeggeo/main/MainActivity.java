@@ -1,4 +1,4 @@
-package com.example.s17.escopete.stevenerrol.arpeggeo;
+package com.example.s17.escopete.stevenerrol.arpeggeo.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistEntryDialog;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistListActivity;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistPreviewDialog;
+import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.settings.ui.SettingsActivity;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -25,13 +33,20 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-    private State appState = State.VIEW;
+    @Inject
+    TagRepositoryImpl tagRepositoryImpl;
 
-    private ArrayList<Playlist> playlistList;
-    private ArrayList<Tag> tagList;
+    @Inject
+    PlaylistRepositoryImpl playlistRepositoryImpl;
+
+    private State appState = State.VIEW;
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map;
@@ -62,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.add_button);
         playlistListButton = findViewById(R.id.playlist_list_button);
 
-        initializeTags();
-        initializePlaylist();
         initializeMap();
     }
 
@@ -106,69 +119,6 @@ public class MainActivity extends AppCompatActivity {
         updateMap();
     }
 
-    // temp for MCO2
-    public void initializeTags() {
-        tagList = new ArrayList<>();
-
-        tagList.add(
-                new Tag("teka lang", "#04A793")
-        );
-
-        tagList.add(
-                new Tag("asdf", "#000000")
-        );
-
-        tagList.add(
-                new Tag("Tata", "#D035A5")
-        );
-
-        for(int i = 0; i < 50; i++) {
-            tagList.add(
-                    new Tag("New Tag " + i, "#FFFFFF")
-            );
-        }
-    }
-
-    // temp for MCO2
-    public void initializePlaylist() {
-        playlistList = new ArrayList<>();
-
-        playlistList.add(
-                new Playlist(
-                        14.5826, 120.9787,
-                        "https://open.spotify.com/playlist/37i9dQZEVXbNBz9cRCSFkY",
-                        "Top 50 - Philippines",
-                        R.drawable.image_playlist_cover_0,
-                        tagList
-                )
-        );
-
-        playlistList.add(
-                new Playlist(
-                        14.5648, 120.9932,
-                        "https://open.spotify.com/playlist/52o2wQe2s1J59bjpCSFxby",
-                        "itchy nadal",
-                        R.drawable.ic_default_playlist_image,
-                        tagList
-                                .stream()
-                                .filter(tag ->
-                                        tag.getName().equals("teka lang")
-                                                || tag.getName().equals("New Tag 2"))
-                                .collect(Collectors.toCollection(ArrayList::new))
-                )
-        );
-
-        playlistList.add(
-                new Playlist(
-                        14.5352, 120.9819,
-                        "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
-                        "Byaheng UV Express",
-                        R.drawable.image_playlist_cover_1,
-                        new ArrayList<Tag>()
-                )
-        );
-    }
-
     public void updateMap() {
         /* Update Map listener */
         map.getOverlays().clear();
@@ -183,14 +133,6 @@ public class MainActivity extends AppCompatActivity {
         userMarker.setPosition(new GeoPoint(14.5633, 120.9949));
 
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        userMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
-                /* none */
-                return false;
-            }
-        });
-
 
         Drawable userIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_marker, null);
         userIcon.setTint(ContextCompat.getColor(MainActivity.this, R.color.blue));
@@ -198,9 +140,14 @@ public class MainActivity extends AppCompatActivity {
         map.getOverlays().add(userMarker);
 
         /* Update Playlist Markers */
-        for (Playlist playlist : playlistList) {
+        for (int i = 0; i < playlistRepositoryImpl.getAllPlaylists().size(); i++) {
+            String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(i);
+
             Marker marker = new Marker(map);
-            marker.setPosition(new GeoPoint(playlist.getLatitude(), playlist.getLongitude()));
+            marker.setPosition(new GeoPoint(
+                    playlistRepositoryImpl.getPlaylistLatitude(playlistName),
+                    playlistRepositoryImpl.getPlaylistLongitude(playlistName))
+            );
 
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
@@ -210,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                         PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
 
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("playlist", playlist);
+                        bundle.putString("playlistName", playlistName);
                         playlistPreviewDialog.setArguments(bundle);
 
                         playlistPreviewDialog.show(getSupportFragmentManager(), "PlaylistPreviewDialog");
@@ -245,11 +192,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openPlaylistList(View v) {
-        Intent intent = new Intent(MainActivity.this, PlaylistListActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("playlistList", playlistList);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this, PlaylistListActivity.class));
     }
 
     @Override

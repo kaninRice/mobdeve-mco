@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".main.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,19 +19,19 @@
         android:theme="@style/Theme.ArpegGeo"
         tools:targetApi="31">
         <activity
-            android:name=".PlaylistPreviewDialog"
+            android:name=".playlist.ui.PlaylistPreviewDialog"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.ui.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".PlaylistDetailsActivity"
+            android:name=".playlist.ui.PlaylistDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".PlaylistListActivity"
+            android:name=".playlist.ui.PlaylistListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
