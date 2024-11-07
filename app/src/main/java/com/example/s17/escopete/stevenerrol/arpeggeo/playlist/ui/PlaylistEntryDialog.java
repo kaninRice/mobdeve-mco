@@ -13,8 +13,6 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class PlaylistEntryDialog extends BottomSheetDialogFragment {
-    AppCompatButton buttonAdd;
-    AppCompatButton buttonCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -34,26 +32,15 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     }
 
     public void initializeDialog(View v) {
-        buttonAdd = v.findViewById(R.id.button_add);
-        buttonCancel = v.findViewById(R.id.button_cancel);
+        AppCompatButton buttonAddView = v.findViewById(R.id.button_add);
+        AppCompatButton buttonCancelView = v.findViewById(R.id.button_cancel);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addEntry(view);
-            }
-        });
-
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelEntry(view);
-            }
-        });
+        buttonAddView.setOnClickListener(this::addEntry);
+        buttonCancelView.setOnClickListener(this::cancelEntry);
     }
 
     public void addEntry(View v) {
-        /* TODO */
+        // TODO: add playlist to local storage
         dismiss();
     }
 

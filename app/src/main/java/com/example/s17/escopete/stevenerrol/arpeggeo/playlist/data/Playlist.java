@@ -1,20 +1,15 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Playlist implements Parcelable {
+public class Playlist {
     private final double latitude;
     private final double longitude;
     private String url;
-    private String name;
+    private final String name;
     private Integer image;
     private ArrayList<Tag> tagList;
 
@@ -27,6 +22,7 @@ public class Playlist implements Parcelable {
         this.tagList = tagList;
     }
 
+    /* For playlist duplication */
     public Playlist(Playlist other) {
         this.latitude = other.getLatitude();
         this.longitude = other.getLongitude();
@@ -35,27 +31,6 @@ public class Playlist implements Parcelable {
         this.image = other.getImage();
         this.tagList = other.getTagList();
     }
-
-    protected Playlist(Parcel in) {
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        url = in.readString();
-        name = in.readString();
-        image = in.readInt();
-        tagList = in.readArrayList(Tag.class.getClassLoader());
-    }
-
-    public static final Creator<Playlist> CREATOR = new Creator<Playlist>() {
-        @Override
-        public Playlist createFromParcel(Parcel in) {
-            return new Playlist(in);
-        }
-
-        @Override
-        public Playlist[] newArray(int size) {
-            return new Playlist[size];
-        }
-    };
 
     double getLatitude() {
         return latitude;
@@ -75,10 +50,6 @@ public class Playlist implements Parcelable {
 
     String getName() {
         return name;
-    }
-
-    void setName(String name) {
-        this.name = name;
     }
 
     Integer getImage() {
@@ -112,20 +83,5 @@ public class Playlist implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hashCode(getName());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeDouble(latitude);
-        parcel.writeDouble(longitude);
-        parcel.writeString(url);
-        parcel.writeString(name);
-        parcel.writeInt(image);
-        parcel.writeList(tagList);
     }
 }

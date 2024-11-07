@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface TagRepository {
     ArrayList<Tag> getAllTags();
     Tag getTagByIndex(int index);
-    String getTagName(Tag tag);
-    String getTagColor(Tag tag);
-    TextColor getTagTextColor(Tag tag);
+    String getTagNameByIndex(int index);
+    String getTagColor(String name);
+    TextColor getTagTextColor(String name);
 }

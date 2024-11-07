@@ -11,7 +11,7 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Inject
     public TagRepositoryImpl() {
-        // temp
+        // TODO: Get tags from local storage
         tagList = new ArrayList<>();
 
         tagList.add(
@@ -44,17 +44,29 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public String getTagName(Tag tag)  {
-        return tag.getName();
+    public String getTagNameByIndex(int index)  {
+        return tagList.get(index).getName();
     }
 
     @Override
-    public String getTagColor(Tag tag) {
-        return tag.getColor();
+    public String getTagColor(String name) {
+        for (Tag tag : tagList) {
+            if (tag.getName().equals(name)) {
+                return  tag.getColor();
+            }
+        }
+
+        return "";
     }
 
     @Override
-    public TextColor getTagTextColor(Tag tag) {
-        return tag.getTextColor();
+    public TextColor getTagTextColor(String name) {
+        for (Tag tag : tagList) {
+            if (tag.getName().equals(name)) {
+                return tag.getTextColor();
+            }
+        }
+
+        return TextColor.LIGHT;
     }
 }

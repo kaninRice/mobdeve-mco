@@ -1,14 +1,9 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.tag.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.util.Objects;
 
-public class Tag implements Parcelable {
-    private String name;
+public class Tag {
+    private final String name;
     private String color;
     private TextColor textColor;
 
@@ -18,7 +13,7 @@ public class Tag implements Parcelable {
         this.textColor = determineTextColor();
     }
 
-    // for duplication
+    /* For tag duplication */
     Tag(Tag other) {
         this.name = other.getName();
         this.color = other.getColor();
@@ -39,30 +34,8 @@ public class Tag implements Parcelable {
         return TextColor.DARK;
     }
 
-    protected Tag(Parcel in) {
-        name = in.readString();
-        color = in.readString();
-        textColor = TextColor.valueOf(in.readString());
-    }
-
-    public static final Creator<Tag> CREATOR = new Creator<Tag>() {
-        @Override
-        public Tag createFromParcel(Parcel in) {
-            return new Tag(in);
-        }
-
-        @Override
-        public Tag[] newArray(int size) {
-            return new Tag[size];
-        }
-    };
-
     String getName() {
         return name;
-    }
-
-    void setName(String name) {
-        this.name = name;
     }
 
     String getColor() {
@@ -93,18 +66,6 @@ public class Tag implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hashCode(getName());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(color);
-        parcel.writeString(textColor.name());
     }
 }
 

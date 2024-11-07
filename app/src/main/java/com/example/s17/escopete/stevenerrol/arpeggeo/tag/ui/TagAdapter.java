@@ -15,13 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistDetailsActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
-
-import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     TagRepositoryImpl tagRepositoryImpl;
@@ -45,15 +40,15 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.ViewHolder holder, int position) {
-        final Tag tag = tagRepositoryImpl.getTagByIndex(position);
+        final String tagName = tagRepositoryImpl.getTagNameByIndex(position);
 
-        holder.tagCard.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
-        holder.tagText.setText(tagRepositoryImpl.getTagName(tag));
+        holder.tagCardView.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tagName)));
+        holder.tagTextView.setText(tagName);
 
-        if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
-            holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
+        if (tagRepositoryImpl.getTagTextColor(tagName) == TextColor.LIGHT) {
+            holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
         } else {
-            holder.tagText.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
+            holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
         }
     }
 
@@ -63,13 +58,13 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        CardView tagCard;
-        TextView tagText;
+        CardView tagCardView;
+        TextView tagTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tagCard = itemView.findViewById(R.id.tag_card);
-            tagText = itemView.findViewById(R.id.tag_text);
+            tagCardView = itemView.findViewById(R.id.tag_card);
+            tagTextView = itemView.findViewById(R.id.tag_text);
         }
     }
 }

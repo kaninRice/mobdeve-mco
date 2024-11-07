@@ -6,8 +6,6 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,17 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
-import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagAdapter;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagEditDialog;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagEntryDialog;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -41,22 +35,14 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     @Inject
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
-    LinearLayout activityHeader;
-    ScrollView scrollView;
-    ImageView playlistImage;
-    TextView playlistNameView;
-    TextView playlistUrl;
-    RecyclerView recyclerTagList;
-    LinearLayout activityFooter;
-    LinearLayout addTagContainer;
-    LinearLayout editTagContainer;
+    private RecyclerView recyclerTagListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_details);
 
-        /* adjust padding based on top system bars */
+        /* Adjust padding based on top system bars */
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_layout), (v, insets) -> {
                     Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                     v.setPadding(v.getPaddingStart(), systemBars.top, v.getPaddingEnd(), v.getPaddingBottom());
@@ -68,41 +54,34 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     }
 
     public void initializeActivity() {
-        activityHeader = findViewById(R.id.activity_header);
-
-        scrollView = findViewById(R.id.scroll_view);
-        playlistImage = findViewById(R.id.playlist_image);
-        playlistNameView = findViewById(R.id.playlist_name);
-        playlistUrl = findViewById(R.id.playlist_url);
-        recyclerTagList = findViewById(R.id.recycler_tag_list);
-
-        activityFooter = findViewById(R.id.activity_footer);
-        addTagContainer = findViewById(R.id.add_tag_container);
-        editTagContainer = findViewById(R.id.edit_tag_container);
+        ImageView playlistImageView = findViewById(R.id.playlist_image);
+        TextView playlistNameView = findViewById(R.id.playlist_name);
+        TextView playlistUrlView = findViewById(R.id.playlist_url);
+        recyclerTagListView = findViewById(R.id.recycler_tag_list);
 
         Intent intent = getIntent();
         String playlistName = intent.getStringExtra("playlistName");
 
-        playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
         playlistNameView.setText(playlistName);
 
-        playlistUrl.setText(Html.fromHtml(
+        playlistUrlView.setText(Html.fromHtml(
                 getString(R.string.open_in_spotify, playlistRepositoryImpl.getPlaylistUrl(playlistName)),
                 Html.FROM_HTML_MODE_LEGACY));
-        playlistUrl.setMovementMethod(LinkMovementMethod.getInstance());
+        playlistUrlView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        populateTagListRecycler(playlistName);
+        populateTagListRecycler();
     }
 
-    private void populateTagListRecycler(String playlistName) {
+    private void populateTagListRecycler() {
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
         flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
 
-        recyclerTagList.suppressLayout(true);
-        recyclerTagList.setLayoutManager(flexboxLayoutManager);
+        recyclerTagListView.suppressLayout(true);
+        recyclerTagListView.setLayoutManager(flexboxLayoutManager);
 
         TagAdapter tagAdapter = new TagAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistDetailsActivity.this);
-        recyclerTagList.setAdapter(tagAdapter);
+        recyclerTagListView.setAdapter(tagAdapter);
     }
 
     public void addTag(View v) {

@@ -1,7 +1,5 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
-import android.util.Log;
-
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
@@ -18,7 +16,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Inject
     public PlaylistRepositoryImpl(TagRepositoryImpl tagRepositoryImpl) {
-        // temp
+        // TODO: Get playlists from local storage
         playlistList = new ArrayList<>();
 
         playlistList.add(
@@ -51,7 +49,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                         "https://open.spotify.com/playlist/6P20B2kzD3G25bQYJ6HSPl",
                         "Byaheng UV Express",
                         R.drawable.image_playlist_cover_1,
-                        new ArrayList<Tag>()
+                        new ArrayList<>()
                 )
         );
     }

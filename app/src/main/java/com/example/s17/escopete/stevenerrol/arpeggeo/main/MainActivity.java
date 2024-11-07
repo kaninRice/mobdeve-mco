@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.core.utils.AppState;
 import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
@@ -19,9 +20,9 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.settings.ui.SettingsActivit
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MapEventsOverlay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -42,13 +43,10 @@ public class MainActivity extends AppCompatActivity {
     public AppState appState = AppState.VIEW;
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private MapView map;
-    private MapEventsOverlay mapEventsOverlay;
+    private MapView mapView;
 
-    EditText searchBar;
-    ImageButton settingsButton;
-    ImageButton addButton;
-    ImageButton playlistListButton;
+    private EditText searchBarView;
+    private ImageButton addButtonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
         initializeApp();
     }
 
-    public void initializeApp() {
-        map = findViewById(R.id.map);
-        searchBar = findViewById(R.id.search_bar);
-        settingsButton = findViewById(R.id.settings_button);
-        addButton = findViewById(R.id.add_button);
-        playlistListButton = findViewById(R.id.playlist_list_button);
+    private void initializeApp() {
+        mapView = findViewById(R.id.map);
+        searchBarView = findViewById(R.id.search_bar);
+        addButtonView = findViewById(R.id.add_button);
 
-        mapManager = mapManagerFactory.create(map, this, getSupportFragmentManager());
+        mapManager = mapManagerFactory.create(mapView, this, getSupportFragmentManager());
         mapManager.initializeMap();
     }
 
@@ -76,10 +72,14 @@ public class MainActivity extends AppCompatActivity {
     public void toggleAddActivity(View v) {
         if (appState == AppState.VIEW) {
             appState = AppState.ADD;
-            addButton.setBackgroundTintList(MainActivity.this.getResources().getColorStateList(R.color.blue));
+            addButtonView.setBackgroundTintList(
+                    ContextCompat.getColorStateList(MainActivity.this, R.color.blue)
+            );
         } else {
             appState = AppState.VIEW;
-            addButton.setBackgroundTintList(MainActivity.this.getResources().getColorStateList(R.color.dark_layer_1));
+            addButtonView.setBackgroundTintList(
+                    ContextCompat.getColorStateList(MainActivity.this, R.color.dark_layer_1)
+            );
         }
 
         mapManager.updateMap(appState);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         //if you make changes to the configuration, use
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+        mapView.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
     @Override
@@ -106,16 +106,13 @@ public class MainActivity extends AppCompatActivity {
         //if you make changes to the configuration, use
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().save(this, prefs);
-        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+        mapView.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (int i = 0; i < grantResults.length; i++) {
-            permissionsToRequest.add(permissions[i]);
-        }
+        ArrayList<String> permissionsToRequest = new ArrayList<>(Arrays.asList(permissions).subList(0, grantResults.length));
         if (!permissionsToRequest.isEmpty()) {
             ActivityCompat.requestPermissions(
                     this,

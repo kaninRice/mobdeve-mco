@@ -17,7 +17,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
@@ -50,44 +49,61 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_playlist_preview, container, false);
+
+
         getDialog().getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
+
         String playlistName = (String) getArguments().get("playlistName");
 
+        bindViews(v);
+        updateViews(v, playlistName);
+
+        buttonEdit.setOnClickListener(this::editEntry);
+        buttonDelete.setOnClickListener(this::deleteEntry);
+
+        return v;
+    }
+
+    private void bindViews(View v) {
         playlistImage = v.findViewById(R.id.playlist_image);
         playlistNameView = v.findViewById(R.id.playlist_name);
         playlistUrl = v.findViewById(R.id.playlist_url);
         tagsContainer = v.findViewById(R.id.tags_container);
         buttonEdit = v.findViewById(R.id.button_edit);
         buttonDelete = v.findViewById(R.id.button_delete);
+    }
 
+    private void updateViews(View v, String playlistName) {
         playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
         playlistNameView.setText(playlistName);
         playlistUrl.setText(Html.fromHtml(
                 getString(R.string.open_in_spotify, playlistRepositoryImpl.getPlaylistUrl(playlistName)),
                 Html.FROM_HTML_MODE_LEGACY));
-        playlistUrl.setMovementMethod(LinkMovementMethod.getInstance());
+        playlistUrl.setMovementMethod(LinkMovementMethod.getInstance()); /* Set text as clickable */
 
         LayoutInflater layoutInflater = LayoutInflater.from(v.getContext());
         if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
             ArrayList<Tag> tagList = playlistRepositoryImpl.getPlaylistTagList(playlistName);
 
-            for (Tag tag : tagList) {
+            for (int i = 0; i < tagList.size(); i++) {
+                String tagName = tagRepositoryImpl.getTagNameByIndex(i);
+
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
-                CardView cv = view.findViewById(R.id.tag_card);
-                TextView tv = view.findViewById(R.id.tag_text);
+                CardView cardView = view.findViewById(R.id.tag_card);
+                TextView textView = view.findViewById(R.id.tag_text);
 
-                cv.setTag(tagRepositoryImpl.getTagName(tag));
-                cv.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
+                cardView.setTag(tagName);
+                cardView.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tagName)));
 
-                tv.setText(tagRepositoryImpl.getTagName(tag));
+                textView.setText(tagName);
 
-                if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
-                    tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.light_gray));
+                if (tagRepositoryImpl.getTagTextColor(tagName) == TextColor.LIGHT) {
+                    textView.setTextColor(ContextCompat.getColor(v.getContext(), R.color.light_gray));
                 } else {
-                    tv.setTextColor(ContextCompat.getColor(v.getContext(), R.color.dark_layer_1));
+                    textView.setTextColor(ContextCompat.getColor(v.getContext(), R.color.dark_layer_1));
                 }
 
                 tagsContainer.addView(view);
@@ -97,25 +113,6 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
             /* show no tags indication */
             layoutInflater.inflate(R.layout.partial_tag, tagsContainer, true);
         }
-
-        buttonEdit = v.findViewById(R.id.button_edit);
-        buttonDelete = v.findViewById(R.id.button_delete);
-
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editEntry(view);
-            }
-        });
-
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteEntry(view);
-            }
-        });
-
-        return v;
     }
 
     public void editEntry(View v) {

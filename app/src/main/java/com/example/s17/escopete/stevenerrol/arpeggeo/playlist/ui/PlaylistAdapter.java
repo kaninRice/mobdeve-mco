@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
@@ -26,15 +24,11 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
-
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
-    TagRepositoryImpl tagRepositoryImpl;
-    PlaylistRepositoryImpl playlistRepositoryImpl;
+    private final TagRepositoryImpl tagRepositoryImpl;
+    private final PlaylistRepositoryImpl playlistRepositoryImpl;
 
-    Context context;
+    private final Context context;
 
     public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistListActivity activity) {
         this.tagRepositoryImpl = tagRepositoryImpl;
@@ -55,97 +49,98 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         final String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(position);
 
         holder.itemView.setTag("isNotSelected");
-        holder.playlistName.setText(playlistName);
-        holder.playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        holder.playlistNameView.setText(playlistName);
+        holder.playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
 
-        // Populate tags (max: 3)
-        // TODO: check possible improvement to choosing which tag to display
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
-            ArrayList<Tag> tagList = playlistRepositoryImpl.getPlaylistTagList(playlistName);
-            int tagCounter = 0;
+        populateTagsContainer(playlistName, holder);
 
-            for (Tag tag : tagList) {
-                View view = layoutInflater.inflate(R.layout.partial_tag, null);
-                CardView cv = view.findViewById(R.id.tag_card);
-                TextView tv = view.findViewById(R.id.tag_text);
+        /* Highlight list item */
+        holder.itemView.setOnLongClickListener(view -> {
+            String tag = (String) holder.itemView.getTag();
 
-                // Truncate tags if number exceeds 3
-                if (tagCounter == 3) {
-                    tv.setText("...");
-                    holder.tagsContainer.addView(view);
-                    break;
-                }
-
-                cv.setTag(tagRepositoryImpl.getTagName(tag));
-                cv.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tag)));
-
-                tv.setText(tagRepositoryImpl.getTagName(tag));
-
-                if (tagRepositoryImpl.getTagTextColor(tag) == TextColor.LIGHT) {
-                    tv.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
-                } else {
-                    tv.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
-                }
-
-                holder.tagsContainer.addView(view);
-                tagCounter++;
+            if (!tag.equals("isSelected")) {
+                holder.itemView.setTag("isSelected");
+                holder.playlistContainerView.setBackground(
+                        new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_2))
+                );
+            } else {
+                holder.itemView.setTag("isNotSelected");
+                holder.playlistContainerView.setBackground(
+                        new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
+                );
             }
 
-        } else {
-            /* show no tags indication */
-            layoutInflater.inflate(R.layout.partial_tag, holder.tagsContainer, true);
-        }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, PlaylistDetailsActivity.class);
-                intent.putExtra("playlistName", playlistName);
-                context.startActivity(intent);
-            }
-        });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                /* Highlight list item */
-                String tag = (String) holder.itemView.getTag();
-
-                if (!tag.equals("isSelected")) {
-                    holder.itemView.setTag("isSelected");
-                    holder.playlistContainer.setBackground(
-                            new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_2))
-                    );
-                } else {
-                    holder.itemView.setTag("isNotSelected");
-                    holder.playlistContainer.setBackground(
-                            new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
-                    );
-                }
-
-                return true;
-            }
+            return true;
         });
     }
 
-    @Override
+    private void populateTagContainer(ArrayList<Tag> tagList, LayoutInflater layoutInflater, ViewHolder holder) {
+        int tagCounter = 0;
+
+        for (int i = 0; i < tagList.size(); i++) {
+            final String tagName = tagRepositoryImpl.getTagNameByIndex(i);
+
+            View view = layoutInflater.inflate(R.layout.partial_tag, null);
+            CardView cv = view.findViewById(R.id.tag_card);
+            TextView tv = view.findViewById(R.id.tag_text);
+
+            /* Truncate tags if number exceeds 3 */
+            if (tagCounter == 3) {
+                tv.setText("...");
+                holder.tagsContainerView.addView(view);
+                break;
+            }
+
+            cv.setTag(tagName);
+            cv.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tagName)));
+
+            tv.setText(tagName);
+
+            if (tagRepositoryImpl.getTagTextColor(tagName) == TextColor.LIGHT) {
+                tv.setTextColor(ContextCompat.getColor(context, R.color.light_gray));
+            } else {
+                tv.setTextColor(ContextCompat.getColor(context, R.color.dark_layer_1));
+            }
+
+            holder.tagsContainerView.addView(view);
+            tagCounter++;
+        }
+    }
+
+    private void populateTagsContainer(String playlistName, ViewHolder holder) {
+        // TODO: check possible improvement to choosing which tag to display
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
+            populateTagContainer(playlistRepositoryImpl.getPlaylistTagList(playlistName),
+                    layoutInflater, holder);
+        } else {
+            /* show "no tags" indication */
+            layoutInflater.inflate(R.layout.partial_tag, holder.tagsContainerView, true);
+        }
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, PlaylistDetailsActivity.class);
+            intent.putExtra("playlistName", playlistName);
+            context.startActivity(intent);
+        });
+    }
+
     public int getItemCount() {
         return playlistRepositoryImpl.getAllPlaylists().size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout playlistContainer;
-        ImageView playlistImage;
-        TextView playlistName;
-        LinearLayout tagsContainer;
+        LinearLayout playlistContainerView;
+        ImageView playlistImageView;
+        TextView playlistNameView;
+        LinearLayout tagsContainerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            playlistContainer = itemView.findViewById(R.id.playlist_container);
-            playlistImage = itemView.findViewById(R.id.playlist_image);
-            playlistName = itemView.findViewById(R.id.playlist_name);
-            tagsContainer = itemView.findViewById(R.id.tags_container);
+            playlistContainerView = itemView.findViewById(R.id.playlist_container);
+            playlistImageView = itemView.findViewById(R.id.playlist_image);
+            playlistNameView = itemView.findViewById(R.id.playlist_name);
+            tagsContainerView = itemView.findViewById(R.id.tags_container);
         }
     }
 }

@@ -3,7 +3,6 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.map.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -28,18 +27,19 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 public class MapManager {
-    // Starting State
+    /* Initial app variables */
     private final AppState STARTING_STATE = AppState.VIEW;
+    private final GeoPoint STARTING_GEOPOINT_ZOOM = new GeoPoint(14.5826, 120.9787);
+    private final GeoPoint STARTING_GEOPOINT_USER = new GeoPoint(14.5507, 121.0286);
+    private final Double STARTING_ZOOM = 12.0;
 
-    // Starting point
-    private final GeoPoint RIZAL_PARK_GEOPOINT = new GeoPoint(14.5826, 120.9787);
-
-    private MapView mapView;
+    private final MapView mapView;
     private MapEventsOverlay mapEventsOverlay;
-    private Context context;
 
-    private FragmentManager SupportFragmentManager;
-    private PlaylistRepositoryImpl playlistRepositoryImpl;
+    private final Context context;
+    private final FragmentManager SupportFragmentManager;
+
+    private final PlaylistRepositoryImpl playlistRepositoryImpl;
 
     @AssistedInject
     public MapManager(@Assisted MapView mapView, @Assisted Context context, @Assisted FragmentManager supportFragmentManager, PlaylistRepositoryImpl playlistRepositoryImpl) {
@@ -52,26 +52,27 @@ public class MapManager {
     }
 
     public void initializeMap() {
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+        Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid_preferences", Context.MODE_PRIVATE));
 
-        // UI and behavior Settings
+        /* UI and behavior Settings */
         mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mapView.getOverlayManager().getTilesOverlay().setLoadingBackgroundColor(R.color.dark_layer_1);
         mapView.getOverlayManager().getTilesOverlay().setLoadingLineColor(R.color.dark_layer_2);
         mapView.setMultiTouchControls(true);
 
+        /* Initial Map Settings */
         IMapController mapController = mapView.getController();
-        mapController.setZoom(12.0);
-        mapController.setCenter(RIZAL_PARK_GEOPOINT);
+        mapController.setZoom(STARTING_ZOOM);
+        mapController.setCenter(STARTING_GEOPOINT_ZOOM);
 
-        /* for dynamic location update */
+        /* For dynamic location update */
 //        requestPermissionsIfNecessary(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
 //        MyLocationNewOverlay locationOverlay
 //                = new MyLocationNewOverlay(new GpsMyLocationProvider(context), map);
 //        locationOverlay.enableMyLocation();
 //        map.getOverlays().add(locationOverlay);
 
-        /* listener for map clicks */
+        /* Listener for map clicks */
         mapEventsOverlay = new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -98,49 +99,59 @@ public class MapManager {
             mapView.getOverlays().add(mapEventsOverlay);
         }
 
-        /* Update User Marker */
+        updateUserMarker();
+        updatePlaylistMarkers(appState);
+    }
+
+    private void updateUserMarker() {
         Marker userMarker = new Marker(mapView);
-        userMarker.setPosition(new GeoPoint(14.5633, 120.9949));
+        userMarker.setPosition(STARTING_GEOPOINT_USER); // TODO: Set position based on current position
 
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-
         Drawable userIcon = ContextCompat.getDrawable(context, R.drawable.ic_user_marker);
-        userIcon.setTint(ContextCompat.getColor(context, R.color.blue));
+
+        if (userIcon != null) {
+            userIcon.setTint(ContextCompat.getColor(context, R.color.blue));
+        }
+
         userMarker.setIcon(userIcon);
         mapView.getOverlays().add(userMarker);
+    }
 
-        /* Update Playlist Markers */
+    private void updatePlaylistMarkers(AppState appState) {
         for (int i = 0; i < playlistRepositoryImpl.getAllPlaylists().size(); i++) {
             String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(i);
 
             Marker marker = new Marker(mapView);
             marker.setPosition(new GeoPoint(
                     playlistRepositoryImpl.getPlaylistLatitude(playlistName),
-                    playlistRepositoryImpl.getPlaylistLongitude(playlistName))
+                    playlistRepositoryImpl.getPlaylistLongitude(playlistName)
+                )
             );
 
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker, MapView mapView) {
-                    if(appState == AppState.VIEW) {
-                        PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
+            marker.setOnMarkerClickListener((marker1, mapView) -> {
+                if(appState == AppState.VIEW) {
+                    PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("playlistName", playlistName);
-                        playlistPreviewDialog.setArguments(bundle);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("playlistName", playlistName);
+                    playlistPreviewDialog.setArguments(bundle);
 
-                        playlistPreviewDialog.show(SupportFragmentManager, "PlaylistPreviewDialog");
+                    playlistPreviewDialog.show(SupportFragmentManager, "PlaylistPreviewDialog");
 
-                    }
-
-                    return false;
                 }
+
+                return false;
             });
 
-            Drawable icon = ContextCompat.getDrawable(context, R.drawable.ic_marker);
-            icon.setTint(ContextCompat.getColor(context, R.color.dark_layer_1));
-            marker.setIcon(icon);
+            Drawable playlistIcon = ContextCompat.getDrawable(context, R.drawable.ic_marker);
+
+            if (playlistIcon != null) {
+                playlistIcon.setTint(ContextCompat.getColor(context, R.color.dark_layer_1));
+            }
+
+            marker.setIcon(playlistIcon);
             mapView.getOverlays().add(marker);
         }
     }

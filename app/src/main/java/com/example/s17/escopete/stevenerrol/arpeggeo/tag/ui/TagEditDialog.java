@@ -13,9 +13,6 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class TagEditDialog extends BottomSheetDialogFragment {
-    AppCompatButton buttonConfirm;
-    AppCompatButton buttonRemove;
-    AppCompatButton buttonCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -29,43 +26,28 @@ public class TagEditDialog extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null && getDialog().getWindow() != null) {
-            // Adjust fragment up when keyboard is opened
+            /* Adjust fragment up when keyboard is opened */
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
 
     public void initializeDialog(View v) {
-        buttonConfirm = v.findViewById(R.id.button_confirm);
-        buttonRemove = v.findViewById(R.id.button_remove);
-        buttonCancel = v.findViewById(R.id.button_cancel);
+        AppCompatButton buttonConfirmView = v.findViewById(R.id.button_confirm);
+        AppCompatButton buttonRemoveView = v.findViewById(R.id.button_remove);
+        AppCompatButton buttonCancelView = v.findViewById(R.id.button_cancel);
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmEntry(view);
-            }
-        });
-
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeEntry(view);
-            }
-        });
-
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelEntry(view);
-            }
-        });
+        buttonConfirmView.setOnClickListener(this::confirmEntry);
+        buttonRemoveView.setOnClickListener(this::removeEntry);
+        buttonCancelView.setOnClickListener(this::cancelEntry);
     }
 
     public void confirmEntry(View v) {
+        /* TODO: update tag based on entry */
         dismiss();
     }
 
     public void removeEntry(View v) {
+        /* TODO: delete tag */
         dismiss();
     }
 

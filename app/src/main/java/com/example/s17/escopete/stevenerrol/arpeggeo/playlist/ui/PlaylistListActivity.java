@@ -1,13 +1,11 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -17,11 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -35,16 +30,14 @@ public class PlaylistListActivity extends AppCompatActivity {
     @Inject
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
-    LinearLayout activityHeader;
-    EditText searchBar;
-    RecyclerView recyclerPlaylistListView;
+    private EditText searchBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_list);
 
-        /* adjust padding based on top system bars */
+        /* Adjust padding based on top system bars */
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_layout), (v, insets) -> {
                     Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                     v.setPadding(v.getPaddingStart(), systemBars.top, v.getPaddingEnd(), v.getPaddingBottom());
@@ -57,11 +50,10 @@ public class PlaylistListActivity extends AppCompatActivity {
     }
 
     public void initializeActivity() {
-        activityHeader = findViewById(R.id.activity_header);
-        searchBar = findViewById(R.id.search_bar);
+        searchBarView = findViewById(R.id.search_bar);
 
-        // Make "Search" hint centered but text input left-aligned
-        searchBar.addTextChangedListener(new TextWatcher() {
+        /* Make "Search" hint centered but text input left-aligned */
+        searchBarView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 /* none */
@@ -70,9 +62,9 @@ public class PlaylistListActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 0) {
-                    searchBar.setGravity(Gravity.CENTER);
+                    searchBarView.setGravity(Gravity.CENTER);
                 } else {
-                    searchBar.setGravity(Gravity.START);
+                    searchBarView.setGravity(Gravity.START);
                 }
             }
 
@@ -84,10 +76,8 @@ public class PlaylistListActivity extends AppCompatActivity {
     }
 
     public void populatePlaylistListRecycler() {
-        Intent intent = getIntent();
-        // playlistList = intent.getParcelableArrayListExtra("playlistList");
+        RecyclerView recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
 
-        recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
         recyclerPlaylistListView.setHasFixedSize(true);
         recyclerPlaylistListView.setLayoutManager(new LinearLayoutManager(this));
 
