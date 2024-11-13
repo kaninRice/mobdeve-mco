@@ -27,6 +27,10 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * The activity which displays all playlist information
+ * Allows adding, editing, and removing tags from the playlist
+ */
 @AndroidEntryPoint
 public class PlaylistDetailsActivity extends AppCompatActivity {
     @Inject
@@ -37,6 +41,10 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerTagListView;
 
+    /**
+     * Initializes the activity in application context
+     * @param savedInstanceState Previous saved state to reconstruct if not null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,9 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         initializeActivity();
     }
 
+    /**
+     * Initialize the activity; binds views to variables and sets data
+     */
     public void initializeActivity() {
         ImageView playlistImageView = findViewById(R.id.playlist_image);
         TextView playlistNameView = findViewById(R.id.playlist_name);
@@ -73,6 +84,9 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         populateTagListRecycler();
     }
 
+    /**
+     * Populate the tag container with tags
+     */
     private void populateTagListRecycler() {
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
         flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
@@ -84,16 +98,28 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         recyclerTagListView.setAdapter(tagAdapter);
     }
 
+    /**
+     * Adds tag to the playlist
+     * @param v The view that was clicked
+     */
     public void addTag(View v) {
         TagEntryDialog tagEntryDialog = new TagEntryDialog();
         tagEntryDialog.show(getSupportFragmentManager(), "TagEntryDialog");
     }
 
+    /**
+     * Edits selected tag
+     * @param v The view that was clicked
+     */
     public void editTag(View v) {
         TagEditDialog tagEditDialog = new TagEditDialog();
         tagEditDialog.show(getSupportFragmentManager(), "TagEditDialog");
     }
 
+    /**
+     * Closes the activity
+     * @param v The view that was clicked
+     */
     public void closeActivity(View v) {
         finish();
     }

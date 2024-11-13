@@ -13,23 +13,41 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistAdapter;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistDetailsActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 
+/**
+ * Adapter for displaying {@link com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag}s
+ * in a {@link RecyclerView}
+ */
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     TagRepositoryImpl tagRepositoryImpl;
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private final Context context;
 
+    /**
+     * Creates an instance of {@link TagAdapter}
+     * @param tagRepositoryImpl The {@link TagRepositoryImpl} which provides tag data
+     * @param playlistRepositoryImpl The {@link PlaylistRepositoryImpl} which provides playlist data
+     * @param activity The activity which provides context
+     */
     public TagAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
     }
 
+    /**
+     * Creates a view holder for a tag item
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A {@link PlaylistAdapter.ViewHolder}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,6 +56,12 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    /**
+     * Sets data in the view holder
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.ViewHolder holder, int position) {
         final String tagName = tagRepositoryImpl.getTagNameByIndex(position);
@@ -52,15 +76,26 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Retrieves the number of items to put in the {@link RecyclerView}
+     * @return The number of items to put in the {@link RecyclerView} in {@code int}
+     */
     @Override
     public int getItemCount() {
         return tagRepositoryImpl.getAllTags().size();
     }
 
+    /**
+     * View holder for displaying a tag in a {@link RecyclerView}
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder{
         CardView tagCardView;
         TextView tagTextView;
 
+        /**
+         * Creates an instance of {@link ViewHolder}
+         * @param itemView The view of the item
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tagCardView = itemView.findViewById(R.id.tag_card);

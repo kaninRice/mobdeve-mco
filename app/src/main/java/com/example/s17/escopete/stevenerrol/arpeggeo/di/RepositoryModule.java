@@ -12,6 +12,10 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 
+/**
+ * Hilt module for repository dependencies
+ * Provides singleton instances of repositories
+ */
 @Module
 @InstallIn(SingletonComponent.class)
 public class RepositoryModule {

@@ -28,6 +28,10 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * The main activity and entrypoint of the application
+ * Display playlists in the map and provides navigation to other activities
+ */
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     @Inject
@@ -48,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchBarView;
     private ImageButton addButtonView;
 
+    /**
+     * Initializes the activity
+     * @param savedInstanceState Previous saved state to reconstruct if not null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         initializeApp();
     }
 
+    /**
+     * Initializes the application and map and binds views to variables
+     */
     private void initializeApp() {
         mapView = findViewById(R.id.map);
         searchBarView = findViewById(R.id.search_bar);
@@ -65,10 +76,18 @@ public class MainActivity extends AppCompatActivity {
         mapManager.initializeMap();
     }
 
+    /**
+     * Starts Settings activity
+     * @param v The view that was clicked
+     */
     public void openSettings(View v) {
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 
+    /**
+     * Changes app state based on current state and update map listeners based on the new app state
+     * @param v The view that was clicked
+     */
     public void toggleAddActivity(View v) {
         if (appState == AppState.VIEW) {
             appState = AppState.ADD;
@@ -85,10 +104,17 @@ public class MainActivity extends AppCompatActivity {
         mapManager.updateMap(appState);
     }
 
+    /**
+     * Starts PlaylistList activity
+     * @param v The view that was clicked
+     */
     public void openPlaylistList(View v) {
         startActivity(new Intent(MainActivity.this, PlaylistListActivity.class));
     }
 
+    /**
+     * Called when activity is resumed
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -99,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
         mapView.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
+    /**
+     * Called when activity is paused
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -109,6 +138,15 @@ public class MainActivity extends AppCompatActivity {
         mapView.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
+    /**
+     * Request permissions based on the parameters
+     * @param requestCode The request code
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -121,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* TODO */
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {

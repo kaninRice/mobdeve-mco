@@ -26,8 +26,11 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+/**
+ * Manages map-related functions
+ */
 public class MapManager {
-    /* Initial app variables */
+    /* Initial map variables */
     private final AppState STARTING_STATE = AppState.VIEW;
     private final GeoPoint STARTING_GEOPOINT_ZOOM = new GeoPoint(14.5826, 120.9787);
     private final GeoPoint STARTING_GEOPOINT_USER = new GeoPoint(14.5507, 121.0286);
@@ -41,6 +44,14 @@ public class MapManager {
 
     private final PlaylistRepositoryImpl playlistRepositoryImpl;
 
+    /**
+     * Creates an instance of {@code MapManager}
+     * @param mapView The map view to be managed
+     * @param context The application context
+     * @param supportFragmentManager The supportFragmentManager for fragment transactions
+     * @param playlistRepositoryImpl The repository that provides playlists;
+     *                               Used for displaying the playlist markers in the map
+     */
     @AssistedInject
     public MapManager(@Assisted MapView mapView, @Assisted Context context, @Assisted FragmentManager supportFragmentManager, PlaylistRepositoryImpl playlistRepositoryImpl) {
         this.mapView = mapView;
@@ -51,6 +62,9 @@ public class MapManager {
         initializeMap();
     }
 
+    /**
+     * Initializes the map UI, behavior, and initial settings and onClick listeners
+     */
     public void initializeMap() {
         Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid_preferences", Context.MODE_PRIVATE));
 
@@ -90,6 +104,10 @@ public class MapManager {
         updateMap(STARTING_STATE);
     }
 
+    /**
+     * Updates map based on appState
+     * @param appState The appState to base map updates on
+     */
     public void updateMap(AppState appState) {
         /* Update Map listener */
         mapView.getOverlays().clear();
@@ -103,6 +121,9 @@ public class MapManager {
         updatePlaylistMarkers(appState);
     }
 
+    /**
+     * Updates user marker
+     */
     private void updateUserMarker() {
         Marker userMarker = new Marker(mapView);
         userMarker.setPosition(STARTING_GEOPOINT_USER); // TODO: Set position based on current position
@@ -118,6 +139,10 @@ public class MapManager {
         mapView.getOverlays().add(userMarker);
     }
 
+    /**
+     * Updates playlist markers
+     * @param appState The appState to base what on click events will be executed
+     */
     private void updatePlaylistMarkers(AppState appState) {
         for (int i = 0; i < playlistRepositoryImpl.getAllPlaylists().size(); i++) {
             String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(i);
@@ -156,6 +181,9 @@ public class MapManager {
         }
     }
 
+    /**
+     * Factory interface for creating instances of {@code MapManager}
+     */
     @AssistedFactory
     public interface Factory {
         MapManager create(MapView mapView, Context context, FragmentManager supportFragmentManager);

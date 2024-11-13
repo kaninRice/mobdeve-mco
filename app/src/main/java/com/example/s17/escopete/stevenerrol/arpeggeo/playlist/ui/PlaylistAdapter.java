@@ -21,21 +21,39 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepos
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for displaying {@link com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist}s
+ * in a {@link RecyclerView}
+ */
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private final TagRepositoryImpl tagRepositoryImpl;
     private final PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private final Context context;
 
+    /**
+     * Creates an instance of {@link PlaylistAdapter}
+     * @param tagRepositoryImpl The {@link TagRepositoryImpl} which provides tag data
+     * @param playlistRepositoryImpl The {@link PlaylistRepositoryImpl} which provides playlist data
+     * @param activity The activity which provides context
+     */
     public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistListActivity activity) {
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
     }
 
+    /**
+     * Creates a view holder for a playlist item
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A {@link ViewHolder}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,6 +62,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    /**
+     * Sets data in the view holder
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(position);
@@ -74,6 +98,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         });
     }
 
+    /**
+     * Populate the tag container with tags
+     * @param tagList The {@link ArrayList} of {@link Tag}s to put in the tag container
+     * @param layoutInflater The {@link LayoutInflater} to inflate each tag view
+     * @param holder The {@link ViewHolder} which has the tag container
+     */
     private void populateTagContainer(ArrayList<Tag> tagList, LayoutInflater layoutInflater, ViewHolder holder) {
         int tagCounter = 0;
 
@@ -107,6 +137,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
+    /* TODO: Refactor */
     private void populateTagsContainer(String playlistName, ViewHolder holder) {
         // TODO: check possible improvement to choosing which tag to display
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -125,16 +156,27 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         });
     }
 
+    /**
+     * Retrieves the number of items to put in the {@link RecyclerView}
+     * @return The number of items to put in the {@link RecyclerView} in {@code int}
+     */
     public int getItemCount() {
         return playlistRepositoryImpl.getAllPlaylists().size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    /**
+     * View holder for displaying a playlist in a {@link RecyclerView}
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout playlistContainerView;
         ImageView playlistImageView;
         TextView playlistNameView;
         LinearLayout tagsContainerView;
 
+        /**
+         * Creates an instance of {@link TagAdapter.ViewHolder}
+         * @param itemView The view of the item
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             playlistContainerView = itemView.findViewById(R.id.playlist_container);

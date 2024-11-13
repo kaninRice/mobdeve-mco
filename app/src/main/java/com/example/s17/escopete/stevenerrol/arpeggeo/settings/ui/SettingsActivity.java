@@ -11,10 +11,18 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
+/**
+ * The Settings Activity
+ * Allows user to change application settings
+ */
 public class SettingsActivity extends AppCompatActivity {
     private MaterialSwitch enableArpeggeo;
     private MaterialSwitch enableSandbox;
 
+    /**
+     * Initializes the activity
+     * @param savedInstanceState Previous saved state to reconstruct if not null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +39,18 @@ public class SettingsActivity extends AppCompatActivity {
         initializeActivity();
     }
 
+    /**
+     * Binds views to variables
+     */
     public void initializeActivity() {
         enableArpeggeo = findViewById(R.id.switch_enable_arpeggeo);
         enableSandbox = findViewById(R.id.switch_enable_sandbox);
     }
 
+    /**
+     * Closes the activity
+     * @param v The view that was clicked
+     */
     public void closeActivity(View v) {
         finish();
     }

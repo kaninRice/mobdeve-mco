@@ -30,6 +30,9 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Dialog for displaying playlist information
+ */
 @AndroidEntryPoint
 public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     @Inject
@@ -45,6 +48,18 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     AppCompatButton buttonEdit;
     AppCompatButton buttonDelete;
 
+    /**
+     * Creates a view
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return The {@link View} created
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -67,6 +82,10 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         return v;
     }
 
+    /**
+     * Binds views to variables
+     * @param v The view which has the children views to be binded
+     */
     private void bindViews(View v) {
         playlistImage = v.findViewById(R.id.playlist_image);
         playlistNameView = v.findViewById(R.id.playlist_name);
@@ -76,6 +95,11 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         buttonDelete = v.findViewById(R.id.button_delete);
     }
 
+    /**
+     * Sets data in the views based on the playlist given
+     * @param v The view that will display data
+     * @param playlistName The name of the playlist to be displayed
+     */
     private void updateViews(View v, String playlistName) {
         playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
         playlistNameView.setText(playlistName);
@@ -115,10 +139,18 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         }
     }
 
+    /**
+     * Edits the playlist
+     * @param v The view that was clicked
+     */
     public void editEntry(View v) {
         dismiss();
     }
 
+    /**
+     * Deletes the playlist
+     * @param v The view that was clicked
+     */
     public void deleteEntry(View v) {
         dismiss();
     }

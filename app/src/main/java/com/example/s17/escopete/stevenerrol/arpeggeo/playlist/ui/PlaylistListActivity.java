@@ -22,6 +22,10 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * The activity which lists all the playlists
+ * Allows opening Playlist Details Screen and batch selection
+ */
 @AndroidEntryPoint
 public class PlaylistListActivity extends AppCompatActivity {
     @Inject
@@ -32,6 +36,10 @@ public class PlaylistListActivity extends AppCompatActivity {
 
     private EditText searchBarView;
 
+    /**
+     * Initializes the activity in application context
+     * @param savedInstanceState Previous saved state to reconstruct if not null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,9 @@ public class PlaylistListActivity extends AppCompatActivity {
         populatePlaylistListRecycler();
     }
 
+    /**
+     * Initialize the activity; binds views to variables and sets data
+     */
     public void initializeActivity() {
         searchBarView = findViewById(R.id.search_bar);
 
@@ -75,6 +86,9 @@ public class PlaylistListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Populate the playlist container with playlists
+     */
     public void populatePlaylistListRecycler() {
         RecyclerView recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
 
@@ -85,6 +99,10 @@ public class PlaylistListActivity extends AppCompatActivity {
         recyclerPlaylistListView.setAdapter(playlistAdapter);
     }
 
+    /**
+     * Closes the activity
+     * @param v The view that was clicked
+     */
     public void closeActivity(View v) {
         finish();
     }
