@@ -44,8 +44,6 @@ public interface PlaylistRepository {
      */
     String getPlaylistUrl(String name);
 
-    long getPlaylistId(String name);
-
     /**
      * Retrieves the name of a {@link Playlist} based on its index
      * @param index The index of the {@link Playlist} to be retrieved

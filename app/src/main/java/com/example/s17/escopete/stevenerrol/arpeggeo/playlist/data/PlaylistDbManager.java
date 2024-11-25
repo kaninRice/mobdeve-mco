@@ -19,52 +19,44 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
 import java.util.ArrayList;
 
+/**
+ * Manages the database
+ */
 public class PlaylistDbManager {
     private SQLiteDatabase sqLiteDatabase;
     private PlaylistDbHelper playlistDbHelper;
     private final Context context;
 
+    /**
+     * Constructor for the PlaylistDbManager
+     * @param context The context of the PlaylistDbManager
+     */
     public PlaylistDbManager(Context context) {
         this.context = context;
     }
 
+    /**
+     * Opens a writable database
+     * @return This playlistDbManager
+     * @throws SQLException An SQL exception
+     */
     public PlaylistDbManager open() throws SQLException {
         playlistDbHelper = new PlaylistDbHelper(context);
         sqLiteDatabase = playlistDbHelper.getWritableDatabase();
         return this;
     }
 
+    /**
+     * Closes the database connection
+     */
     public void close() {
         playlistDbHelper.close();
     }
 
-    public Cursor fetch() {
-        String[] columns = new String[] {
-                _ID,
-                NAME,
-                URL,
-                IMAGE,
-                LATITUDE,
-                LONGITUDE,
-        };
-
-        Cursor cursor = sqLiteDatabase.query(
-                TABLE_NAME,
-                columns,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        
-        return cursor;
-    }
-
+    /**
+     * Gets the highest-numbered id in the database
+     * @return The highest-numbered id
+     */
     public long getHighestId() {
         Cursor cursor =sqLiteDatabase.rawQuery(
                 "SELECT MAX(" + _ID + ") FROM " + TABLE_NAME, null
@@ -77,6 +69,10 @@ public class PlaylistDbManager {
         return -1;
     }
 
+    /**
+     * Gets all the playlist in the database
+     * @return An {@link ArrayList} of {@link Playlist}s
+     */
     public ArrayList<Playlist> getAllPlaylists() {
         ArrayList<Playlist> playlists = new ArrayList<>();
         Cursor cursor = sqLiteDatabase.query(
@@ -113,6 +109,11 @@ public class PlaylistDbManager {
         return playlists;
     }
 
+    /**
+     *  Gets a playlist
+     * @param name The name of the playlist
+     * @return A {@link Playlist}
+     */
     public Playlist getByName(String name) {
         Cursor cursor = sqLiteDatabase.query(
                 TABLE_NAME,
@@ -141,6 +142,15 @@ public class PlaylistDbManager {
         return null;
     }
 
+    /**
+     * Inserts a playlist in the database
+     * @param _id The id of the playlist
+     * @param name The name of the playlist
+     * @param url The url of the playlist
+     * @param image The image of the playlist
+     * @param latitude The latitude of the playlist
+     * @param longitude The longitude of the playlist
+     */
     public void insert(long _id, String name, String url,  Integer image, double latitude, double longitude) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_ID, _id);
@@ -152,7 +162,17 @@ public class PlaylistDbManager {
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
-    public int update(long _id, String name, String url,  Integer image, double latitude, double longitude) {
+    /**
+     * Updates a playlist in the database
+     * @param _id The new id of the playlist
+     * @param name The new name of the playlist
+     * @param url The new url of the playlist
+     * @param image The new image of the playlist
+     * @param latitude The new latitude of the playlist
+     * @param longitude The new longitude of the playlist
+     * @return The number of rows affected
+     */
+    public int update(long _id, String name, String url, Integer image, double latitude, double longitude) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
         contentValues.put(URL, url);
@@ -163,6 +183,10 @@ public class PlaylistDbManager {
         return i;
     }
 
+    /**
+     * Deletes a playlist in the database
+     * @param name The name of the playlist to be deleted
+     */
     public void delete(String name) {
         sqLiteDatabase.delete(TABLE_NAME, NAME + " = ?", new String[]{name});
     }

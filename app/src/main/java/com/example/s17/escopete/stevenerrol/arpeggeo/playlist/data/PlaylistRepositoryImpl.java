@@ -61,6 +61,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         */
     }
 
+    /**
+     * updates playlist list based on local storage
+     */
     private void updatePlaylist() {
         playlistList = playlistDbManager.getAllPlaylists();
     }
@@ -141,12 +144,6 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         return "";
     }
 
-    @Override
-    public long getPlaylistId(String name) {
-        Playlist playlist =  playlistDbManager.getByName(name);
-        return playlist.getId();
-    }
-
     /**
      * Retrieves the name of a {@link Playlist} based on its index
      * Assumes the index is valid
@@ -195,16 +192,33 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         return new ArrayList<>();
     }
 
+    /**
+     * Gets the highest-numbered. Used for setting the id of new playlists
+     * @return the id typed {@code long}
+     */
     @Override
     public long getHighestId() {
         return playlistDbManager.getHighestId();
     }
 
+    /**
+     * Inserts a playlist to local storage
+     * @param _id The id of the playlist
+     * @param name The name of the playlist
+     * @param url The URL of the playlist
+     * @param image The image of the playlist
+     * @param latitude The latitude of the playlist
+     * @param longitude The longitude of the playlist
+     */
     @Override
     public void insertPlaylist(long _id, String name, String url,  Integer image, double latitude, double longitude) {
         playlistDbManager.insert(_id, name, url, image, latitude, longitude);
     }
 
+    /**
+     * Deletes a playlist based on name
+     * @param name The name of the playlist to delete
+     */
     @Override
     public void deletePlaylist(String name) {
         playlistDbManager.delete(name);

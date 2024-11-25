@@ -107,6 +107,10 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
         dismiss();
     }
 
+    /**
+     * Called when dialog is dismissed
+     * @param dialog The dialog that was dismissed
+     */
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);

@@ -20,6 +20,7 @@ public class Playlist {
 
     /**
      * Creates an instance of {@link Playlist}
+     * @param _id The id of the playlist
      * @param latitude The latitude associated with the playlist
      * @param longitude The longitude associated with the playlist
      * @param url The URL of the playlist
@@ -27,7 +28,6 @@ public class Playlist {
      * @param image The image of the playlist
      * @param tagList THe tag list of the playlist
      */
-    // TODO
     public Playlist(long _id, double latitude, double longitude, String url, String name, Integer image, ArrayList<Tag> tagList) {
         this._id = _id;
         this.latitude = latitude;
@@ -52,6 +52,10 @@ public class Playlist {
         this.tagList = other.getTagList();
     }
 
+    /**
+     * Gets the id
+     * @return The playlist id
+     */
     long getId() {
         return _id;
     }
