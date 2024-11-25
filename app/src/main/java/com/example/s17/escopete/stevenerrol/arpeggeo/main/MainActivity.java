@@ -3,22 +3,27 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.main;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.core.utils.AppState;
 import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistEntryDialog;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistListActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.settings.ui.SettingsActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
@@ -74,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
         mapManager = mapManagerFactory.create(mapView, this, getSupportFragmentManager());
         mapManager.initializeMap();
+
+        getSupportFragmentManager().setFragmentResultListener("bottomSheetDismissed", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+                if (mapManager != null) {
+                    mapManager.updateMap(appState);
+                }
+            }
+        });
     }
 
     /**
@@ -94,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             addButtonView.setBackgroundTintList(
                     ContextCompat.getColorStateList(MainActivity.this, R.color.blue)
             );
+
         } else {
             appState = AppState.VIEW;
             addButtonView.setBackgroundTintList(

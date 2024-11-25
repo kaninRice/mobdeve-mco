@@ -1,11 +1,8 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
-import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
-import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,18 +12,20 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class PlaylistRepositoryImpl implements PlaylistRepository {
-    private final ArrayList<Playlist> playlistList;
+    private final PlaylistDbManager playlistDbManager;
+    private ArrayList<Playlist> playlistList;
 
     /**
      * Initializes {@link PlaylistRepositoryImpl}. Retrieves playlists from local storage
-     * @param tagRepositoryImpl The {@code tagRepositoryImpl} repository;
-     *                          Used to get the {@link Tag}s of a {@link Playlist}
+     * @param playlistDbManager The {@link PlaylistDbManager};
+     *                          Used to get data from local storage
      */
     @Inject
-    public PlaylistRepositoryImpl(TagRepositoryImpl tagRepositoryImpl) {
-        // TODO: Get playlists from local storage
-        playlistList = new ArrayList<>();
+    public PlaylistRepositoryImpl(PlaylistDbManager playlistDbManager) {
+        this.playlistDbManager = playlistDbManager.open();
+        playlistList = playlistDbManager.getAllPlaylists();
 
+        /*
         playlistList.add(
                 new Playlist(
                         14.5826, 120.9787,
@@ -60,6 +59,11 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                         new ArrayList<>()
                 )
         );
+        */
+    }
+
+    private void updatePlaylist() {
+        playlistList = playlistDbManager.getAllPlaylists();
     }
 
     /**
@@ -69,6 +73,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public ArrayList<Playlist> getAllPlaylists() {
+        updatePlaylist();
         return new ArrayList<>(playlistList);
     }
 
@@ -183,5 +188,10 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         }
 
         return new ArrayList<>();
+    }
+
+    @Override
+    public void insertPlaylist(String name, String url,  Integer image, double latitude, double longitude) {
+        playlistDbManager.insert(name, url, image, latitude, longitude);
     }
 }

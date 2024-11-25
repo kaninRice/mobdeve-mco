@@ -1,21 +1,37 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Dialog for displaying playlist entry function
  */
+@AndroidEntryPoint
 public class PlaylistEntryDialog extends BottomSheetDialogFragment {
+    @Inject
+    PlaylistRepositoryImpl playlistRepositoryImpl;
+    MapManager mapManager;
+
+    EditText playlistNameView;
+    EditText playlistUrlView;
 
     /**
      * Creates a view
@@ -56,6 +72,8 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     public void initializeDialog(View v) {
         AppCompatButton buttonAddView = v.findViewById(R.id.button_add);
         AppCompatButton buttonCancelView = v.findViewById(R.id.button_cancel);
+        playlistNameView = v.findViewById(R.id.playlist_name);
+        playlistUrlView = v.findViewById(R.id.playlist_url);
 
         buttonAddView.setOnClickListener(this::addEntry);
         buttonCancelView.setOnClickListener(this::cancelEntry);
@@ -67,7 +85,16 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
      * @param v The view that was clicked
      */
     public void addEntry(View v) {
-        // TODO: add playlist to local storage
+        Bundle args = getArguments();
+
+        playlistRepositoryImpl.insertPlaylist(
+                playlistNameView.getText().toString(),
+                playlistUrlView.getText().toString(),
+                0, // TODO: image upload
+                args.getDouble("latitude"),
+                args.getDouble("longitude")
+        );
+
         dismiss();
     }
 
@@ -77,5 +104,14 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
      */
     public void cancelEntry(View v) {
         dismiss();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        Bundle result = new Bundle();
+        result.putString("message", "BottomSheet dismissed");
+        getParentFragmentManager().setFragmentResult("bottomSheetDismissed", result);
     }
 }

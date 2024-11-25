@@ -22,9 +22,12 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
+import javax.inject.Singleton;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Manages map-related functions
@@ -86,17 +89,25 @@ public class MapManager {
 //        locationOverlay.enableMyLocation();
 //        map.getOverlays().add(locationOverlay);
 
-        /* Listener for map clicks */
+        /* Listener fro map clicks */
         mapEventsOverlay = new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 PlaylistEntryDialog playlistEntryDialog = new PlaylistEntryDialog();
+
+                Bundle args = new Bundle();
+
+                args.putDouble("latitude", p.getLatitude());
+                args.putDouble("longitude", p.getLongitude());
+                playlistEntryDialog.setArguments(args);
+
                 playlistEntryDialog.show(SupportFragmentManager, "PlaylistEntryDialog");
                 return false;
             }
 
             @Override
             public boolean longPressHelper(GeoPoint p) {
+                // Handle long press if needed, e.g., remove marker
                 return false;
             }
         });

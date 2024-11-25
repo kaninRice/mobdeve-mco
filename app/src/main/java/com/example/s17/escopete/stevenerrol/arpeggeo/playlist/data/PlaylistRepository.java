@@ -64,4 +64,6 @@ public interface PlaylistRepository {
      * @return An {@link ArrayList} of {@link Tag}s of the playlist
      */
     ArrayList<Tag> getPlaylistTagList(String name);
+
+    void insertPlaylist(String name, String url,  Integer image, double latitude, double longitude);
 }
