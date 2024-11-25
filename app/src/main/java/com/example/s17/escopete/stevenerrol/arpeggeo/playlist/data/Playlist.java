@@ -10,7 +10,7 @@ import java.util.Objects;
  * Provides methods for getters and setters for its attributes
  */
 public class Playlist {
-    private long _id = -1;
+    private final long _id;
     private final double latitude;
     private final double longitude;
     private String url;
@@ -27,16 +27,6 @@ public class Playlist {
      * @param image The image of the playlist
      * @param tagList THe tag list of the playlist
      */
-    public Playlist(double latitude, double longitude, String url, String name, Integer image, ArrayList<Tag> tagList) {
-        // this._id = -1; TODO: get new ID based on sqlite
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.url = url;
-        this.name = name;
-        this.image = image;
-        this.tagList = tagList;
-    }
-
     // TODO
     public Playlist(long _id, double latitude, double longitude, String url, String name, Integer image, ArrayList<Tag> tagList) {
         this._id = _id;
@@ -53,12 +43,17 @@ public class Playlist {
      * @param other The {@link Playlist} to be duplicated
      */
     public Playlist(Playlist other) {
+        this._id = other.getId();
         this.latitude = other.getLatitude();
         this.longitude = other.getLongitude();
         this.url = other.getUrl();
         this.name = other.getName();
         this.image = other.getImage();
         this.tagList = other.getTagList();
+    }
+
+    long getId() {
+        return _id;
     }
 
     /**

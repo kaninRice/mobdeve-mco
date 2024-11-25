@@ -35,6 +35,7 @@ public class PlaylistListActivity extends AppCompatActivity {
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private EditText searchBarView;
+    RecyclerView recyclerPlaylistListView;
 
     /**
      * Initializes the activity in application context
@@ -57,11 +58,18 @@ public class PlaylistListActivity extends AppCompatActivity {
         populatePlaylistListRecycler();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateRecyclerView();
+    }
+
     /**
      * Initialize the activity; binds views to variables and sets data
      */
     public void initializeActivity() {
         searchBarView = findViewById(R.id.search_bar);
+        recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
 
         /* Make "Search" hint centered but text input left-aligned */
         searchBarView.addTextChangedListener(new TextWatcher() {
@@ -90,13 +98,14 @@ public class PlaylistListActivity extends AppCompatActivity {
      * Populate the playlist container with playlists
      */
     public void populatePlaylistListRecycler() {
-        RecyclerView recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
-
         recyclerPlaylistListView.setHasFixedSize(true);
         recyclerPlaylistListView.setLayoutManager(new LinearLayoutManager(this));
 
         PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistListActivity.this);
         recyclerPlaylistListView.setAdapter(playlistAdapter);
+    }
+
+    private void updateRecyclerView() {
     }
 
     /**

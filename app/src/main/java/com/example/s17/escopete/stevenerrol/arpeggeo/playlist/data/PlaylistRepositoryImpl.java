@@ -24,7 +24,6 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     public PlaylistRepositoryImpl(PlaylistDbManager playlistDbManager) {
         this.playlistDbManager = playlistDbManager.open();
         playlistList = playlistDbManager.getAllPlaylists();
-
         /*
         playlistList.add(
                 new Playlist(
@@ -142,6 +141,12 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         return "";
     }
 
+    @Override
+    public long getPlaylistId(String name) {
+        Playlist playlist =  playlistDbManager.getByName(name);
+        return playlist.getId();
+    }
+
     /**
      * Retrieves the name of a {@link Playlist} based on its index
      * Assumes the index is valid
@@ -191,7 +196,17 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public void insertPlaylist(String name, String url,  Integer image, double latitude, double longitude) {
-        playlistDbManager.insert(name, url, image, latitude, longitude);
+    public long getHighestId() {
+        return playlistDbManager.getHighestId();
+    }
+
+    @Override
+    public void insertPlaylist(long _id, String name, String url,  Integer image, double latitude, double longitude) {
+        playlistDbManager.insert(_id, name, url, image, latitude, longitude);
+    }
+
+    @Override
+    public void deletePlaylist(String name) {
+        playlistDbManager.delete(name);
     }
 }

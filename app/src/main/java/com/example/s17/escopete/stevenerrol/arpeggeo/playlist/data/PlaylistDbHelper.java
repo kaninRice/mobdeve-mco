@@ -23,7 +23,7 @@ public class PlaylistDbHelper extends SQLiteOpenHelper {
     /* Create table query */
     private static final String CREATE_TABLE = "create table " + TABLE_NAME + " ("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NAME + " TEXT NOT NULL, "
+            + NAME + " TEXT NOT NULL UNIQUE, "
             + LATITUDE + " REAL NOT NULL, "
             + LONGITUDE + " REAL NOT NULL, "
             + URL + " TEXT NOT NULL, "

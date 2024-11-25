@@ -1,10 +1,19 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.IMAGE;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.LATITUDE;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.LONGITUDE;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.NAME;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.TABLE_NAME;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper.URL;
+import static com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbHelper._ID;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
@@ -31,16 +40,16 @@ public class PlaylistDbManager {
 
     public Cursor fetch() {
         String[] columns = new String[] {
-                PlaylistDbHelper._ID,
-                PlaylistDbHelper.NAME,
-                PlaylistDbHelper.URL,
-                PlaylistDbHelper .IMAGE,
-                PlaylistDbHelper.LATITUDE,
-                PlaylistDbHelper.LONGITUDE,
+                _ID,
+                NAME,
+                URL,
+                IMAGE,
+                LATITUDE,
+                LONGITUDE,
         };
 
         Cursor cursor = sqLiteDatabase.query(
-                PlaylistDbHelper.TABLE_NAME,
+                TABLE_NAME,
                 columns,
                 null,
                 null,
@@ -56,9 +65,28 @@ public class PlaylistDbManager {
         return cursor;
     }
 
+    public long getHighestId() {
+        Cursor cursor =sqLiteDatabase.rawQuery(
+                "SELECT MAX(" + _ID + ") FROM " + TABLE_NAME, null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor.getLong(0);
+        }
+
+        return -1;
+    }
+
     public ArrayList<Playlist> getAllPlaylists() {
         ArrayList<Playlist> playlists = new ArrayList<>();
-        Cursor cursor = sqLiteDatabase.query("playlist", null, null, null, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(
+                "playlist",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -85,32 +113,57 @@ public class PlaylistDbManager {
         return playlists;
     }
 
-    public void insert(String name, String url,  Integer image, double latitude, double longitude) {
+    public Playlist getByName(String name) {
+        Cursor cursor = sqLiteDatabase.query(
+                TABLE_NAME,
+                new String[]{_ID, LATITUDE, LONGITUDE, URL, IMAGE}, /* Columns to retrieve */
+                NAME + " = ? ", new String[]{name},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            long _id = cursor.getLong(cursor.getColumnIndexOrThrow(_ID));
+            double latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LATITUDE));
+            double longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LONGITUDE));
+            String url = cursor.getString(cursor.getColumnIndexOrThrow(URL));
+            int image = cursor.getInt(cursor.getColumnIndexOrThrow(IMAGE));
+
+            // TODO: get tags for sqlitedatabase
+            ArrayList<Tag> tags = new ArrayList<Tag>();
+
+            Playlist playlist = new Playlist(_id, latitude, longitude, url, name, image, tags);
+            cursor.close();
+            return playlist;
+        }
+
+        return null;
+    }
+
+    public void insert(long _id, String name, String url,  Integer image, double latitude, double longitude) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PlaylistDbHelper.NAME, name);
-        contentValues.put(PlaylistDbHelper.URL, url);
-        contentValues.put(PlaylistDbHelper.IMAGE, image);
-        contentValues.put(PlaylistDbHelper.LATITUDE, latitude);
-        contentValues.put(PlaylistDbHelper.LONGITUDE, longitude);
-        sqLiteDatabase.insert(PlaylistDbHelper.TABLE_NAME, null, contentValues);
+        contentValues.put(_ID, _id);
+        contentValues.put(NAME, name);
+        contentValues.put(URL, url);
+        contentValues.put(IMAGE, image);
+        contentValues.put(LATITUDE, latitude);
+        contentValues.put(LONGITUDE, longitude);
+        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
     public int update(long _id, String name, String url,  Integer image, double latitude, double longitude) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PlaylistDbHelper.NAME, name);
-        contentValues.put(PlaylistDbHelper.URL, url);
-        contentValues.put(PlaylistDbHelper.IMAGE, image);
-        contentValues.put(PlaylistDbHelper.LATITUDE, latitude);
-        contentValues.put(PlaylistDbHelper.LONGITUDE, longitude);
-        int i = sqLiteDatabase.update(PlaylistDbHelper.TABLE_NAME, contentValues, PlaylistDbHelper._ID + " = " + _id, null);
+        contentValues.put(NAME, name);
+        contentValues.put(URL, url);
+        contentValues.put(IMAGE, image);
+        contentValues.put(LATITUDE, latitude);
+        contentValues.put(LONGITUDE, longitude);
+        int i = sqLiteDatabase.update(TABLE_NAME, contentValues, _ID + " = " + _id, null);
         return i;
     }
 
-    public void delete(long _id) {
-        sqLiteDatabase.delete(PlaylistDbHelper.TABLE_NAME, PlaylistDbHelper._ID + " = " + _id, null);
-    }
-
-    public void deleteTable(long _id) {
-        sqLiteDatabase.delete(PlaylistDbHelper.TABLE_NAME, PlaylistDbHelper._ID + "=" + _id, null);
+    public void delete(String name) {
+        sqLiteDatabase.delete(TABLE_NAME, NAME + " = ?", new String[]{name});
     }
 }

@@ -88,6 +88,7 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
         Bundle args = getArguments();
 
         playlistRepositoryImpl.insertPlaylist(
+                playlistRepositoryImpl.getHighestId() + 1,
                 playlistNameView.getText().toString(),
                 playlistUrlView.getText().toString(),
                 0, // TODO: image upload

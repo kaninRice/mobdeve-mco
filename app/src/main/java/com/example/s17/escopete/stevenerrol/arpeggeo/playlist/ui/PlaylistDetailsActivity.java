@@ -40,6 +40,9 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private RecyclerView recyclerTagListView;
+    private TextView deleteButtonView;
+
+    private String playlistName;
 
     /**
      * Initializes the activity in application context
@@ -71,7 +74,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         recyclerTagListView = findViewById(R.id.recycler_tag_list);
 
         Intent intent = getIntent();
-        String playlistName = intent.getStringExtra("playlistName");
+        playlistName = intent.getStringExtra("playlistName");
 
         playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
         playlistNameView.setText(playlistName);
@@ -114,6 +117,11 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     public void editTag(View v) {
         TagEditDialog tagEditDialog = new TagEditDialog();
         tagEditDialog.show(getSupportFragmentManager(), "TagEditDialog");
+    }
+
+    public void deletePlaylist(View v) {
+        playlistRepositoryImpl.deletePlaylist(playlistName);
+        finish();
     }
 
     /**

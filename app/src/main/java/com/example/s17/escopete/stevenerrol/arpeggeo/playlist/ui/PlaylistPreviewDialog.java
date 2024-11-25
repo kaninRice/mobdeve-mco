@@ -102,7 +102,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
      */
     private void updateViews(View v, String playlistName) {
         playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
-        playlistNameView.setText(playlistName);
+        playlistNameView.setText(""+playlistRepositoryImpl.getPlaylistId(playlistName));
         playlistUrl.setText(Html.fromHtml(
                 getString(R.string.open_in_spotify, playlistRepositoryImpl.getPlaylistUrl(playlistName)),
                 Html.FROM_HTML_MODE_LEGACY));
