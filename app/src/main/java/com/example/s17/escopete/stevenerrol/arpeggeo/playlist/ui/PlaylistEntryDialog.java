@@ -91,7 +91,7 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
                 playlistRepositoryImpl.getHighestId() + 1,
                 playlistNameView.getText().toString(),
                 playlistUrlView.getText().toString(),
-                0, // TODO: image upload
+                0,
                 args.getDouble("latitude"),
                 args.getDouble("longitude")
         );

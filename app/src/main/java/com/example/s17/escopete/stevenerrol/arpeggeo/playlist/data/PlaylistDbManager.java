@@ -99,8 +99,8 @@ public class PlaylistDbManager {
                         _id,
                         cursor.getDouble(cursor.getColumnIndexOrThrow("latitude")),
                         cursor.getDouble(cursor.getColumnIndexOrThrow("longitude")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("name")),
                         cursor.getString(cursor.getColumnIndexOrThrow("url")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("name")),
                         cursor.getInt(cursor.getColumnIndexOrThrow("image")),
                         tags
                 );
