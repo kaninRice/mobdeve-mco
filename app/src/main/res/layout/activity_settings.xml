@@ -82,35 +82,35 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Setting Item 2 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="24dp"
-            android:orientation="horizontal"
-            android:background="@drawable/item_settings">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:paddingVertical="16dp"-->
+<!--            android:paddingHorizontal="24dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:background="@drawable/item_settings">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/gray"
-                android:text="@string/setting_enable_sandbox"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/gray"-->
+<!--                android:text="@string/setting_enable_sandbox"/>-->
 
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/switch_enable_sandbox"
-                android:layout_width="64dp"
-                android:layout_height="32dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+<!--            <com.google.android.material.materialswitch.MaterialSwitch-->
+<!--                android:id="@+id/switch_enable_sandbox"-->
+<!--                android:layout_width="64dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"/>-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </LinearLayout>
 

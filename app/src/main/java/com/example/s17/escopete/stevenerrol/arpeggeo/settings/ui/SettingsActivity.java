@@ -17,7 +17,7 @@ import com.google.android.material.materialswitch.MaterialSwitch;
  */
 public class SettingsActivity extends AppCompatActivity {
     private MaterialSwitch enableArpeggeo;
-    private MaterialSwitch enableSandbox;
+//    private MaterialSwitch enableSandbox;
 
     /**
      * Initializes the activity
@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public void initializeActivity() {
         enableArpeggeo = findViewById(R.id.switch_enable_arpeggeo);
-        enableSandbox = findViewById(R.id.switch_enable_sandbox);
+//        enableSandbox = findViewById(R.id.switch_enable_sandbox);
     }
 
     /**
