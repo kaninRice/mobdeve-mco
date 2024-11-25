@@ -106,6 +106,8 @@ public class PlaylistListActivity extends AppCompatActivity {
     }
 
     private void updateRecyclerView() {
+        PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistListActivity.this);
+        recyclerPlaylistListView.setAdapter(playlistAdapter);
     }
 
     /**
