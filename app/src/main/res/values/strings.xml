@@ -7,6 +7,7 @@
     <string name="spotify_link">Spotify link</string>
     <string name="setting_enable_arpeggeo">Enable ArpegGeo</string>
     <string name="setting_enable_sandbox">Enable Sandbox</string>
+    <string name="play">Play</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>

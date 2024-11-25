@@ -3,7 +3,6 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.main;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,13 +16,13 @@ import androidx.fragment.app.FragmentResultListener;
 import com.example.s17.escopete.stevenerrol.arpeggeo.core.utils.AppState;
 import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistEntryDialog;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistListActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.settings.ui.SettingsActivity;
+import com.example.s17.escopete.stevenerrol.arpeggeo.spotify.SpotifyLoginActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
@@ -39,6 +38,8 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
+    private SpotifyAppRemote mSpotifyAppRemote;
+
     @Inject
     MapManager.Factory mapManagerFactory;
     MapManager mapManager;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeApp();
+        initializeSpotify();
     }
 
     /**
@@ -89,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Initializes spotify login activity
+     */
+    private void initializeSpotify() {
+        startActivity(new Intent(MainActivity.this, SpotifyLoginActivity.class));
     }
 
     /**

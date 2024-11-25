@@ -17,6 +17,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        /* Credentials */
+        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${project.findProperty("SPOTIFY_CLIENT_ID")}\"")
+        buildConfigField("String", "SPOTIFY_REDIRECT_URI", "\"${project.findProperty("SPOTIFY_REDIRECT_URI")}\"")
+        buildConfigField("String", "SPOTIFY_AUTH_SCOPES", "\"${project.findProperty("SPOTIFY_AUTH_SCOPES")}\"")
     }
 
     buildTypes {
@@ -26,6 +30,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        buildFeatures {
+            buildConfig = true
         }
     }
     compileOptions {
@@ -39,7 +47,13 @@ android {
 }
 
 dependencies {
+    implementation ("com.spotify.android:auth:1.2.5")
     implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(fileTree(mapOf(
+        "dir" to "libs",
+        "include" to listOf("*.aar", "*.jar")
+    )))
+    implementation ("com.google.code.gson:gson:2.10.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation ("com.squareup.inject:assisted-inject-annotations-dagger2:0.6.0")
     kapt ("com.squareup.inject:assisted-inject-processor-dagger2:0.6.0")
