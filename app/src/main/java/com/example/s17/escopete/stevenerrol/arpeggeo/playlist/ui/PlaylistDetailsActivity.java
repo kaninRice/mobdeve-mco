@@ -76,7 +76,13 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         playlistName = intent.getStringExtra("playlistName");
 
-        playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        /* Use default icon if there is no playlist image */
+        if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
+            playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        } else {
+            playlistImageView.setImageResource(R.drawable.ic_default_playlist_image);
+        }
+
         playlistNameView.setText(playlistName);
 
         playlistUrlView.setText(Html.fromHtml(

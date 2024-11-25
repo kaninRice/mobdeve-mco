@@ -101,7 +101,13 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
      * @param playlistName The name of the playlist to be displayed
      */
     private void updateViews(View v, String playlistName) {
-        playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        /* Use default icon if there is no playlist image */
+        if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
+            playlistImage.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        } else {
+            playlistImage.setImageResource(R.drawable.ic_default_playlist_image);
+        }
+
         playlistNameView.setText(""+playlistRepositoryImpl.getPlaylistId(playlistName));
         playlistUrl.setText(Html.fromHtml(
                 getString(R.string.open_in_spotify, playlistRepositoryImpl.getPlaylistUrl(playlistName)),

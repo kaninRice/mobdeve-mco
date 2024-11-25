@@ -74,7 +74,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         holder.itemView.setTag("isNotSelected");
         holder.playlistNameView.setText(playlistName);
-        holder.playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+
+        /* Use default icon if there is no playlist image */
+        if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
+            holder.playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
+        } else {
+            holder.playlistImageView.setImageResource(R.drawable.ic_default_playlist_image);
+        }
 
         populateTagsContainer(playlistName, holder);
 
