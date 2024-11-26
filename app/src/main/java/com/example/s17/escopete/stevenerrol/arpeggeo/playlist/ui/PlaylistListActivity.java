@@ -75,6 +75,8 @@ public class PlaylistListActivity extends AppCompatActivity implements PlaylistA
     @Override
     protected void onResume() {
         super.onResume();
+
+        resetActivityState();
         updateRecyclerView();
     }
 
