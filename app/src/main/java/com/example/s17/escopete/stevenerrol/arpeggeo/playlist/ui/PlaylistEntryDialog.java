@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.main.MainActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -113,8 +114,8 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
 
-        Bundle result = new Bundle();
-        result.putString("message", "BottomSheet dismissed");
-        getParentFragmentManager().setFragmentResult("bottomSheetDismissed", result);
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).onBottomSheetDismissed();
+        }
     }
 }

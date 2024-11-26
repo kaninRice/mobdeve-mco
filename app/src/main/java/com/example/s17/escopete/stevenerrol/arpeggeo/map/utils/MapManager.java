@@ -3,6 +3,7 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.map.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -117,6 +118,9 @@ public class MapManager {
      * @param appState The appState to base map updates on
      */
     public void updateMap(AppState appState) {
+        /* Used to force map update */
+        mapView.invalidate();
+
         /* Update Map listener */
         mapView.getOverlays().clear();
         if (appState == AppState.VIEW) {

@@ -158,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Called when PlaylistEntryDialog is dismissed
+     */
+    public void onBottomSheetDismissed() {
+        mapManager.updateMap(appState);
+    }
+
+    /**
      * Request permissions based on the parameters
      * @param requestCode The request code
      * @param permissions The requested permissions. Never null.
