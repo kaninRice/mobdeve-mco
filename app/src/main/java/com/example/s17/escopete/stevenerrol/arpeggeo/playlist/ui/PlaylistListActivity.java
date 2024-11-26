@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -36,6 +39,7 @@ public class PlaylistListActivity extends AppCompatActivity {
 
     private EditText searchBarView;
     RecyclerView recyclerPlaylistListView;
+    private ArrayList<Playlist> filteredPlaylist;
 
     /**
      * Initializes the activity in application context
@@ -71,7 +75,8 @@ public class PlaylistListActivity extends AppCompatActivity {
         searchBarView = findViewById(R.id.search_bar);
         recyclerPlaylistListView = findViewById(R.id.recycler_playlist_list);
 
-        /* Make "Search" hint centered but text input left-aligned */
+        filteredPlaylist = playlistRepositoryImpl.getAllPlaylists();
+
         searchBarView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -80,11 +85,24 @@ public class PlaylistListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                /* Make "Search" hint centered but text input left-aligned */
                 if (charSequence.length() == 0) {
                     searchBarView.setGravity(Gravity.CENTER);
                 } else {
                     searchBarView.setGravity(Gravity.START);
                 }
+
+                /* Update playlist list based on text input */
+                filteredPlaylist.clear();
+                for (Playlist playlist : playlistRepositoryImpl.getAllPlaylists()) {
+                    if (playlist.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        filteredPlaylist.add(playlist);
+                    }
+                }
+
+                PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl,
+                        filteredPlaylist, PlaylistListActivity.this);
+                recyclerPlaylistListView.setAdapter(playlistAdapter);
             }
 
             @Override
@@ -101,12 +119,15 @@ public class PlaylistListActivity extends AppCompatActivity {
         recyclerPlaylistListView.setHasFixedSize(true);
         recyclerPlaylistListView.setLayoutManager(new LinearLayoutManager(this));
 
-        PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistListActivity.this);
+        PlaylistAdapter playlistAdapter = new PlaylistAdapter(
+                tagRepositoryImpl, playlistRepositoryImpl,
+                filteredPlaylist, PlaylistListActivity.this);
         recyclerPlaylistListView.setAdapter(playlistAdapter);
     }
 
     private void updateRecyclerView() {
-        PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistListActivity.this);
+        PlaylistAdapter playlistAdapter = new PlaylistAdapter(tagRepositoryImpl, playlistRepositoryImpl,
+                filteredPlaylist, PlaylistListActivity.this);
         recyclerPlaylistListView.setAdapter(playlistAdapter);
     }
 

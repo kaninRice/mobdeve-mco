@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private final TagRepositoryImpl tagRepositoryImpl;
     private final PlaylistRepositoryImpl playlistRepositoryImpl;
+    private final ArrayList<Playlist> playlists;
 
     private final Context context;
 
@@ -41,9 +43,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      * @param playlistRepositoryImpl The {@link PlaylistRepositoryImpl} which provides playlist data
      * @param activity The activity which provides context
      */
-    public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistListActivity activity) {
+    public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl,
+                           ArrayList<Playlist> playlists, PlaylistListActivity activity) {
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
+        this.playlists = playlists;
         this.context = activity;
     }
 
@@ -70,7 +74,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final String playlistName = playlistRepositoryImpl.getPlaylistNameByIndex(position);
+        final String playlistName = playlists.get(position).getName();
 
         holder.itemView.setTag("isNotSelected");
         holder.playlistNameView.setText(playlistName);
@@ -160,7 +164,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      * @return The number of items to put in the {@link RecyclerView} in {@code int}
      */
     public int getItemCount() {
-        return playlistRepositoryImpl.getAllPlaylists().size();
+        return playlists.size();
     }
 
     /**

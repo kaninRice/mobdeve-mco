@@ -96,7 +96,7 @@ public class Playlist {
      * Gets the playlist name
      * @return The playlist name
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 
