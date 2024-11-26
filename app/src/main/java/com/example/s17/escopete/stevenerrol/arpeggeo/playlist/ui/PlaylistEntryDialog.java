@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
-import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -28,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     @Inject
     PlaylistRepositoryImpl playlistRepositoryImpl;
-    MapManager mapManager;
 
     EditText playlistNameView;
     EditText playlistUrlView;

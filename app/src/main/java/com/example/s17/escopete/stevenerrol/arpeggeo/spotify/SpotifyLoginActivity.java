@@ -29,7 +29,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     @Inject
     SpotifyManager spotifyManager;
-    private SpotifyAppRemote mSpotifyAppRemote;
 
     /**
      * Initializes the activity
@@ -73,8 +72,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         SpotifyAppRemote.connect(this, connectionParams, new Connector.ConnectionListener() {
             @Override
             public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                mSpotifyAppRemote = spotifyAppRemote;
-                Log.d("Spotify", "Connected to Spotify");
                 finish();
             }
 

@@ -65,7 +65,21 @@ public interface PlaylistRepository {
      */
     ArrayList<Tag> getPlaylistTagList(String name);
 
+    /**
+     * Retrieves the highest-numbered id in the local storage
+     * @return The highest-numbered id typed {@code long}
+     */
     long getHighestId();
+
+    /**
+     * Inserts a playlist
+     * @param _id The id of the playlist
+     * @param name The name of the playlist
+     * @param url The url of the playlist
+     * @param image The image of the playlist
+     * @param latitude The latitude of the playlist
+     * @param longitude The longitude of the playlist
+     */
     void insertPlaylist(long _id, String name, String url,  Integer image, double latitude, double longitude);
 
     /**

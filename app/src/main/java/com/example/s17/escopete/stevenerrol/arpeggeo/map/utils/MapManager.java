@@ -22,12 +22,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
-import javax.inject.Singleton;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Manages map-related functions

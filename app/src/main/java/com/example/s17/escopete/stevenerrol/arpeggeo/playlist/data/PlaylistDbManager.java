@@ -57,14 +57,15 @@ public class PlaylistDbManager {
      * @return The highest-numbered id
      */
     public long getHighestId() {
-        Cursor cursor =sqLiteDatabase.rawQuery(
+        Cursor cursor = sqLiteDatabase.rawQuery(
                 "SELECT MAX(" + _ID + ") FROM " + TABLE_NAME, null
         );
 
         if (cursor != null && cursor.moveToFirst()) {
-            return cursor.getLong(0);
+            long _id = cursor.getLong(0);
+            cursor.close();
+            return _id;
         }
-
         return -1;
     }
 
@@ -88,7 +89,7 @@ public class PlaylistDbManager {
                 long _id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
 
                 // TODO: get tags from sqlitedatabase
-                ArrayList<Tag> tags = new ArrayList<Tag>();
+                ArrayList<Tag> tags = new ArrayList<>();
 
                 Playlist playlist = new Playlist(
                         _id,
@@ -131,7 +132,7 @@ public class PlaylistDbManager {
             int image = cursor.getInt(cursor.getColumnIndexOrThrow(IMAGE));
 
             // TODO: get tags for sqlitedatabase
-            ArrayList<Tag> tags = new ArrayList<Tag>();
+            ArrayList<Tag> tags = new ArrayList<>();
 
             Playlist playlist = new Playlist(_id, latitude, longitude, url, name, image, tags);
             cursor.close();
@@ -178,8 +179,7 @@ public class PlaylistDbManager {
         contentValues.put(IMAGE, image);
         contentValues.put(LATITUDE, latitude);
         contentValues.put(LONGITUDE, longitude);
-        int i = sqLiteDatabase.update(TABLE_NAME, contentValues, _ID + " = " + _id, null);
-        return i;
+        return sqLiteDatabase.update(TABLE_NAME, contentValues, _ID + " = " + _id, null);
     }
 
     /**

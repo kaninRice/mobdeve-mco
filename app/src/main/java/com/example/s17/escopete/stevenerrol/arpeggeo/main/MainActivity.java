@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentResultListener;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.core.utils.AppState;
 import com.example.s17.escopete.stevenerrol.arpeggeo.map.utils.MapManager;
@@ -21,7 +20,6 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.settings.ui.SettingsActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.spotify.SpotifyLoginActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import org.osmdroid.views.MapView;
 
@@ -38,8 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-    private SpotifyAppRemote mSpotifyAppRemote;
-
     @Inject
     MapManager.Factory mapManagerFactory;
     MapManager mapManager;
@@ -82,13 +78,10 @@ public class MainActivity extends AppCompatActivity {
         mapManager = mapManagerFactory.create(mapView, this, getSupportFragmentManager());
         mapManager.initializeMap();
 
-        getSupportFragmentManager().setFragmentResultListener("bottomSheetDismissed", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                if (mapManager != null) {
-                    mapManager.updateMap(appState);
-                }
+        getSupportFragmentManager().setFragmentResultListener(
+                "bottomSheetDismissed", this, (requestKey, result) -> {
+            if (mapManager != null) {
+                mapManager.updateMap(appState);
             }
         });
     }
@@ -174,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         ArrayList<String> permissionsToRequest = new ArrayList<>(Arrays.asList(permissions).subList(0, grantResults.length));
         if (!permissionsToRequest.isEmpty()) {
