@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
-import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagAdapter;
@@ -33,9 +32,10 @@ import java.util.ArrayList;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private final TagRepositoryImpl tagRepositoryImpl;
     private final PlaylistRepositoryImpl playlistRepositoryImpl;
-    private final ArrayList<Playlist> playlists;
+    private final ArrayList<PlaylistWithSelectState> playlists;
 
     private final Context context;
+    private final ItemSelectionListener listener;
 
     /**
      * Creates an instance of {@link PlaylistAdapter}
@@ -44,11 +44,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      * @param activity The activity which provides context
      */
     public PlaylistAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl,
-                           ArrayList<Playlist> playlists, PlaylistListActivity activity) {
+                           ArrayList<PlaylistWithSelectState> playlists, PlaylistListActivity activity, ItemSelectionListener listener) {
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.playlists = playlists;
         this.context = activity;
+        this.listener = listener;
     }
 
     /**
@@ -74,9 +75,19 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final String playlistName = playlists.get(position).getName();
+        final PlaylistWithSelectState playlist = playlists.get(position);
+        final String playlistName = playlist.getName();
 
-        holder.itemView.setTag("isNotSelected");
+        if (playlist.getPlaylistState() == PlaylistListActivity.PlaylistState.IS_NOT_SELECTED) {
+            holder.playlistContainerView.setBackground(
+                    new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
+            );
+        } else {
+            holder.playlistContainerView.setBackground(
+                    new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_2))
+            );
+        }
+
         holder.playlistNameView.setText(playlistName);
 
         /* Use default icon if there is no playlist image */
@@ -96,18 +107,24 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         /* Highlight list item */
         holder.itemView.setOnLongClickListener(view -> {
+            String name = ((TextView) holder.itemView.findViewById(R.id.playlist_name))
+                    .getText().toString();
             String tag = (String) holder.itemView.getTag();
 
-            if (!tag.equals("isSelected")) {
-                holder.itemView.setTag("isSelected");
+            if (playlist.getPlaylistState() == PlaylistListActivity.PlaylistState.IS_NOT_SELECTED) {
+                listener.onItemSelected(name);
                 holder.playlistContainerView.setBackground(
                         new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_2))
                 );
+
+
             } else {
-                holder.itemView.setTag("isNotSelected");
+                listener.onItemDeselected(name);
                 holder.playlistContainerView.setBackground(
                         new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
                 );
+
+
             }
 
             return true;
@@ -187,5 +204,57 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             playlistNameView = itemView.findViewById(R.id.playlist_name);
             tagsContainerView = itemView.findViewById(R.id.tags_container);
         }
+    }
+
+    /**
+     * Interface used to update the state of parent activity based on items on the adapter
+     */
+    public interface ItemSelectionListener {
+        /**
+         * Called when an item is selected
+         * @param playlistName The name of the {@link Playlist} selected
+         */
+        void onItemSelected(String playlistName);
+
+        /**
+         * Called when an item is deselected
+         * @param playlistName The name of the {@link Playlist} selected
+         */
+        void onItemDeselected(String playlistName);
+    }
+}
+
+/**
+ * A {@link Playlist} class extended with an additional attribute of playlist item state.
+ * Used for persistent UI state in batch selection
+ */
+class PlaylistWithSelectState extends Playlist {
+    private PlaylistListActivity.PlaylistState playlistState;
+
+    /**
+     * Constructor of the {@link PlaylistWithSelectState} class
+     * @param other The playlist to add an playlist state item
+     * @param playlistState The {@link com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistListActivity.PlaylistState}
+     *                      to be added to the playlist
+     */
+    public PlaylistWithSelectState(Playlist other, PlaylistListActivity.PlaylistState playlistState) {
+        super(other);
+        this.playlistState = playlistState;
+    }
+
+    /**
+     * Retrieves the playlist state
+     * @return The {@code playlistState} of the playlist
+     */
+    public PlaylistListActivity.PlaylistState getPlaylistState() {
+        return playlistState;
+    }
+
+    /**
+     * Sets the playlist state
+     * @param playlistState The new {@code playlistState}
+     */
+    public void setSelectState(PlaylistListActivity.PlaylistState playlistState) {
+        this.playlistState = playlistState;
     }
 }

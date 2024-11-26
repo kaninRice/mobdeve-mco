@@ -67,5 +67,16 @@ public interface PlaylistRepository {
 
     long getHighestId();
     void insertPlaylist(long _id, String name, String url,  Integer image, double latitude, double longitude);
+
+    /**
+     * Deletes a playlist based on name
+     * @param name The name of the playlist to be deleted
+     */
     void deletePlaylist(String name);
+
+    /**
+     * Deletes playlists based on their name
+     * @param names An {@link ArrayList} of {@link String} of the playlists to be deleted
+     */
+    void deletePlaylist(ArrayList<String> names);
 }

@@ -3,6 +3,7 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -221,6 +222,15 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public void deletePlaylist(String name) {
-        playlistDbManager.delete(name);
+        playlistDbManager.delete(new ArrayList<>(Arrays.asList(name)));
+    }
+
+    /**
+     * Deletes playlists based on their name
+     * @param names An {@link ArrayList} of {@link String} of the playlists to be deleted
+     */
+    @Override
+    public void deletePlaylist(ArrayList<String> names){
+        playlistDbManager.delete(names);
     }
 }

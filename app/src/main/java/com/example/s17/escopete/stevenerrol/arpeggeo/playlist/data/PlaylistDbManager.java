@@ -13,7 +13,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
@@ -184,10 +183,21 @@ public class PlaylistDbManager {
     }
 
     /**
-     * Deletes a playlist in the database
-     * @param name The name of the playlist to be deleted
+     * Deletes playlists in the database
+     * @param names The names of the playlists to be deleted
      */
-    public void delete(String name) {
-        sqLiteDatabase.delete(TABLE_NAME, NAME + " = ?", new String[]{name});
+    public void delete(ArrayList<String> names) {
+        StringBuilder values = new StringBuilder();
+        for (int i = 0; i < names.size(); i++) {
+            values.append("?");
+
+            if (i < names.size() - 1) {
+                values.append(",");
+            }
+        }
+
+        String[] args = names.toArray(new String[0]);
+
+        sqLiteDatabase.delete(TABLE_NAME, NAME + " IN (" + values + ")", args);
     }
 }
