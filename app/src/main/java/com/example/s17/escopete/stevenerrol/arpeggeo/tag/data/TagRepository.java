@@ -66,4 +66,10 @@ public interface TagRepository {
      * @param _playlistId The playlist id of the tag
      */
     void insertTag(long _id, String name, String color, String textColor, long _playlistId);
+
+    /**
+     * Deletes tags with the given playlist id
+     * @param _playlistId The playlist id of the tags to be deleted
+     */
+    void deleteTagsWithPlaylistId(long _playlistId);
 }

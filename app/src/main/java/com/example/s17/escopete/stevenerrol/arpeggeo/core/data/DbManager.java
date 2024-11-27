@@ -359,4 +359,12 @@ public class DbManager {
 
         sqLiteDatabase.delete(TAG_TABLE_NAME, TAG_NAME + " IN (" + values + ")", args);
     }
+
+    /**
+     * Deletes tags with a specific playlist id in the database
+     * @param _playlistId The playlist id of the tags to be deleted
+     */
+    public void deleteTagsWithPlaylistId(long _playlistId) {
+        sqLiteDatabase.delete(TAG_TABLE_NAME, TAG_PLAYLIST_ID + " = ?", new String[]{String.valueOf(_playlistId)});
+    }
 }

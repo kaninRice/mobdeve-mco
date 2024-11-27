@@ -88,7 +88,7 @@ public class TagRepositoryImpl implements TagRepository {
      * @param playlistId The playlist id of the tags to be retrieved. Used  to get the sub-{@link ArrayList}
      *                   referenced by the index
      * @param index The index of the tag to be retrieved within the sub-{@link ArrayList}
-     * @return
+     * @return A {@link Tag}
      */
     @Override
     public Tag getTagInAllTagsWithPlaylistIdByIndex(long playlistId, int index) {
@@ -174,5 +174,14 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public void insertTag(long _id, String name, String color, String textColor, long _playlistId) {
         dbManager.insertTag(_id, name, color, textColor, _playlistId);
+    }
+
+    /**
+     * Deletes tags with the given playlist id
+     * @param _playlistId The playlist id of the tags to be deleted
+     */
+    @Override
+    public void deleteTagsWithPlaylistId(long _playlistId) {
+        dbManager.deleteTagsWithPlaylistId(_playlistId);
     }
 }

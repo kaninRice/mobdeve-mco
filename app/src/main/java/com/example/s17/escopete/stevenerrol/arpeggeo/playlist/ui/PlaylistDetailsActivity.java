@@ -140,7 +140,21 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         tagEditDialog.show(getSupportFragmentManager(), "TagEditDialog");
     }
 
+    /**
+     * Removes all the tags of the playlist
+     * @param v The view that was clicked
+     */
+    public void clearTags(View v) {
+        tagRepositoryImpl.deleteTagsWithPlaylistId(_playlistId);
+        updateRecyclerView();
+    }
+
+    /**
+     * Deletes the playlist
+     * @param v The view that was clicked
+     */
     public void deletePlaylist(View v) {
+        tagRepositoryImpl.deleteTagsWithPlaylistId(_playlistId);
         playlistRepositoryImpl.deletePlaylist(playlistName);
         finish();
     }
