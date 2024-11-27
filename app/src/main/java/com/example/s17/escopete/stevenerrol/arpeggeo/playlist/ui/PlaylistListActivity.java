@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 
 import java.util.ArrayList;
@@ -112,9 +113,21 @@ public class PlaylistListActivity extends AppCompatActivity implements PlaylistA
 
                 /* Update playlist list based on text input */
                 filteredPlaylists.clear();
+
                 for (PlaylistWithSelectState playlist : persistentPlaylists) {
                     if (playlist.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        /* Filter based on playlist name */
                         filteredPlaylists.add(playlist);
+                    } else {
+                        /* Filter based on tag name */
+                        ArrayList<Tag> tags = playlist.getTagList();
+
+                        for (Tag tag : tags) {
+                            if (tag.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                filteredPlaylists.add(playlist);
+                                break;
+                            }
+                        }
                     }
                 }
 

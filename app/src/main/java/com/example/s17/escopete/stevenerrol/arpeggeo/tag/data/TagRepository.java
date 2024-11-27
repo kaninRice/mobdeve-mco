@@ -14,8 +14,6 @@ public interface TagRepository {
      */
     ArrayList<Tag> getAllTags();
 
-    ArrayList<Tag> getAllTagsWithPlaylistId(long playlistId);
-
     Tag getTagInAllTagsWithPlaylistIdByIndex(long playlistId, int index);
 
     /**

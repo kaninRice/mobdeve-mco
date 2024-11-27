@@ -120,7 +120,7 @@ public class Playlist {
      * Gets the playlist tag list
      * @return The playlist tag list
      */
-    ArrayList<Tag> getTagList() {
+    public ArrayList<Tag> getTagList() {
         return new ArrayList<>(tagList);
     }
 
