@@ -19,6 +19,13 @@ public interface TagRepository {
     Tag getTagInAllTagsWithPlaylistIdByIndex(long playlistId, int index);
 
     /**
+     * Retrieves all tags of a playlist
+     * @param playlistId The playlist id of the tags to retrieve
+     * @return An {@link ArrayList} of {@link Tag}s
+     */
+    ArrayList<Tag> getAllTagsWithPlaylistId(long playlistId);
+
+    /**
      * Retrieves a {@link Tag} based on given index
      * @param index The index of the {@link Tag} to be retrieved
      * @return A {@link Tag} Object
