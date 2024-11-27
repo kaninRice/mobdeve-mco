@@ -29,7 +29,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private final Context context;
-    private final long playlistId;
+    private final long _playlistId;
 
     /**
      * Creates an instance of {@link TagAdapter}
@@ -37,8 +37,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      * @param playlistRepositoryImpl The {@link PlaylistRepositoryImpl} which provides playlist data
      * @param activity The activity which provides context
      */
-    public TagAdapter(long playlistId, TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
-        this.playlistId = playlistId;
+    public TagAdapter(long _playlistId, TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
+        this._playlistId = _playlistId;
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
@@ -67,7 +67,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      */
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.ViewHolder holder, int position) {
-        final Tag tag = tagRepositoryImpl.getTagInAllTagsWithPlaylistIdByIndex(playlistId, position);
+        final Tag tag = tagRepositoryImpl.getTagInAllTagsWithPlaylistIdByIndex(_playlistId, position);
         final String tagName = tag.getName();
 
         holder.tagCardView.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tagName)));
@@ -86,7 +86,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return tagRepositoryImpl.getAllTagsWithPlaylistId(playlistId).size();
+        return tagRepositoryImpl.getAllTagsWithPlaylistId(_playlistId).size();
     }
 
     /**

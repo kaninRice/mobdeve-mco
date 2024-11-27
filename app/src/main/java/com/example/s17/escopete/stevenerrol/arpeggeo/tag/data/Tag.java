@@ -3,7 +3,7 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.tag.data;
 import java.util.Objects;
 
 /**
- * Represents a tag with a name, color, and text color
+ * Represents a tag with an id, name, color, text color, playlist id it is associated to
  * Provides methods for getters and setters for its attributes
  */
 public class Tag {
@@ -26,6 +26,14 @@ public class Tag {
         this._playlistId = _playlistId;
     }
 
+    /**
+     * Creates an instance of {@link Tag}
+     * @param _id The id of the tag
+     * @param name The name of the tag
+     * @param color The color of the tag
+     * @param textColor The text color of the tag
+     * @param _playlistId The playlist id the tag is associated to
+     */
     public Tag(long _id, String name, String color, String textColor, long _playlistId) {
         this._id = _id;
         this.name = name;

@@ -50,7 +50,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Constructor for the DbHelper
-     * @param context The context of the PlaylistDbHelper
+     * @param context The context of the DbHelper
      */
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

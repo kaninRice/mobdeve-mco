@@ -58,7 +58,7 @@ public class SpotifyManager {
      * @param shareLink The link of the playlist to be played
      */
     public void play(String shareLink) {
-        /* Convert "share link" to uri */
+        /* Convert "share link" to URI */
 
         /* Link is invalid */
         if (shareLink == null || !shareLink.contains("open.spotify.com")) {
@@ -68,16 +68,16 @@ public class SpotifyManager {
         /* Remove query parameters */
         String cleanedLink = shareLink.split("\\?")[0];
 
-        /*Extract the entity type and ID */
+        /* Extract the entity type and ID */
         String[] parts = cleanedLink.split("/");
         if (parts.length < 5) {
-            return; // Not enough parts in the PLAYLIST_URL
+            return; /* Not enough parts in the PLAYLIST_URL */
         }
 
-        String entityType = parts[3]; // e.g., track, album, playlist, artist
-        String id = parts[4]; // Unique Spotify ID
+        String entityType = parts[3]; /* e.g., track, album, playlist, artist */
+        String id = parts[4]; /* Unique Spotify ID */
 
-        // Construct the Spotify URI
+        /* URI Construction */
         String uri = "spotify:" + entityType + ":" + id;
 
         if (spotifyAppRemote != null && spotifyAppRemote.isConnected()) {

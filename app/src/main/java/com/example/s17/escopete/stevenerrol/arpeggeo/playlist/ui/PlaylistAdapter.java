@@ -125,8 +125,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 holder.playlistContainerView.setBackground(
                         new ColorDrawable(ContextCompat.getColor(context, R.color.dark_layer_1))
                 );
-
-
             }
 
             return true;

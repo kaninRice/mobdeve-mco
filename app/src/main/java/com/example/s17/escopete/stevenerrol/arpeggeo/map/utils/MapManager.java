@@ -86,7 +86,7 @@ public class MapManager {
 //        locationOverlay.enableMyLocation();
 //        map.getOverlays().add(locationOverlay);
 
-        /* Listener fro map clicks */
+        /* Listener for map clicks */
         mapEventsOverlay = new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -104,7 +104,7 @@ public class MapManager {
 
             @Override
             public boolean longPressHelper(GeoPoint p) {
-                // Handle long press if needed, e.g., remove marker
+                /* None */
                 return false;
             }
         });

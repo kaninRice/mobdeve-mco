@@ -5,7 +5,6 @@ import static com.example.s17.escopete.stevenerrol.arpeggeo.BuildConfig.SPOTIFY_
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class SpotifyLoginActivity extends AppCompatActivity {
     private static final int SPOTIFY_REQUEST_CODE = 1;
+    private static final String SPOTIFY_SCOPE = "streaming";
 
     @Inject
     SpotifyManager spotifyManager;
@@ -53,7 +53,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                         SPOTIFY_REDIRECT_URI
                 );
 
-        builder.setScopes(new String[]{"streaming"});
+        builder.setScopes(new String[]{SPOTIFY_SCOPE});
         AuthorizationRequest request = builder.build();
 
         AuthorizationClient.openLoginActivity(this, SPOTIFY_REQUEST_CODE, request);
@@ -105,7 +105,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
                 /* Unsuccessful */
                 case ERROR:
-                    // Handle error response
                     break;
 
                 default:

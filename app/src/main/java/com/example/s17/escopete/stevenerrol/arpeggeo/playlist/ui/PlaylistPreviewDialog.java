@@ -52,7 +52,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
 
     ImageView playlistImage;
     TextView playlistNameView;
-    TextView playlistUrl;
+    TextView playlistUrlView;
     FlexboxLayout tagsContainer;
     AppCompatButton buttonPlay;
     AppCompatButton buttonEdit;
@@ -60,7 +60,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
 
     private long _playlistId;
     private String playlistName;
-    private String url;
+    private String playlistUrl;
 
     /**
      * Creates a view
@@ -78,7 +78,6 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_playlist_preview, container, false);
-
 
         getDialog().getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -99,12 +98,12 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
 
     /**
      * Binds views to variables
-     * @param v The view which has the children views to be binded
+     * @param v The view which has the children views to be bound
      */
     private void bindViews(View v) {
         playlistImage = v.findViewById(R.id.playlist_image);
         playlistNameView = v.findViewById(R.id.playlist_name);
-        playlistUrl = v.findViewById(R.id.playlist_url);
+        playlistUrlView = v.findViewById(R.id.playlist_url);
         tagsContainer = v.findViewById(R.id.tags_container);
         buttonPlay = v.findViewById(R.id.button_play);
         buttonEdit = v.findViewById(R.id.button_edit);
@@ -119,7 +118,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     private void updateViews(View v, String playlistName) {
         _playlistId = playlistRepositoryImpl.getPlaylistIdByName(playlistName);
         this.playlistName = playlistName;
-        url = playlistRepositoryImpl.getPlaylistUrl(playlistName);
+        playlistUrl = playlistRepositoryImpl.getPlaylistUrl(playlistName);
 
         /* Use default icon if there is no playlist image */
         if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
@@ -129,11 +128,12 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
         }
 
         playlistNameView.setText(playlistName);
-        playlistUrl.setText(Html.fromHtml(
-                getString(R.string.open_in_spotify, url),
+        playlistUrlView.setText(Html.fromHtml(
+                getString(R.string.open_in_spotify, playlistUrl),
                 Html.FROM_HTML_MODE_LEGACY));
-        playlistUrl.setMovementMethod(LinkMovementMethod.getInstance()); /* Set text as clickable */
+        playlistUrlView.setMovementMethod(LinkMovementMethod.getInstance()); /* Set text as clickable */
 
+        /* Populate tags */
         LayoutInflater layoutInflater = LayoutInflater.from(v.getContext());
         if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
             ArrayList<Tag> tagList = playlistRepositoryImpl.getPlaylistTagList(playlistName);
@@ -171,7 +171,7 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
      */
     public void playEntry(View v) {
         spotifyManager.connect(v.getContext());
-        spotifyManager.play(url);
+        spotifyManager.play(playlistUrl);
         dismiss();
     }
 

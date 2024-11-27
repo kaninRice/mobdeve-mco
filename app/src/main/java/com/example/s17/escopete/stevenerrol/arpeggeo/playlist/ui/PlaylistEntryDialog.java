@@ -59,7 +59,7 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null && getDialog().getWindow() != null) {
-            // Adjust fragment up when keyboard is opened
+            /* Adjust fragment up when keyboard is opened */
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
@@ -86,6 +86,7 @@ public class PlaylistEntryDialog extends BottomSheetDialogFragment {
     public void addEntry(View v) {
         Bundle args = getArguments();
 
+        // TODO: Add image setting
         playlistRepositoryImpl.insertPlaylist(
                 playlistRepositoryImpl.getHighestId() + 1,
                 playlistNameView.getText().toString(),

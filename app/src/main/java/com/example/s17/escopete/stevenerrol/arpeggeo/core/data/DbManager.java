@@ -61,7 +61,7 @@ public class DbManager {
 
     /**
      * Gets the highest-numbered id in the playlist table
-     * @return The highest-numbered id
+     * @return The highest-numbered id, {@code -1} if there are no playlists
      */
     public long getHighestPlaylistId() {
         Cursor cursor = sqLiteDatabase.rawQuery(
@@ -73,12 +73,13 @@ public class DbManager {
             cursor.close();
             return _id;
         }
+
         return -1;
     }
 
     /**
      * Gets the highest-numbered id in the tag table
-     * @return The highest-numbered id
+     * @return The highest-numbered id, {@code -1} if there are no tags
      */
     public long getHighestTagId() {
         Cursor cursor = sqLiteDatabase.rawQuery(
@@ -90,6 +91,7 @@ public class DbManager {
             cursor.close();
             return _id;
         }
+
         return -1;
     }
 
@@ -130,6 +132,7 @@ public class DbManager {
 
             cursor.close();
         }
+
         return playlists;
     }
 
@@ -163,6 +166,7 @@ public class DbManager {
 
             cursor.close();
         }
+
         return tags;
     }
 
@@ -197,6 +201,7 @@ public class DbManager {
 
             cursor.close();
         }
+
         return tags;
     }
 

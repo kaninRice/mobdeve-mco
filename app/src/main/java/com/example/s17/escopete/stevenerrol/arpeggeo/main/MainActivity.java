@@ -77,13 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         mapManager = mapManagerFactory.create(mapView, this, getSupportFragmentManager());
         mapManager.initializeMap();
-
-        getSupportFragmentManager().setFragmentResultListener(
-                "bottomSheetDismissed", this, (requestKey, result) -> {
-            if (mapManager != null) {
-                mapManager.updateMap(appState);
-            }
-        });
     }
 
     /**
