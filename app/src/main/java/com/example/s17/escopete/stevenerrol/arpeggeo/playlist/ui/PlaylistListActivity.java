@@ -170,6 +170,11 @@ public class PlaylistListActivity extends AppCompatActivity implements PlaylistA
      * @param v The view that was clicked
      */
     public void batchDelete(View v) {
+        for (String playlistName : selectedPlaylistNames) {
+            long _id = playlistRepositoryImpl.getPlaylistIdByName(playlistName);
+            tagRepositoryImpl.deleteTagsWithPlaylistId(_id);
+        }
+
         playlistRepositoryImpl.deletePlaylist(selectedPlaylistNames);
 
         resetActivityState();
