@@ -16,6 +16,7 @@ import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepos
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistAdapter;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistDetailsActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 
@@ -28,6 +29,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     PlaylistRepositoryImpl playlistRepositoryImpl;
 
     private final Context context;
+    private final long playlistId;
 
     /**
      * Creates an instance of {@link TagAdapter}
@@ -35,7 +37,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      * @param playlistRepositoryImpl The {@link PlaylistRepositoryImpl} which provides playlist data
      * @param activity The activity which provides context
      */
-    public TagAdapter(TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
+    public TagAdapter(long playlistId, TagRepositoryImpl tagRepositoryImpl, PlaylistRepositoryImpl playlistRepositoryImpl, PlaylistDetailsActivity activity) {
+        this.playlistId = playlistId;
         this.tagRepositoryImpl = tagRepositoryImpl;
         this.playlistRepositoryImpl = playlistRepositoryImpl;
         this.context = activity;
@@ -64,7 +67,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      */
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.ViewHolder holder, int position) {
-        final String tagName = tagRepositoryImpl.getTagNameByIndex(position);
+        final Tag tag = tagRepositoryImpl.getTagInAllTagsWithPlaylistIdByIndex(playlistId, position);
+        final String tagName = tag.getName();
 
         holder.tagCardView.setCardBackgroundColor(Color.parseColor(tagRepositoryImpl.getTagColor(tagName)));
         holder.tagTextView.setText(tagName);
@@ -82,7 +86,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return tagRepositoryImpl.getAllTags().size();
+        return tagRepositoryImpl.getAllTagsWithPlaylistId(playlistId).size();
     }
 
     /**

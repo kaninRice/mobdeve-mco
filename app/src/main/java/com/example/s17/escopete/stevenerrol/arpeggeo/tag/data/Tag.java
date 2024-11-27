@@ -7,19 +7,31 @@ import java.util.Objects;
  * Provides methods for getters and setters for its attributes
  */
 public class Tag {
+    private final long _id;
     private final String name;
     private String color;
     private TextColor textColor;
+    private final long _playlistId;
 
     /**
      * Creates an instance of {@link Tag}
      * @param name The name of the tag
      * @param color The color of the tag; Also used to determine text color
      */
-    Tag(String name, String color) {
+    Tag(long _id, String name, String color, long _playlistId) {
+        this._id = _id;
         this.name = name;
         this.color = color;
         this.textColor = determineTextColor();
+        this._playlistId = _playlistId;
+    }
+
+    public Tag(long _id, String name, String color, String textColor, long _playlistId) {
+        this._id = _id;
+        this.name = name;
+        this.color = color;
+        this.textColor = TextColor.valueOf(textColor);
+        this._playlistId = _playlistId;
     }
 
     /**
@@ -27,9 +39,11 @@ public class Tag {
      * @param other The {@link Tag} to be duplicated
      */
     Tag(Tag other) {
+        this._id = other.getId();
         this.name = other.getName();
         this.color = other.getColor();
         this.textColor = determineTextColor();
+        this._playlistId = other.getPlaylistId();
     }
 
     /**
@@ -50,10 +64,18 @@ public class Tag {
     }
 
     /**
+     * Gets the tag id
+     * @return The tag id typed {@code long}
+     */
+    long getId() {
+        return _id;
+    }
+
+    /**
      * Gets the tag name
      * @return The tag name
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -80,6 +102,14 @@ public class Tag {
      */
     TextColor getTextColor() {
         return textColor;
+    }
+
+    /**
+     * Gets the playlist id
+     * @return playlist id typed {@code long}
+     */
+    long getPlaylistId() {
+        return _playlistId;
     }
 
     /**

@@ -38,9 +38,9 @@ public interface PlaylistRepository {
     Double getPlaylistLongitude(String name);
 
     /**
-     * Retrieves the URL of a {@link Playlist} based on its name
+     * Retrieves the PLAYLIST_URL of a {@link Playlist} based on its name
      * @param name The name of the {@link Playlist} to be retrieved
-     * @return The URL of the playlist as {@link String}
+     * @return The PLAYLIST_URL of the playlist as {@link String}
      */
     String getPlaylistUrl(String name);
 
@@ -50,6 +50,13 @@ public interface PlaylistRepository {
      * @return The name of the playlist as {@link String}
      */
     String getPlaylistNameByIndex(int index);
+
+    /**
+     * Retrieves the id of the playlist based on its name
+     * @param name The name of the playlist
+     * @return id typed {@code long}
+     */
+    Long getPlaylistIdByName(String name);
 
     /**
      * Retrieves the image of a {@link Playlist} based on its name

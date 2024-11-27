@@ -4,7 +4,6 @@ import static com.example.s17.escopete.stevenerrol.arpeggeo.BuildConfig.SPOTIFY_
 import static com.example.s17.escopete.stevenerrol.arpeggeo.BuildConfig.SPOTIFY_REDIRECT_URI;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -39,14 +38,13 @@ public class SpotifyManager {
     public void connect(Context context) {
         ConnectionParams connectionParams = new ConnectionParams.Builder(SPOTIFY_CLIENT_ID)
                 .setRedirectUri(SPOTIFY_REDIRECT_URI)
-                .showAuthView(true) // Ensures the user is prompted if access is not authorized
+                .showAuthView(true) // User prompt if access is not authorized
                 .build();
 
         SpotifyAppRemote.connect(context, connectionParams, new Connector.ConnectionListener() {
             @Override
             public void onConnected(SpotifyAppRemote remote) {
                 spotifyAppRemote = remote;
-                Log.d("spot", "connected");
             }
 
             @Override
@@ -73,7 +71,7 @@ public class SpotifyManager {
         /*Extract the entity type and ID */
         String[] parts = cleanedLink.split("/");
         if (parts.length < 5) {
-            return; // Not enough parts in the URL
+            return; // Not enough parts in the PLAYLIST_URL
         }
 
         String entityType = parts[3]; // e.g., track, album, playlist, artist
@@ -81,10 +79,8 @@ public class SpotifyManager {
 
         // Construct the Spotify URI
         String uri = "spotify:" + entityType + ":" + id;
-        Log.d("uri", uri);
 
         if (spotifyAppRemote != null && spotifyAppRemote.isConnected()) {
-            Log.d("play?", "yes");
             spotifyAppRemote.getPlayerApi().play(uri);
         }
     }

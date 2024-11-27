@@ -3,7 +3,6 @@ package com.example.s17.escopete.stevenerrol.arpeggeo.map.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -171,9 +170,10 @@ public class MapManager {
                 if(appState == AppState.VIEW) {
                     PlaylistPreviewDialog playlistPreviewDialog = new PlaylistPreviewDialog();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("playlistName", playlistName);
-                    playlistPreviewDialog.setArguments(bundle);
+                    Bundle args = new Bundle();
+                    args.putLong("playlistId", playlistRepositoryImpl.getPlaylistIdByName(playlistName));
+                    args.putString("playlistName", playlistName);
+                    playlistPreviewDialog.setArguments(args);
 
                     playlistPreviewDialog.show(SupportFragmentManager, "PlaylistPreviewDialog");
 
