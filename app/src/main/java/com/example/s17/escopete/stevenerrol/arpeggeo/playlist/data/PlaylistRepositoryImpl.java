@@ -1,5 +1,6 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.core.data.DbManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 
 import java.util.ArrayList;
@@ -13,18 +14,18 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class PlaylistRepositoryImpl implements PlaylistRepository {
-    private final PlaylistDbManager playlistDbManager;
+    private final DbManager dbManager;
     private ArrayList<Playlist> playlistList;
 
     /**
      * Initializes {@link PlaylistRepositoryImpl}. Retrieves playlists from local storage
-     * @param playlistDbManager The {@link PlaylistDbManager};
+     * @param dbManager The {@link DbManager};
      *                          Used to get data from local storage
      */
     @Inject
-    public PlaylistRepositoryImpl(PlaylistDbManager playlistDbManager) {
-        this.playlistDbManager = playlistDbManager.open();
-        playlistList = playlistDbManager.getAllPlaylists();
+    public PlaylistRepositoryImpl(DbManager dbManager) {
+        this.dbManager = dbManager.open();
+        playlistList = dbManager.getAllPlaylists();
         /*
         playlistList.add(
                 new Playlist(
@@ -66,7 +67,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      * updates playlist list based on local storage
      */
     private void updatePlaylist() {
-        playlistList = playlistDbManager.getAllPlaylists();
+        playlistList = dbManager.getAllPlaylists();
     }
 
     /**
@@ -89,6 +90,22 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     @Override
     public Playlist getPlaylistByIndex(int index) {
         return playlistList.get(index).copy();
+    }
+
+    /**
+     * Retrieves the id of the playlist based on its name
+     * @param name The name of the playlist
+     * @return id typed {@code long}
+     */
+    @Override
+    public Long getPlaylistIdByName(String name) {
+        for (Playlist playlist : playlistList) {
+            if (playlist.getName().equals(name)) {
+                return playlist.getId();
+            }
+        }
+
+        return -1L;
     }
 
     /**
@@ -184,6 +201,8 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public ArrayList<Tag> getPlaylistTagList(String name) {
+        updatePlaylist();
+
         for (Playlist playlist : playlistList) {
             if (playlist.getName().equals(name)) {
                 return  playlist.getTagList();
@@ -199,21 +218,21 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public long getHighestId() {
-        return playlistDbManager.getHighestId();
+        return dbManager.getHighestPlaylistId();
     }
 
     /**
      * Inserts a playlist to local storage
      * @param _id The id of the playlist
      * @param name The name of the playlist
-     * @param url The URL of the playlist
+     * @param url The PLAYLIST_URL of the playlist
      * @param image The image of the playlist
      * @param latitude The latitude of the playlist
      * @param longitude The longitude of the playlist
      */
     @Override
     public void insertPlaylist(long _id, String name, String url,  Integer image, double latitude, double longitude) {
-        playlistDbManager.insert(_id, name, url, image, latitude, longitude);
+        dbManager.insertPlaylist(_id, name, url, image, latitude, longitude);
     }
 
     /**
@@ -222,7 +241,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public void deletePlaylist(String name) {
-        playlistDbManager.delete(new ArrayList<>(Arrays.asList(name)));
+        dbManager.deletePlaylists(new ArrayList<>(Arrays.asList(name)));
     }
 
     /**
@@ -231,6 +250,6 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
      */
     @Override
     public void deletePlaylist(ArrayList<String> names){
-        playlistDbManager.delete(names);
+        dbManager.deletePlaylists(names);
     }
 }

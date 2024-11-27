@@ -42,6 +42,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerTagListView;
     private TextView deleteButtonView;
 
+    private long _playlistId;
     private String playlistName;
 
     /**
@@ -75,6 +76,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         playlistName = intent.getStringExtra("playlistName");
+        _playlistId = intent.getLongExtra("playlistId", -1);
 
         /* Use default icon if there is no playlist image */
         if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
@@ -103,7 +105,15 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         recyclerTagListView.suppressLayout(true);
         recyclerTagListView.setLayoutManager(flexboxLayoutManager);
 
-        TagAdapter tagAdapter = new TagAdapter(tagRepositoryImpl, playlistRepositoryImpl, PlaylistDetailsActivity.this);
+        TagAdapter tagAdapter = new TagAdapter(_playlistId, tagRepositoryImpl, playlistRepositoryImpl, PlaylistDetailsActivity.this);
+        recyclerTagListView.setAdapter(tagAdapter);
+    }
+
+    /**
+     * Updates the recycler view
+     */
+    public void updateRecyclerView() {
+        TagAdapter tagAdapter = new TagAdapter(_playlistId, tagRepositoryImpl, playlistRepositoryImpl, PlaylistDetailsActivity.this);
         recyclerTagListView.setAdapter(tagAdapter);
     }
 
@@ -113,6 +123,11 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
      */
     public void addTag(View v) {
         TagEntryDialog tagEntryDialog = new TagEntryDialog();
+
+        Bundle args = new Bundle();
+        args.putLong("playlistId", _playlistId);
+        tagEntryDialog.setArguments(args);
+
         tagEntryDialog.show(getSupportFragmentManager(), "TagEntryDialog");
     }
 

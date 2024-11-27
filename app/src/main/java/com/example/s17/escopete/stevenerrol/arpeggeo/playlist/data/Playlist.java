@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Represents a playlist with a latitude, longitude, URL, name, image, and tag list.
+ * Represents a playlist with a latitude, longitude, PLAYLIST_URL, name, image, and tag list.
  * Provides methods for getters and setters for its attributes
  */
 public class Playlist {
@@ -23,7 +23,7 @@ public class Playlist {
      * @param _id The id of the playlist
      * @param latitude The latitude associated with the playlist
      * @param longitude The longitude associated with the playlist
-     * @param url The URL of the playlist
+     * @param url The PLAYLIST_URL of the playlist
      * @param name The name of the playlist
      * @param image The image of the playlist
      * @param tagList THe tag list of the playlist
@@ -56,7 +56,7 @@ public class Playlist {
      * Gets the id
      * @return The playlist id
      */
-    long getId() {
+    public long getId() {
         return _id;
     }
 
@@ -77,16 +77,16 @@ public class Playlist {
     }
 
     /**
-     * Gets the playlist URL
-     * @return The playlist URL
+     * Gets the playlist PLAYLIST_URL
+     * @return The playlist PLAYLIST_URL
      */
     String getUrl() {
         return url;
     }
 
     /**
-     * Sets the playlist URL
-     * @param url The new URL
+     * Sets the playlist PLAYLIST_URL
+     * @param url The new PLAYLIST_URL
      */
     void setUrl(String url) {
         this.url = url;

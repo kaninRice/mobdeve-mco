@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.Playlist;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui.TagAdapter;
@@ -90,6 +91,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         holder.playlistNameView.setText(playlistName);
 
+
         /* Use default icon if there is no playlist image */
         if (playlistRepositoryImpl.getPlaylistImage(playlistName) != 0) {
             holder.playlistImageView.setImageResource(playlistRepositoryImpl.getPlaylistImage(playlistName));
@@ -101,6 +103,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, PlaylistDetailsActivity.class);
+            intent.putExtra("playlistId", playlist.getId());
             intent.putExtra("playlistName", playlistName);
             context.startActivity(intent);
         });
@@ -109,7 +112,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.itemView.setOnLongClickListener(view -> {
             String name = ((TextView) holder.itemView.findViewById(R.id.playlist_name))
                     .getText().toString();
-            String tag = (String) holder.itemView.getTag();
 
             if (playlist.getPlaylistState() == PlaylistListActivity.PlaylistState.IS_NOT_SELECTED) {
                 listener.onItemSelected(name);
@@ -138,12 +140,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
      */
     private void populateTagsContainer(String playlistName, ViewHolder holder) {
         // TODO: check possible improvement to choosing which tag to display
+
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         if (!playlistRepositoryImpl.getPlaylistTagList(playlistName).isEmpty()) {
+            final ArrayList<Tag> tags = playlistRepositoryImpl.getPlaylistTagList(playlistName);
             int tagCounter = 0;
 
-            for (int i = 0; i < tagRepositoryImpl.getAllTags().size(); i++) {
-                final String tagName = tagRepositoryImpl.getTagNameByIndex(i);
+            for (int i = 0; i < tags.size(); i++) {
+                final String tagName = tags.get(i).getName();
 
                 View view = layoutInflater.inflate(R.layout.partial_tag, null);
                 CardView cv = view.findViewById(R.id.tag_card);

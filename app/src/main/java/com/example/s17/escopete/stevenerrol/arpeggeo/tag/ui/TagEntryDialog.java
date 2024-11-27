@@ -1,21 +1,37 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.tag.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui.PlaylistDetailsActivity;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepositoryImpl;
+import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TextColor;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Dialog for displaying tag entry function
  */
+@AndroidEntryPoint
 public class TagEntryDialog extends BottomSheetDialogFragment {
+    @Inject
+    TagRepositoryImpl tagRepositoryImpl;
+
+    private long _playlistId;
+    private EditText tagNameView;
 
     /**
      * Creates a view
@@ -56,6 +72,10 @@ public class TagEntryDialog extends BottomSheetDialogFragment {
     public void initializeDialog(View v) {
         AppCompatButton buttonAddView = v.findViewById(R.id.button_add);
         AppCompatButton buttonCancelView = v.findViewById(R.id.button_cancel);
+        tagNameView = v.findViewById(R.id.tag_name);
+
+        Bundle args = getArguments();
+        _playlistId = args.getLong("playlistId");
 
         buttonAddView.setOnClickListener(this::addEntry);
         buttonCancelView.setOnClickListener(this::cancelEntry);
@@ -67,7 +87,15 @@ public class TagEntryDialog extends BottomSheetDialogFragment {
      * @param v The view that was clicked
      */
     public void addEntry(View v) {
-        /* TODO: add tag based on entry */
+        /* TODO: add option to change tag color */
+        tagRepositoryImpl.insertTag(
+                tagRepositoryImpl.getHighestId() + 1,
+                tagNameView.getText().toString(),
+                "#11AB99",
+                TextColor.DARK.name(),
+                _playlistId
+        );
+
         dismiss();
     }
 
@@ -77,5 +105,18 @@ public class TagEntryDialog extends BottomSheetDialogFragment {
      */
     public void cancelEntry(View v) {
         dismiss();
+    }
+
+    /**
+     * Called when the dialog is dismissed. Used to update recycler view
+     * @param dialog The dialog dismissed
+     */
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (getActivity() instanceof PlaylistDetailsActivity) {
+            ((PlaylistDetailsActivity) getActivity()).updateRecyclerView();
+        }
     }
 }

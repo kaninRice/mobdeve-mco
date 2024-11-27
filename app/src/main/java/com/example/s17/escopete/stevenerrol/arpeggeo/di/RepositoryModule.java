@@ -1,6 +1,6 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.di;
 
-import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistDbManager;
+import com.example.s17.escopete.stevenerrol.arpeggeo.core.data.DbManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepository;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.TagRepository;
@@ -23,13 +23,13 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    public TagRepository provideTagRepository() {
-        return new TagRepositoryImpl();
+    public TagRepository provideTagRepository(DbManager dbManager) {
+        return new TagRepositoryImpl(dbManager);
     }
 
     @Provides
     @Singleton
-    public PlaylistRepository providePlaylistRepository(PlaylistDbManager playlistDbManager) {
-        return new PlaylistRepositoryImpl(playlistDbManager);
+    public PlaylistRepository providePlaylistRepository(DbManager dbManager) {
+        return new PlaylistRepositoryImpl(dbManager);
     }
 }

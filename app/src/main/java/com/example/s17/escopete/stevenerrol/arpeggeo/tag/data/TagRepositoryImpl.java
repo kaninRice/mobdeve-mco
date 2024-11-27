@@ -1,5 +1,7 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.tag.data;
 
+import com.example.s17.escopete.stevenerrol.arpeggeo.core.data.DbManager;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -10,16 +12,18 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class TagRepositoryImpl implements TagRepository {
-    private final ArrayList<Tag> tagList;
+    private final DbManager dbManager;
+    private ArrayList<Tag> tagList;
 
     /**
      * Initializes {@link TagRepositoryImpl}. Retrieves tags from local storage
      */
     @Inject
-    public TagRepositoryImpl() {
-        // TODO: Get tags from local storage
-        tagList = new ArrayList<>();
+    public TagRepositoryImpl(DbManager dbManager) {
+        this.dbManager = dbManager.open();
+        this.tagList = dbManager.getAllTags();
 
+        /*
         tagList.add(
                 new Tag("teka lang", "#04A793")
         );
@@ -37,6 +41,14 @@ public class TagRepositoryImpl implements TagRepository {
                     new Tag("New Tag " + i, "#FFFFFF")
             );
         }
+        */
+    }
+
+    /**
+     * Updates the tag list based on local storage
+     */
+    private void updateTagList() {
+        tagList = dbManager.getAllTags();
     }
 
     /**
@@ -46,7 +58,28 @@ public class TagRepositoryImpl implements TagRepository {
      */
     @Override
     public ArrayList<Tag> getAllTags() {
+        updateTagList();
         return new ArrayList<>(tagList);
+    }
+
+    /**
+     * Retrieves all tags of a playlist. This iterates through the tag list and checks if each tag
+     * {@code playlist_id} matches given playlist id
+     * @param playlistId The playlist id of the tags to retrieve
+     * @return An {@link ArrayList} of {@link Tag}s
+     */
+    @Override
+    public ArrayList<Tag> getAllTagsWithPlaylistId(long playlistId) {
+        updateTagList();
+        ArrayList<Tag> tempTagList = new ArrayList<>();
+
+        for(Tag tag : tagList) {
+            if (tag.getPlaylistId() == playlistId) {
+                tempTagList.add(tag);
+            }
+        }
+
+        return tempTagList;
     }
 
     /**
@@ -67,6 +100,7 @@ public class TagRepositoryImpl implements TagRepository {
      */
     @Override
     public String getTagNameByIndex(int index)  {
+        updateTagList();
         return tagList.get(index).getName();
     }
 
@@ -104,5 +138,27 @@ public class TagRepositoryImpl implements TagRepository {
         }
 
         return TextColor.LIGHT;
+    }
+
+    /**
+     * Retrieves the highest-numbered id in the local storage
+     * @return The highest-numbered id typed {@code long}
+     */
+    @Override
+    public long getHighestId() {
+        return dbManager.getHighestTagId();
+    }
+
+    /**
+     * Inserts a tag
+     * @param _id The id of the tag
+     * @param name The name of the tag
+     * @param color The color of the tag
+     * @param textColor The text color of the tag
+     * @param _playlistId The playlist id of the tag
+     */
+    @Override
+    public void insertTag(long _id, String name, String color, String textColor, long _playlistId) {
+        dbManager.insertTag(_id, name, color, textColor, _playlistId);
     }
 }
