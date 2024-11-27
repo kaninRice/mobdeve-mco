@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called when PlaylistEntryDialog is dismissed
+     * Called when PlaylistEntryDialog and PlaylistPreviewDialog is dismissed
      */
     public void onBottomSheetDismissed() {
         mapManager.updateMap(appState);

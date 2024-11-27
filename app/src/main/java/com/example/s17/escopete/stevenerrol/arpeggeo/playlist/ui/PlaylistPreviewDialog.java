@@ -1,5 +1,8 @@
 package com.example.s17.escopete.stevenerrol.arpeggeo.playlist.ui;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -11,12 +14,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.example.s17.escopete.stevenerrol.arpeggeo.R;
+import com.example.s17.escopete.stevenerrol.arpeggeo.main.MainActivity;
 import com.example.s17.escopete.stevenerrol.arpeggeo.playlist.data.PlaylistRepositoryImpl;
 import com.example.s17.escopete.stevenerrol.arpeggeo.spotify.SpotifyManager;
 import com.example.s17.escopete.stevenerrol.arpeggeo.tag.data.Tag;
@@ -53,6 +58,8 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     AppCompatButton buttonEdit;
     AppCompatButton buttonDelete;
 
+    private long _playlistId;
+    private String playlistName;
     private String url;
 
     /**
@@ -110,6 +117,8 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
      * @param playlistName The name of the playlist to be displayed
      */
     private void updateViews(View v, String playlistName) {
+        _playlistId = playlistRepositoryImpl.getPlaylistIdByName(playlistName);
+        this.playlistName = playlistName;
         url = playlistRepositoryImpl.getPlaylistUrl(playlistName);
 
         /* Use default icon if there is no playlist image */
@@ -167,10 +176,15 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
     }
 
     /**
-     * Edits the playlist
+     * Starts Playlist Details Screen
      * @param v The view that was clicked
      */
     public void editEntry(View v) {
+        Context context = getContext();
+        Intent intent = new Intent(context, PlaylistDetailsActivity.class);
+        intent.putExtra("playlistId", _playlistId);
+        intent.putExtra("playlistName", playlistName);
+        context.startActivity(intent);
         dismiss();
     }
 
@@ -179,6 +193,21 @@ public class PlaylistPreviewDialog extends BottomSheetDialogFragment {
      * @param v The view that was clicked
      */
     public void deleteEntry(View v) {
+        tagRepositoryImpl.deleteTagsWithPlaylistId(_playlistId);
+        playlistRepositoryImpl.deletePlaylist(playlistName);
         dismiss();
+    }
+
+    /**
+     * Called when dialog is dismissed
+     * @param dialog The dialog that was dismissed
+     */
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).onBottomSheetDismissed();
+        }
     }
 }
